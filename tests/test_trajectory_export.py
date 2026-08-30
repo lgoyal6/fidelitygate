@@ -30,7 +30,12 @@ def test_export_excludes_instructions_and_redacts_secrets(tmp_path: Path) -> Non
             "payload": {
                 "type": "message",
                 "role": "user",
-                "content": [{"type": "input_text", "text": "Use token=verysecretvalue"}],
+                "content": [
+                    {
+                        "type": "input_text",
+                        "text": ("Use token=verysecretvalue and one-time code ABCD-EFGH"),
+                    }
+                ],
             },
         },
         {
@@ -58,5 +63,35 @@ def test_export_excludes_instructions_and_redacts_secrets(tmp_path: Path) -> Non
     assert manifest["raw_record_count"] == 4
     assert manifest["exported_record_count"] == 2
     assert "verysecretvalue" not in output.read_text(encoding="utf-8")
-    assert exported[0]["content"] == "Use token=[REDACTED_SECRET]"
+    assert "ABCD-EFGH" not in output.read_text(encoding="utf-8")
+    assert exported[0]["content"] == (
+        "Use token=[REDACTED_SECRET] and one-time code [REDACTED_DEVICE_CODE]"
+    )
     assert exported[1]["kind"] == "custom_tool_call"
+
+
+def test_export_selects_inclusive_ordinal_ranges(tmp_path: Path) -> None:
+    exporter = load_exporter()
+    source = tmp_path / "rollout-test-thread.jsonl"
+    records = [
+        {
+            "timestamp": f"2026-01-01T00:00:0{ordinal}Z",
+            "ordinal": ordinal,
+            "type": "response_item",
+            "payload": {
+                "type": "message",
+                "role": "assistant",
+                "content": [{"type": "output_text", "text": f"record {ordinal}"}],
+            },
+        }
+        for ordinal in range(6)
+    ]
+    source.write_text("".join(json.dumps(record) + "\n" for record in records), encoding="utf-8")
+    output = tmp_path / "export.jsonl"
+
+    manifest = exporter.export_session(source, output, 20_000, [(1, 2), (5, 5)])
+    exported = [json.loads(line) for line in output.read_text(encoding="utf-8").splitlines()]
+
+    assert manifest["selected_raw_record_count"] == 3
+    assert [record["ordinal"] for record in exported] == [1, 2, 5]
+    assert manifest["policy"]["ordinal_ranges"] == ["1:2", "5:5"]

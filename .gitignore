@@ -32,3 +32,4 @@ artifacts/*
 !artifacts/iterations/
 !artifacts/iterations/*.json
 trajectories/raw/
+demo/build/

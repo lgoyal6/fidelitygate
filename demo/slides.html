@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FidelityGate demo slides</title>
+<style>
+:root { --ink:#edf3ff; --muted:#9fb0ca; --blue:#6e8cff; --cyan:#4fd1c5; --red:#ff6b6b; --green:#65d69e; --panel:#151d2f; }
+* { box-sizing:border-box; } html,body { width:100%; height:100%; margin:0; overflow:hidden; }
+body { background:radial-gradient(circle at 75% 20%,#1d2b51 0,#0a0f1c 48%,#060912 100%); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+.slide { display:none; width:100vw; height:100vh; padding:84px 100px; position:relative; }
+.slide.active { display:flex; flex-direction:column; justify-content:center; }
+.kicker { color:var(--cyan); font-size:22px; font-weight:750; letter-spacing:.13em; text-transform:uppercase; margin-bottom:18px; }
+h1 { font-size:68px; letter-spacing:-.04em; line-height:1.03; margin:0 0 28px; max-width:1250px; }
+h2 { font-size:48px; line-height:1.1; margin:0 0 24px; } p { color:var(--muted); font-size:30px; line-height:1.42; max-width:1220px; margin:0; }
+.accent { color:var(--blue); } .red { color:var(--red); } .green { color:var(--green); }
+.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:32px; }
+.card { background:#151d2fe8; border:1px solid #34415d; border-radius:18px; padding:28px; min-height:180px; }
+.card strong { font-size:40px; display:block; margin-bottom:8px; } .card span { color:var(--muted); font-size:23px; line-height:1.3; }
+.flow { display:flex; align-items:center; gap:14px; margin-top:38px; flex-wrap:wrap; }
+.node { background:var(--panel); border:1px solid #405071; border-radius:14px; padding:18px 22px; font-size:24px; font-weight:650; }
+.arrow { color:var(--cyan); font-size:30px; }
+.table { display:grid; grid-template-columns:2fr repeat(3,1fr); margin-top:30px; border:1px solid #34415d; border-radius:16px; overflow:hidden; }
+.cell { padding:17px 20px; border-bottom:1px solid #34415d; background:#151d2fd9; font-size:23px; }
+.head { color:var(--muted); font-weight:700; } .cell:nth-last-child(-n+4) { border-bottom:0; }
+.quote { font-size:45px; line-height:1.25; max-width:1280px; border-left:6px solid var(--cyan); padding-left:30px; }
+.footer { position:absolute; bottom:38px; left:100px; right:100px; display:flex; justify-content:space-between; color:#7789a8; font-size:18px; }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; color:#cbd7ff; background:#151d2f; border:1px solid #34415d; padding:6px 10px; border-radius:8px; }
+</style>
+</head>
+<body>
+<section class="slide" data-slide="1">
+  <div class="kicker">FidelityGate</div>
+  <h1>Happy paths pass.<br><span class="red">Shortcuts survive.</span></h1>
+  <p>Expert trajectories show that intended behavior exists. They do not show that a policy-violating tool sequence is unreachable inside an agent or RL environment.</p>
+  <div class="footer"><span>Environment acceptance testing</span><span>01</span></div>
+</section>
+<section class="slide" data-slide="2">
+  <div class="kicker">The falsification agent</div>
+  <h2>Evidence in. <span class="accent">Replayable contradiction</span> out.</h2>
+  <div class="flow">
+    <div class="node">Source excerpt</div><div class="arrow">→</div>
+    <div class="node">Typed claim</div><div class="arrow">→</div>
+    <div class="node">Unlabeled environment</div><div class="arrow">→</div>
+    <div class="node">Coverage memory</div><div class="arrow">→</div>
+    <div class="node">Shrink + replay ×3</div>
+  </div>
+  <div class="cards">
+    <div class="card"><strong class="green">ACCEPT</strong><span>Finite graph complete; no contradiction.</span></div>
+    <div class="card"><strong class="red">REJECT</strong><span>Source-backed witness replays identically.</span></div>
+    <div class="card"><strong style="color:#f3bc64">UNKNOWN</strong><span>Search, evidence, execution, or replay incomplete.</span></div>
+  </div>
+  <div class="footer"><span>No benchmark labels enter the agent</span><span>02</span></div>
+</section>
+<section class="slide" data-slide="3">
+  <div class="kicker">Measured improvement</div>
+  <h2>28 paired workflows. Same evidence. Same cases.</h2>
+  <div class="table">
+    <div class="cell head">System</div><div class="cell head">Balanced</div><div class="cell head">Clean</div><div class="cell head">Mutants</div>
+    <div class="cell">Expert replay</div><div class="cell red">0.500</div><div class="cell">14 / 14</div><div class="cell red">0 / 14</div>
+    <div class="cell">FidelityGate</div><div class="cell green">1.000</div><div class="cell green">14 / 14</div><div class="cell green">14 / 14</div>
+  </div>
+  <p style="margin-top:28px">Four held-out mutation families: <span class="green">1.000</span>. Every final witness: <span class="green">3 / 3 replays</span>. Synthetic evidence, not a production estimate.</p>
+  <div class="footer"><span>EnvMutationBench v1</span><span>03</span></div>
+</section>
+<section class="slide" data-slide="4">
+  <div class="kicker">Advanced search — measured, not decorative</div>
+  <h2>A sparse defect behind <span class="accent">combinatorial decoys</span></h2>
+  <div class="cards">
+    <div class="card"><strong class="red">200</strong><span>BFS transition limit → UNKNOWN</span></div>
+    <div class="card"><strong class="red">200</strong><span>Random transition limit → UNKNOWN</span></div>
+    <div class="card"><strong class="green">30</strong><span>Claim-directed agent → REJECT + replay</span></div>
+  </div>
+  <p style="margin-top:28px">The paired clean stress case remains UNKNOWN. FidelityGate never turns “I did not find it” into “it is safe.”</p>
+  <div class="footer"><span>Fixed 200-transition budget</span><span>04</span></div>
+</section>
+<section class="slide" data-slide="5">
+  <div class="kicker">The failure we kept</div>
+  <h2>The first full run scored <span class="red">0.929</span>.</h2>
+  <p>A clean temporal workflow was falsely rejected because the oracle confused “access, then expiry” with “access after expiry.” Another clean case stayed open after its terminal action and exceeded the depth bound.</p>
+  <div class="flow"><div class="node">Bad oracle</div><div class="arrow">→</div><div class="node">Convincing false evidence</div><div class="arrow">→</div><div class="node green">Reproducible regression</div></div>
+  <div class="footer"><span>artifacts/iterations/oracle-failure.json</span><span>05</span></div>
+</section>
+<section class="slide" data-slide="6">
+  <div class="kicker">Reproducibility</div>
+  <div class="quote">“The hard part of agent evaluation is not generating more scenarios. It is <span class="accent">falsifying the evaluator’s own assumptions</span>.”</div>
+  <p style="margin-top:42px"><code>bin/verify</code> installs from a clean lockfile, runs 32 tests at 92%+ coverage, checks generated benchmark bytes, and reproduces every committed evidence artifact.</p>
+  <div class="footer"><span>FidelityGate · source → witness → replay</span><span>06</span></div>
+</section>
+<script>
+const slide = new URLSearchParams(location.search).get('slide') || '1';
+document.querySelector(`[data-slide="${slide}"]`).classList.add('active');
+</script>
+</body>
+</html>

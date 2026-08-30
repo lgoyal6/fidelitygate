@@ -25,6 +25,8 @@ The advanced search component has its own stress ablation. Under an identical 20
 
 See the [full evidence memo](artifacts/envmutationbench/report.html), [comparison table](artifacts/envmutationbench/comparison.md), [stress evidence](artifacts/search-stress/comparison.md), and [reproduced negative result](artifacts/iterations/oracle-failure.json).
 
+Watch the [2:54 artifact-driven demo](demo/fidelitygate-demo.mp4), with a separate [caption file](demo/fidelitygate-demo.srt). The video shows the real CLI, committed report, measured comparison, removed experiment, and clean-clone verification claim; it contains no mocked product screens.
+
 ## Why this is an agent
 
 The falsification agent operates a bounded tool loop:
@@ -38,7 +40,7 @@ The falsification agent operates a bounded tool loop:
 7. replay it three times; and
 8. choose `ACCEPT`, `REJECT`, or `UNKNOWN` under explicit rules.
 
-It never receives benchmark ground truth. A representative 87-event product trajectory is committed at `trajectories/product-agent/env_900b-guided.json`.
+It never receives benchmark ground truth. A representative 87-event product trajectory is committed at `trajectories/product-agent/env_900b-guided.json`. Five redacted coding-agent slices preserve problem selection through final verification under `trajectories/coding-agent/`.
 
 ## Quick start
 
@@ -90,7 +92,8 @@ No LLM is used where finite deterministic reasoning is stronger. An optional fut
 - `artifacts/`: complete JSON, Markdown, and HTML evidence
 - `tests/`: benchmark integrity, security, metrics, CLI, replay, and regression tests
 - `docs/`: architecture, threat model, evaluation, reproduction, prior art, changelog, and submission guidance
-- `scripts/`: deterministic benchmark build, negative-result reproduction, and Codex trajectory export
+- `demo/`: verified 2:54 video, captions, thumbnail, slide source, and reproducible build recipe
+- `scripts/`: deterministic benchmark build, negative-result reproduction, demo build, and Codex trajectory export
 
 ## Decision boundary
 

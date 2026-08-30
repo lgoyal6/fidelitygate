@@ -15,7 +15,7 @@
 - Replayed witness: `submit_refund(amount=1500)` then `issue_refund(role='admin')`.
 - Clean graph completed in 8 states and 48 transitions; mutant contradiction appeared after 6 states and 18 transitions.
 - Nine tests pass at 76% package coverage; Ruff formatting/lint and strict mypy pass.
-- Trajectory exporter was exercised against the active 1,800+ record Codex session and produced valid redacted JSONL plus a provenance manifest. The export remains outside Git pending manual review and representative slicing.
+- Trajectory exporter was exercised against the active append-only Codex session and produced valid redacted JSONL plus provenance manifests.
 
 ## 2026-08-30 — EnvMutationBench and evaluator self-test
 
@@ -31,4 +31,7 @@
 - Added source path/anchor/excerpt validation and hashes, evaluator-only label isolation, triple replay, and full `ACCEPT`/`REJECT`/`UNKNOWN` failure handling.
 - Added credential-minimized subprocess execution for the data-only DSL with timeout and POSIX resource limits. Explicitly did not claim general hostile-code isolation.
 - Added JSON, Markdown, and print-ready HTML evidence, family holdout results, product-agent trajectories, judge guide, five-minute demo script, and submission copy.
-- Thirty-one tests pass with over 90% package coverage; strict mypy, Ruff, deterministic generation, and committed-artifact reproduction pass locally.
+- Thirty-two tests pass at 92.93% package coverage; strict mypy, Ruff, deterministic generation, and committed-artifact reproduction pass locally.
+- The same one-command gate passed from a fresh temporary clone in 15.8 seconds with byte-identical evidence.
+- Five representative coding-agent slices cover problem selection, architecture, the baseline harness, benchmark failures, and final verification. Common credentials, home paths, and the GitHub device code are redacted; raw logs remain outside Git.
+- The generated 174.5-second H.264/AAC demo passed a full decode, stream probe, duration gate, and six-frame visual review. Its terminal sequence runs the actual baseline and stress-case trace commands.

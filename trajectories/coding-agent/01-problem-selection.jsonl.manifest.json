@@ -1,0 +1,28 @@
+{
+  "exported_kind_counts": {
+    "custom_tool_call": 151,
+    "custom_tool_call_output": 151,
+    "function_call": 1,
+    "function_call_output": 1,
+    "message": 35
+  },
+  "exported_record_count": 339,
+  "output_sha256": "8739cc25012556a2af3a5bf42203e929b8ac52c64565307e1976278dcbc49ecc",
+  "policy": {
+    "credential_patterns_redacted": true,
+    "excluded": "system/developer messages, internal reasoning, and runtime metadata",
+    "home_paths_minimized": true,
+    "included": "user/assistant messages and tool calls/responses",
+    "manual_review_required_before_commit": true,
+    "max_field_chars": 2500,
+    "ordinal_ranges": [
+      "9:525",
+      "534:1413"
+    ]
+  },
+  "raw_record_count": 3111,
+  "schema_version": "1",
+  "selected_raw_record_count": 1397,
+  "source_filename": "rollout-2026-08-29T23-26-02-01a05158-b2a3-7901-a29a-718942185e6c.jsonl",
+  "source_sha256": "8b61453d90aa319ec4ac91be512120647881ce1db93e309b71f409b1ecbe4d1d"
+}

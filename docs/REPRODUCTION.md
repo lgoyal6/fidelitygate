@@ -31,7 +31,7 @@ Expected terminal line:
 All checks and committed evidence reproductions passed.
 ```
 
-Typical local runtime is under 15 seconds on an Apple Silicon laptop. The solution makes zero model calls and has exactly $0 model cost.
+Typical local runtime is under 15 seconds on an Apple Silicon laptop. The solution makes zero model calls and has exactly $0 model cost. A clean temporary clone completed this gate in 15.8 seconds on the development machine and reproduced committed JSON, Markdown, and HTML evidence byte-for-byte.
 
 ## Baseline
 
@@ -118,3 +118,7 @@ Expected: balanced accuracy `0.929`, with clean temporal case `REJECT` and clean
 ## Claim boundary
 
 Reproduction proves the implementation and synthetic results. The benchmark was authored in this repository and the four-family holdout is not independent external validation. Production performance would require approved operational sources, independently authored environment packages and mutations, qualified reviewers, and a stronger sandbox before arbitrary adapter code is accepted.
+
+## Demo video
+
+The checked-in `demo/fidelitygate-demo.mp4` is 174.5 seconds, 1600×900 H.264 video with 48 kHz AAC audio and burned captions. Rebuild it on macOS with `uv run python scripts/build_demo_video.py`; see `demo/README.md` for platform tools. Video generation is deliberately separate from `bin/verify` because it depends on macOS speech synthesis and presentation tooling, while the scored benchmark gate remains cross-platform.

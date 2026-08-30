@@ -1,0 +1,215 @@
+1
+00:00:00,000 --> 00:00:03,421
+Agent environment teams usually replay expert trajectories before accepting
+
+2
+00:00:03,421 --> 00:00:06,842
+a simulation for training or evaluation. That proves an
+
+3
+00:00:06,842 --> 00:00:10,263
+intended route works. It does not prove a shortcut
+
+4
+00:00:10,263 --> 00:00:13,684
+is unreachable. FidelityGate audits the environment artifact itself and
+
+5
+00:00:13,684 --> 00:00:17,106
+asks one narrow question: can any reachable action sequence
+
+6
+00:00:17,106 --> 00:00:19,006
+contradict the approved source policy?
+
+7
+00:00:19,156 --> 00:00:22,344
+Here is the failure in one execution. The replay
+
+8
+00:00:22,344 --> 00:00:25,532
+baseline receives the clean and mutated refund environments with
+
+9
+00:00:25,532 --> 00:00:28,720
+identical expert traces. It accepts both, for a balanced
+
+10
+00:00:28,720 --> 00:00:31,907
+accuracy of point five. The falsification agent receives no
+
+11
+00:00:31,907 --> 00:00:35,095
+ground truth. On the stress mutant it searches by
+
+12
+00:00:35,095 --> 00:00:38,283
+claim progress, finds the unsafe two-action route in thirty
+
+13
+00:00:38,283 --> 00:00:41,471
+transitions, minimizes it, and replays it three out of
+
+14
+00:00:41,471 --> 00:00:42,179
+three times.
+
+15
+00:00:42,329 --> 00:00:46,064
+Every component has a verification job. Exact policy excerpts
+
+16
+00:00:46,064 --> 00:00:49,798
+become typed claims and are hashed. Benchmark labels are
+
+17
+00:00:49,798 --> 00:00:53,532
+removed before the agent runs. A code-free workflow interpreter
+
+18
+00:00:53,532 --> 00:00:57,266
+executes inside a credential-minimized worker. The agent remembers canonical
+
+19
+00:00:57,266 --> 00:01:01,001
+states, checks every transition, and chooses accept only after
+
+20
+00:01:01,001 --> 00:01:04,735
+complete exploration, reject only after triple replay, and unknown
+
+21
+00:01:04,735 --> 00:01:05,980
+for everything incomplete.
+
+22
+00:01:06,130 --> 00:01:10,360
+EnvMutationBench contains fourteen clean and fourteen mutated workflows across
+
+23
+00:01:10,360 --> 00:01:14,590
+authorization, evidence, identity, time, retries, memory, reward, and observability.
+
+24
+00:01:14,590 --> 00:01:18,820
+Expert replay scores point five because every hidden shortcut
+
+25
+00:01:18,820 --> 00:01:23,050
+survives. FidelityGate correctly accepts all fourteen clean packages and
+
+26
+00:01:23,050 --> 00:01:27,280
+rejects all fourteen mutants. Four family-level holdouts also score
+
+27
+00:01:27,280 --> 00:01:31,510
+one point zero. These are synthetic results, not a
+
+28
+00:01:31,510 --> 00:01:32,450
+production estimate.
+
+29
+00:01:32,600 --> 00:01:36,029
+The output is a review artifact, not a chatbot
+
+30
+00:01:36,029 --> 00:01:39,457
+answer. It includes every case, every baseline, suite and
+
+31
+00:01:39,457 --> 00:01:42,886
+fixture hashes, the approved source excerpt, the observed forbidden
+
+32
+00:01:42,886 --> 00:01:46,314
+state, the minimal action sequence, and replay counts. A
+
+33
+00:01:46,314 --> 00:01:49,743
+reviewer can read the memo first, then reproduce the
+
+34
+00:01:49,743 --> 00:01:52,409
+exact JSON evidence without trusting explanatory prose.
+
+35
+00:01:52,559 --> 00:01:55,702
+Claim-directed search is present because an ablation earned it.
+
+36
+00:01:55,702 --> 00:01:58,844
+In a combinatorial decoy workflow, breadth-first and random search
+
+37
+00:01:58,844 --> 00:02:01,986
+both consume the fixed two hundred transition budget and
+
+38
+00:02:01,986 --> 00:02:05,128
+miss the mutant. FidelityGate prioritizes states closer to the
+
+39
+00:02:05,128 --> 00:02:08,270
+forbidden claim and rejects in thirty transitions. The paired
+
+40
+00:02:08,270 --> 00:02:11,413
+clean case remains unknown, because not finding a bug
+
+41
+00:02:11,413 --> 00:02:13,158
+is not proof of safety.
+
+42
+00:02:13,308 --> 00:02:16,382
+The most useful result was a failure in the
+
+43
+00:02:16,382 --> 00:02:19,456
+evaluator. The first full run scored zero point nine
+
+44
+00:02:19,456 --> 00:02:22,530
+two nine because a temporal oracle confused access before
+
+45
+00:02:22,530 --> 00:02:25,604
+expiry with access after expiry. A second clean fixture
+
+46
+00:02:25,604 --> 00:02:28,678
+allowed actions after its terminal reset. Both failures are
+
+47
+00:02:28,678 --> 00:02:31,752
+preserved with a one-command reproducer. The lesson is simple:
+
+48
+00:02:31,752 --> 00:02:34,142
+falsify the benchmark before trusting its score.
+
+49
+00:02:34,292 --> 00:02:37,836
+From a clean clone, bin verify installs pinned dependencies,
+
+50
+00:02:37,836 --> 00:02:41,379
+runs thirty-two tests at over ninety-two percent coverage, validates
+
+51
+00:02:41,379 --> 00:02:44,922
+generated benchmark bytes, and reproduces every committed evidence file.
+
+52
+00:02:44,922 --> 00:02:48,466
+The hot take is that reliable agent evaluation is
+
+53
+00:02:48,466 --> 00:02:52,009
+not more simulated users. It is the smallest source-backed
+
+54
+00:02:52,009 --> 00:02:54,371
+counterexample that survives a skeptical replay.

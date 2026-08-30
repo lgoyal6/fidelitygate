@@ -1,24 +1,20 @@
-# Five-minute demo script
+# 2:54 demo script
 
-## 0:00–0:35 — problem
+## 0:00–0:19 — problem
 
 “Environment teams replay expert trajectories before using an agent or RL environment. That proves the intended route works. It does not prove a shortcut is impossible. FidelityGate audits the environment itself and returns a source-cited replay, not a vibe-based score.”
 
-Show the synthetic refund policy sentence and the clean/mutated pair. Emphasize that the same approved traces pass in both.
+Show the synthetic policy and explain that identical expert traces pass the clean and mutated pair.
 
-## 0:35–1:20 — simple baseline
+## 0:19–0:42 — baseline and end-to-end execution
 
-Run:
+Run the replay baseline:
 
 ```bash
 uv run fidelitygate eval --suite evals/suites/smoke.json --system replay-baseline
 ```
 
-Point to both `ACCEPT` verdicts and balanced accuracy 0.500. “This is the bottleneck in one table.”
-
-## 1:20–2:30 — realistic end-to-end execution
-
-Run:
+Point to both `ACCEPT` verdicts and balanced accuracy 0.500. Then run the stress mutant:
 
 ```bash
 uv run fidelitygate trace \
@@ -27,53 +23,49 @@ uv run fidelitygate trace \
   --output /tmp/fidelitygate-trace.json
 ```
 
-Open the trajectory and show reset, actions, claim-progress coverage, contradiction, shrinking, 3/3 replay, and `REJECT`. Then show the witness:
+Show `REJECT`, 30 explored transitions, the two-action witness, and 3/3 replay. The agent receives no ground-truth label.
 
-1. `submit_sensitive_request`
-2. `issue_sensitive_result(role='admin')`
+## 0:42–1:06 — engineering choices
 
-Show the approved source excerpt and observed forbidden state in the final outcome.
+Use the architecture slide. Explain only components with evidence:
 
-## 2:30–3:25 — engineering choices
+- exact source excerpts compile into typed and hashed claims;
+- benchmark labels are removed before system invocation;
+- a data-only interpreter runs in a credential-minimized bounded worker;
+- canonical-state memory and claim-progress priority direct search;
+- `ACCEPT` requires complete finite exploration;
+- `REJECT` requires shrinking plus triple replay; and
+- every incomplete execution becomes `UNKNOWN`.
 
-Use the architecture diagram. Explain only components with evidence:
+## 1:06–1:32 — final measured comparison
 
-- labels stripped before the agent;
-- data-only adapter in a resource-bounded worker;
-- source excerpt and hash validation;
-- claim-directed coverage memory;
-- shrink and triple replay;
-- `UNKNOWN` for incomplete bounds.
-
-Compare stress results: BFS/random miss the mutant at 200 transitions; guided finds it in 30. Point out that the clean stress case remains `UNKNOWN`, proving the system does not turn search failure into acceptance.
-
-## 3:25–4:10 — final measured comparison
-
-Open `artifacts/envmutationbench/report.html`.
+Show the 28 paired-case table:
 
 - Replay: 0.500 balanced accuracy.
-- FidelityGate: 1.000 across 28 paired cases.
-- Four held-out families: 1.000 across 8 cases.
+- FidelityGate: 1.000, with 14/14 clean specificity and 14/14 mutant recall.
+- Four held-out mutation families: 1.000 across 8 cases.
 - Every final witness: 3/3 replay.
 
 Say explicitly: “This is synthetic benchmark evidence, not a production-performance estimate.”
 
-## 4:10–4:42 — removed experiment
+## 1:32–1:52 — reviewer-usable evidence
+
+Show `artifacts/envmutationbench/report.html`: every case, system comparison, suite and fixture hashes, exact source excerpt, forbidden state, minimal action sequence, and replay counts. The JSON evidence is the machine-verifiable source of truth.
+
+## 1:52–2:13 — search ablation
+
+Under the same 200-transition budget, BFS and random search miss the sparse mutant and return `UNKNOWN`; claim-directed search rejects in 30 transitions. The paired clean case remains `UNKNOWN`, proving the system does not convert search failure into acceptance.
+
+## 2:13–2:34 — removed experiment
 
 Show `artifacts/iterations/oracle-failure.json`.
 
-“The first run scored 0.929 because my temporal oracle was wrong: access before expiry followed by expiry looked like access after expiry. The agent was right to expose the bad benchmark. I replaced final-state co-occurrence with an ordering event and made terminal transitions explicit.”
+“The first run scored 0.929 because the temporal oracle confused access before expiry with access after expiry. A second clean fixture remained open after its terminal reset. Both failures are preserved with a one-command reproducer.”
 
-Mention that shrinking did not shorten the BFS smoke witness, so no accuracy benefit is claimed for it.
+## 2:34–2:54 — hot take and reproducibility
 
-## 4:42–5:00 — hot take and reproducibility
+“The hard part of agent evaluation is not generating more scenarios. It is falsifying the evaluator’s own assumptions. A score without a minimal replay and source-backed oracle is weak evidence.”
 
-“The hard part of agent evaluation is not generating more scenarios. It is falsifying the evaluator’s own assumptions. A score without a minimal replay and a source-backed oracle is weak evidence.”
+End on `bin/verify`: pinned setup, 32 tests, 92%+ coverage, benchmark-byte checks, and byte-identical committed evidence.
 
-End on:
-
-```bash
-bin/verify
-```
-
-and the line: `All checks and committed evidence reproductions passed.`
+The checked-in video is 174.5 seconds. Captions are burned in and also committed as `demo/fidelitygate-demo.srt`.

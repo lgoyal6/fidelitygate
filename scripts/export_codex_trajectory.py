@@ -32,6 +32,10 @@ SECRET_PATTERNS = (
         ),
         r"\1[REDACTED_SECRET]",
     ),
+    (
+        re.compile(r"(?i)(one-time code[^A-Z0-9]*)([A-Z0-9]{4}-[A-Z0-9]{4})"),
+        r"\1[REDACTED_DEVICE_CODE]",
+    ),
 )
 
 
@@ -47,7 +51,32 @@ def parse_args() -> argparse.Namespace:
         default=20_000,
         help="Maximum characters retained in any individual text field",
     )
+    parser.add_argument(
+        "--ordinal-range",
+        action="append",
+        default=[],
+        metavar="START:END",
+        help="Include an inclusive raw-record ordinal range; repeat for multiple stages",
+    )
     return parser.parse_args()
+
+
+def parse_ordinal_ranges(values: list[str]) -> list[tuple[int, int]]:
+    ranges: list[tuple[int, int]] = []
+    for value in values:
+        try:
+            start_text, end_text = value.split(":", maxsplit=1)
+            start, end = int(start_text), int(end_text)
+        except (ValueError, TypeError) as error:
+            raise ValueError(f"invalid ordinal range {value!r}; expected START:END") from error
+        if start < 0 or end < start:
+            raise ValueError(f"invalid ordinal range {value!r}; require 0 <= START <= END")
+        ranges.append((start, end))
+    return ranges
+
+
+def ordinal_selected(ordinal: int, ranges: list[tuple[int, int]]) -> bool:
+    return not ranges or any(start <= ordinal <= end for start, end in ranges)
 
 
 def codex_home() -> Path:
@@ -108,6 +137,7 @@ def export_record(record: dict[str, Any], max_chars: int) -> dict[str, Any] | No
     payload: dict[str, Any] = record["payload"]
     item_type = payload.get("type")
     timestamp = record.get("timestamp")
+    ordinal = record.get("ordinal")
 
     if item_type == "message":
         role = payload.get("role")
@@ -118,6 +148,7 @@ def export_record(record: dict[str, Any], max_chars: int) -> dict[str, Any] | No
             return None
         return {
             "timestamp": timestamp,
+            "ordinal": ordinal,
             "kind": "message",
             "role": role,
             "content": redact_text(content, max_chars),
@@ -127,6 +158,7 @@ def export_record(record: dict[str, Any], max_chars: int) -> dict[str, Any] | No
         return None
     exported: dict[str, Any] = {
         "timestamp": timestamp,
+        "ordinal": ordinal,
         "kind": item_type,
         "call_id": payload.get("call_id"),
     }
@@ -138,11 +170,18 @@ def export_record(record: dict[str, Any], max_chars: int) -> dict[str, Any] | No
     return exported
 
 
-def export_session(source: Path, output: Path, max_chars: int) -> dict[str, Any]:
+def export_session(
+    source: Path,
+    output: Path,
+    max_chars: int,
+    ordinal_ranges: list[tuple[int, int]] | None = None,
+) -> dict[str, Any]:
     """Validate raw JSONL, export selected records, and return an audit manifest."""
     raw = source.read_bytes()
     records: list[dict[str, Any]] = []
     raw_count = 0
+    selected_raw_count = 0
+    selected_ranges = ordinal_ranges or []
     for line_number, line in enumerate(raw.splitlines(), start=1):
         if not line.strip():
             continue
@@ -153,6 +192,12 @@ def export_session(source: Path, output: Path, max_chars: int) -> dict[str, Any]
             raise ValueError(f"invalid JSON on line {line_number}: {error}") from error
         if not isinstance(value, dict):
             raise ValueError(f"line {line_number} is not a JSON object")
+        ordinal_value = value.get("ordinal", line_number - 1)
+        if not isinstance(ordinal_value, int):
+            raise ValueError(f"line {line_number} has a non-integer ordinal")
+        if not ordinal_selected(ordinal_value, selected_ranges):
+            continue
+        selected_raw_count += 1
         exported = export_record(value, max_chars)
         if exported is not None:
             records.append(exported)
@@ -168,6 +213,7 @@ def export_session(source: Path, output: Path, max_chars: int) -> dict[str, Any]
         "source_filename": source.name,
         "source_sha256": hashlib.sha256(raw).hexdigest(),
         "raw_record_count": raw_count,
+        "selected_raw_record_count": selected_raw_count,
         "exported_record_count": len(records),
         "exported_kind_counts": dict(sorted(counts.items())),
         "output_sha256": hashlib.sha256(output.read_bytes()).hexdigest(),
@@ -177,6 +223,7 @@ def export_session(source: Path, output: Path, max_chars: int) -> dict[str, Any]
             "home_paths_minimized": True,
             "credential_patterns_redacted": True,
             "max_field_chars": max_chars,
+            "ordinal_ranges": [f"{start}:{end}" for start, end in selected_ranges],
             "manual_review_required_before_commit": True,
         },
     }
@@ -190,7 +237,8 @@ def export_session(source: Path, output: Path, max_chars: int) -> dict[str, Any]
 def main() -> None:
     args = parse_args()
     source = args.input if args.input is not None else locate_session(args.thread_id)
-    manifest = export_session(source.resolve(), args.output.resolve(), args.max_field_chars)
+    ranges = parse_ordinal_ranges(args.ordinal_range)
+    manifest = export_session(source.resolve(), args.output.resolve(), args.max_field_chars, ranges)
     print(
         f"Exported {manifest['exported_record_count']} of {manifest['raw_record_count']} "
         f"records to {args.output}"
