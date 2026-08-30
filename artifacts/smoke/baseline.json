@@ -1,0 +1,41 @@
+{
+  "metrics": {
+    "balanced_accuracy": 0.5,
+    "clean_specificity": 1.0,
+    "clean_total": 1,
+    "correct_clean": 1,
+    "correct_mutated": 0,
+    "median_witness_length": null,
+    "mutant_recall": 0.0,
+    "mutated_total": 1,
+    "replay_success_rate": 1.0,
+    "unknown_count": 0,
+    "unknown_rate": 0.0
+  },
+  "results": [
+    {
+      "case_id": "refund_clean",
+      "explored_states": 2,
+      "explored_transitions": 5,
+      "ground_truth": "clean",
+      "reason": "All supplied expert trajectories completed without a claim contradiction.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "refund_admin_bypass",
+      "explored_states": 2,
+      "explored_transitions": 5,
+      "ground_truth": "mutated",
+      "reason": "All supplied expert trajectories completed without a claim contradiction.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    }
+  ],
+  "schema_version": "1",
+  "suite_id": "refund-approval-smoke-v1",
+  "suite_sha256": "34596ec01219ef2fad9daf3e488f921a9eb31ee116de4e7ddcbf991a4e7b6312",
+  "system": "replay-baseline"
+}

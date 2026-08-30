@@ -1,0 +1,66 @@
+{
+  "metrics": {
+    "balanced_accuracy": 1.0,
+    "clean_specificity": 1.0,
+    "clean_total": 1,
+    "correct_clean": 1,
+    "correct_mutated": 1,
+    "median_witness_length": 2.0,
+    "mutant_recall": 1.0,
+    "mutated_total": 1,
+    "replay_success_rate": 1.0,
+    "unknown_count": 0,
+    "unknown_rate": 0.0
+  },
+  "results": [
+    {
+      "case_id": "refund_clean",
+      "explored_states": 8,
+      "explored_transitions": 48,
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "refund_admin_bypass",
+      "explored_states": 6,
+      "explored_transitions": 18,
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim refund.high_value_approval.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {
+              "amount": 1500
+            },
+            "name": "submit_refund"
+          },
+          {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "issue_refund"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replayable": true,
+        "violation": {
+          "claim_id": "refund.high_value_approval",
+          "expected": "A refund above $1,000 is issued only after manager approval.",
+          "observed": "A $1,500 refund was issued while manager_approved=false.",
+          "source": "synthetic://refund-policy/v1#high-value-approval",
+          "statement": "Refunds above $1,000 must receive manager approval before issuance."
+        }
+      }
+    }
+  ],
+  "schema_version": "1",
+  "suite_id": "refund-approval-smoke-v1",
+  "suite_sha256": "34596ec01219ef2fad9daf3e488f921a9eb31ee116de4e7ddcbf991a4e7b6312",
+  "system": "fidelitygate"
+}
