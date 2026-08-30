@@ -20,7 +20,7 @@
 | Benchmark labels do not enter the system interface. | `CaseSpec.audit_input()` and `test_audit_input_excludes_ground_truth` |
 | Evidence and fixtures are versioned rather than trusted prose. | Suite, registry, and evidence hashes in every report |
 | The negative oracle experiment was not hidden. | `artifacts/iterations/oracle-failure.json` |
-| A clean checkout reproduces the result. | `bin/verify` and CI workflow |
+| A clean checkout reproduces the result. | `bin/verify` and successful GitHub Actions run `33325420869` |
 
 ## Claim limits
 

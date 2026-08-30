@@ -32,6 +32,7 @@
 - Added credential-minimized subprocess execution for the data-only DSL with timeout and POSIX resource limits. Explicitly did not claim general hostile-code isolation.
 - Added JSON, Markdown, and print-ready HTML evidence, family holdout results, product-agent trajectories, judge guide, five-minute demo script, and submission copy.
 - Thirty-two tests pass at 92.93% package coverage; strict mypy, Ruff, deterministic generation, and committed-artifact reproduction pass locally.
-- The same one-command gate passed from a fresh temporary clone in 15.8 seconds with byte-identical evidence.
+- The same one-command gate passed from a fresh temporary clone in 16.7 seconds with byte-identical evidence.
 - Five representative coding-agent slices cover problem selection, architecture, the baseline harness, benchmark failures, and final verification. Common credentials, home paths, and the GitHub device code are redacted; raw logs remain outside Git.
 - The generated 174.5-second H.264/AAC demo passed a full decode, stream probe, duration gate, and six-frame visual review. Its terminal sequence runs the actual baseline and stress-case trace commands.
+- Pushed the complete branch to private GitHub `main`; local, tracking, and remote refs matched `608019ae801a4b9bef050b8a804c782b8d2b029c`. GitHub Actions run `33325420869` passed every verification step in 35 seconds.

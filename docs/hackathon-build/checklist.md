@@ -12,7 +12,7 @@
 - [x] Lint, type, unit, integration, and coverage checks pass
 - [x] Clean-directory reproduction passes
 - [x] Private GitHub repository created
-- [ ] Complete branch pushed after GitHub workflow-scope authorization
+- [x] Complete branch pushed to private GitHub `main` with CI intact
 - [x] EnvMutationBench reaches 28 validated paired cases across 14 families
 - [ ] Qualified independent reviewer signs mutation labels (external human checkpoint)
 - [x] Claim-directed exploration evaluated against BFS and random ablations

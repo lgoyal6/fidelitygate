@@ -31,7 +31,7 @@ Expected terminal line:
 All checks and committed evidence reproductions passed.
 ```
 
-Typical local runtime is under 15 seconds on an Apple Silicon laptop. The solution makes zero model calls and has exactly $0 model cost. A clean temporary clone completed this gate in 15.8 seconds on the development machine and reproduced committed JSON, Markdown, and HTML evidence byte-for-byte.
+Typical local runtime is 10–20 seconds on an Apple Silicon laptop. The solution makes zero model calls and has exactly $0 model cost. A clean temporary clone completed this gate in 16.7 seconds on the development machine and reproduced committed JSON, Markdown, and HTML evidence byte-for-byte.
 
 ## Baseline
 
