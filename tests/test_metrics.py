@@ -12,7 +12,10 @@ def result(case_id: str, truth: GroundTruth, verdict: Verdict) -> CaseResult:
         reason="fixture",
         explored_states=0,
         explored_transitions=0,
+        claim_checks=0,
         search_complete=verdict != Verdict.UNKNOWN,
+        family="fixture-family",
+        critical=False,
     )
 
 

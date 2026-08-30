@@ -1,0 +1,116 @@
+{
+  "cases": [
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "issued",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "approved",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "stress.approval_before_issue",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#stress-approval_before_issue",
+          "source_excerpt": "A submitted sensitive request must receive manager approval before issuance.",
+          "statement": "A sensitive result cannot be issued before manager approval."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "submit_sensitive_request"
+          },
+          {
+            "arguments": {},
+            "name": "manager_approve"
+          },
+          {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "issue_sensitive_result"
+          }
+        ]
+      ],
+      "family": "combinatorial_search",
+      "fixture_id": "wf_900a",
+      "ground_truth": "clean",
+      "id": "env_900a",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 200
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "issued",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "approved",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "stress.approval_before_issue",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#stress-approval_before_issue",
+          "source_excerpt": "A submitted sensitive request must receive manager approval before issuance.",
+          "statement": "A sensitive result cannot be issued before manager approval."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "submit_sensitive_request"
+          },
+          {
+            "arguments": {},
+            "name": "manager_approve"
+          },
+          {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "issue_sensitive_result"
+          }
+        ]
+      ],
+      "family": "combinatorial_search",
+      "fixture_id": "wf_900b",
+      "ground_truth": "mutated",
+      "id": "env_900b",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 200
+    }
+  ],
+  "description": "A combinatorial decoy pair testing claim-directed search under a 200-transition bound.",
+  "fixture_registry": "../fixtures/envmutationbench.json",
+  "id": "search-stress-v1",
+  "schema_version": "1"
+}

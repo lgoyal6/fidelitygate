@@ -11,9 +11,14 @@
 - [x] CLI comparison artifact generated
 - [x] Lint, type, unit, integration, and coverage checks pass
 - [ ] Clean-directory reproduction passes
-- [ ] Private GitHub repository created and pushed
-- [ ] EnvMutationBench reaches 10+ independently reviewed cases
-- [ ] Advanced exploration strategies evaluated through ablation
-- [ ] Consequential-adapter sandbox implemented and security-tested
-- [ ] Representative redacted trajectories reviewed and committed
-- [ ] Five-minute demo and final submission package completed
+- [x] Private GitHub repository created
+- [ ] Complete branch pushed after GitHub workflow-scope authorization
+- [x] EnvMutationBench reaches 28 validated paired cases across 14 families
+- [ ] Qualified independent reviewer signs mutation labels
+- [x] Claim-directed exploration evaluated against BFS and random ablations
+- [x] Data-only worker boundary and failure modes security-tested
+- [ ] General arbitrary-code sandbox (required before accepting code adapters)
+- [x] Representative product-agent trajectories generated and committed
+- [ ] Final redacted coding-agent trajectory manually reviewed and committed
+- [x] Five-minute demo script and submission copy completed
+- [ ] Final video rendered and public-access playback verified

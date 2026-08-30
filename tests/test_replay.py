@@ -3,12 +3,12 @@ from __future__ import annotations
 from collections.abc import Sequence
 
 from fidelitygate.environment import build_environment
-from fidelitygate.models import Action, SuiteSpec
+from fidelitygate.models import Action, FixtureRegistry, SuiteSpec
 from fidelitygate.replay import replay_for_violation, shrink_actions
 
 
-def test_shrinker_removes_irrelevant_actions(suite: SuiteSpec) -> None:
-    environment = build_environment(suite.cases[1])
+def test_shrinker_removes_irrelevant_actions(suite: SuiteSpec, registry: FixtureRegistry) -> None:
+    environment = build_environment(suite.cases[1].audit_input(), registry)
     actions = [
         Action(name="approve_refund", arguments={"role": "operator"}),
         Action(name="submit_refund", arguments={"amount": 1_500}),

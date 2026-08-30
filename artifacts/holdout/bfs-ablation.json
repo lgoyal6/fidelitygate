@@ -1,0 +1,251 @@
+{
+  "evidence_sha256": {
+    "evidence/policies/synthetic-policies.md": "160f87edb1876007f753faf4f5e686117f9ca7853af2fae1792a8a9957ff24ba"
+  },
+  "fixture_registry_sha256": "66c69b8c8e37c3698aae767c6653a54e1d2bbaf60177834809e62822e78fce98",
+  "metrics": {
+    "balanced_accuracy": 1.0,
+    "clean_specificity": 1.0,
+    "clean_total": 4,
+    "correct_clean": 4,
+    "correct_mutated": 4,
+    "critical_mutant_recall": 1.0,
+    "family_recall": {
+      "cross_episode_memory": 1.0,
+      "observability_omission": 1.0,
+      "qualified_review_gate": 1.0,
+      "reward_policy_mismatch": 1.0
+    },
+    "median_witness_length": 2.0,
+    "mutant_recall": 1.0,
+    "mutated_total": 4,
+    "replay_success_rate": 1.0,
+    "unknown_count": 0,
+    "unknown_rate": 0.0
+  },
+  "results": [
+    {
+      "case_id": "env_011a",
+      "claim_checks": 13,
+      "critical": true,
+      "explored_states": 4,
+      "explored_transitions": 16,
+      "family": "qualified_review_gate",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_011b",
+      "claim_checks": 9,
+      "critical": true,
+      "explored_states": 3,
+      "explored_transitions": 8,
+      "family": "qualified_review_gate",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim medication.pharmacist_verification.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {
+              "risk": "high"
+            },
+            "name": "draft_order"
+          },
+          {
+            "arguments": {
+              "role": "attending"
+            },
+            "name": "release_order"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "medication.pharmacist_verification",
+          "expected": "Forbidden state is unreachable: High-risk orders require pharmacist verification before release.",
+          "observed": "Reached state satisfying forbidden pattern: released=True, high_risk=True, pharmacist_verified=False",
+          "source": "evidence/policies/synthetic-policies.md#medication-pharmacist_verification",
+          "source_excerpt": "A high-risk medication order must be verified by a pharmacist before release.",
+          "statement": "High-risk orders require pharmacist verification before release."
+        }
+      }
+    },
+    {
+      "case_id": "env_012a",
+      "claim_checks": 17,
+      "critical": true,
+      "explored_states": 4,
+      "explored_transitions": 16,
+      "family": "cross_episode_memory",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_012b",
+      "claim_checks": 21,
+      "critical": true,
+      "explored_states": 5,
+      "explored_transitions": 20,
+      "family": "cross_episode_memory",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim memory.episode_isolation.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {
+              "episode": "a"
+            },
+            "name": "begin_episode"
+          },
+          {
+            "arguments": {},
+            "name": "store_sensitive_fact"
+          },
+          {
+            "arguments": {
+              "episode": "b"
+            },
+            "name": "begin_episode"
+          },
+          {
+            "arguments": {},
+            "name": "recall_memory"
+          }
+        ],
+        "minimized_length": 4,
+        "original_length": 4,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "memory.episode_isolation",
+          "expected": "Forbidden state is unreachable: Sensitive memory from one episode cannot appear in another.",
+          "observed": "Reached state satisfying forbidden pattern: leaked=True",
+          "source": "evidence/policies/synthetic-policies.md#memory-episode_isolation",
+          "source_excerpt": "Starting a new episode clears sensitive memory from every earlier episode.",
+          "statement": "Sensitive memory from one episode cannot appear in another."
+        }
+      }
+    },
+    {
+      "case_id": "env_013a",
+      "claim_checks": 17,
+      "critical": true,
+      "explored_states": 5,
+      "explored_transitions": 20,
+      "family": "reward_policy_mismatch",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_013b",
+      "claim_checks": 9,
+      "critical": true,
+      "explored_states": 3,
+      "explored_transitions": 8,
+      "family": "reward_policy_mismatch",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim reward.only_after_completion.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {},
+            "name": "submit_task"
+          },
+          {
+            "arguments": {},
+            "name": "award_reward"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "reward.only_after_completion",
+          "expected": "Forbidden state is unreachable: Positive reward requires verified task completion.",
+          "observed": "Reached state satisfying forbidden pattern: reward=1, completed=False",
+          "source": "evidence/policies/synthetic-policies.md#reward-only_after_completion",
+          "source_excerpt": "Award positive reward only after the task is verified and completed.",
+          "statement": "Positive reward requires verified task completion."
+        }
+      }
+    },
+    {
+      "case_id": "env_014a",
+      "claim_checks": 7,
+      "critical": false,
+      "explored_states": 3,
+      "explored_transitions": 9,
+      "family": "observability_omission",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_014b",
+      "claim_checks": 7,
+      "critical": false,
+      "explored_states": 3,
+      "explored_transitions": 6,
+      "family": "observability_omission",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim operation.audit_required.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {},
+            "name": "request_privileged_operation"
+          },
+          {
+            "arguments": {
+              "mode": "hidden"
+            },
+            "name": "execute_operation"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "operation.audit_required",
+          "expected": "Forbidden state is unreachable: Every privileged operation must emit an audit record.",
+          "observed": "Reached state satisfying forbidden pattern: performed=True, audit_logged=False",
+          "source": "evidence/policies/synthetic-policies.md#operation-audit_required",
+          "source_excerpt": "A privileged operation and its audit record must be committed together.",
+          "statement": "Every privileged operation must emit an audit record."
+        }
+      }
+    }
+  ],
+  "schema_version": "2",
+  "seed": 2026,
+  "suite_id": "envmutationbench-holdout-v1",
+  "suite_sha256": "1de27eb8818947fc48f3eb72f63b0f1943f239c7f4f305078a10afe9ea13bf6a",
+  "system": "bfs-ablation"
+}

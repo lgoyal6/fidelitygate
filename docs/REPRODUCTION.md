@@ -1,15 +1,15 @@
 # Reproduction guide
 
-## Requirements
+## Clean-environment requirements
 
 - macOS or Linux
-- Python 3.11 or newer
-- `uv` 0.8 or newer
 - Git
+- Python 3.11 or newer
+- `uv` 0.12.7
 
-No model API key, credential, network service, or private dataset is required for the smoke evaluation.
+No model API key, private dataset, credential, network service, database, container, or cloud account is required. All workflows and policies are synthetic.
 
-## Clean setup
+## Setup
 
 ```bash
 git clone https://github.com/lgoyal6/fidelitygate.git
@@ -17,43 +17,104 @@ cd fidelitygate
 uv sync --frozen --all-groups
 ```
 
-## Run the baseline
+## One-command verification
+
+```bash
+bin/verify
+```
+
+This runs formatting, lint, strict type checks, tests with an 85% coverage floor, benchmark-generation freshness, and fresh full/stress/holdout comparisons. It byte-compares the regenerated JSON, Markdown, and HTML artifacts with the committed evidence.
+
+Expected terminal line:
+
+```text
+All checks and committed evidence reproductions passed.
+```
+
+Typical local runtime is under 15 seconds on an Apple Silicon laptop. The solution makes zero model calls and has exactly $0 model cost.
+
+## Baseline
 
 ```bash
 uv run fidelitygate eval \
-  --suite evals/suites/smoke.json \
+  --suite evals/suites/envmutationbench.json \
   --system replay-baseline \
-  --output artifacts/smoke/baseline.json
+  --output /tmp/fidelitygate-baseline.json
 ```
 
-Expected: balanced accuracy `0.500`; the baseline incorrectly accepts the approval-bypass mutant because all supplied expert traces pass.
+Expected primary result: balanced accuracy `0.500`, clean specificity `1.000`, mutant recall `0.000`.
 
-## Run FidelityGate
+## Final agent
 
 ```bash
 uv run fidelitygate eval \
-  --suite evals/suites/smoke.json \
+  --suite evals/suites/envmutationbench.json \
   --system fidelitygate \
-  --output artifacts/smoke/fidelitygate.json
+  --output /tmp/fidelitygate-final.json
 ```
 
-Expected: balanced accuracy `1.000`; the mutant is rejected with a replayable witness while the clean environment is accepted after complete bounded exploration.
+Expected primary result: balanced accuracy `1.000`, clean specificity `1.000`, mutant recall `1.000`, replay success `1.000`.
 
-## Run the comparison and tests
+## Complete comparison
 
 ```bash
-uv run fidelitygate compare --suite evals/suites/smoke.json --output artifacts/smoke
-uv run ruff check .
-uv run mypy src scripts
-uv run pytest --cov=fidelitygate --cov-report=term-missing
+uv run fidelitygate compare \
+  --suite evals/suites/envmutationbench.json \
+  --output artifacts/envmutationbench
 ```
 
-The comparison command writes JSON results and `comparison.md`. Runtime should be below a few seconds on a typical laptop and model cost is exactly `$0` for the deterministic smoke slice.
+Outputs:
 
-## Replay a finding
+- `baseline.json`
+- `random-baseline.json`
+- `bfs-ablation.json`
+- `fidelitygate.json`
+- `comparison.md`
+- `report.html`
 
-The final-system JSON includes each witness as ordered actions plus expected and observed values. The comparison run replays every deterministic witness before allowing `REJECT`; failed replay becomes `UNKNOWN`.
+The same command works with:
 
-## Important claim boundary
+- `evals/suites/envmutationbench-holdout.json`
+- `evals/suites/search-stress.json`
+- `evals/suites/smoke.json`
 
-The smoke suite has two cases. Reproducing it proves the code path and the selected counterexample, not general detector performance. General metrics require the versioned 10+ case EnvMutationBench suite.
+## Product-agent trajectory
+
+```bash
+uv run fidelitygate trace \
+  --suite evals/suites/search-stress.json \
+  --case-id env_900b \
+  --output /tmp/env_900b-guided.json
+```
+
+Expected: verdict `REJECT`, 30 explored transitions, a two-action witness, and an ordered tool trajectory including reset, execution, coverage, prioritization, claim check, shrinking, three replays, and verdict.
+
+## Benchmark provenance and negative result
+
+Verify generated benchmark bytes:
+
+```bash
+uv run python scripts/build_benchmark.py --check
+```
+
+Reproduce the removed flawed-oracle iteration:
+
+```bash
+uv run python scripts/reproduce_oracle_failure.py \
+  --output /tmp/oracle-failure.json
+```
+
+Expected: balanced accuracy `0.929`, with clean temporal case `REJECT` and clean recovery case `UNKNOWN`.
+
+## Data and versioning
+
+- Policy evidence: `evidence/policies/synthetic-policies.md`
+- Fixture registry: `evals/fixtures/envmutationbench.json`
+- Mutation provenance: `evals/mutations.json`
+- Suite and registry SHA-256 values are embedded in every result.
+- Evidence paths, anchors, exact excerpts, and file hashes are checked before any agent runs.
+- Dependency versions are pinned in `uv.lock`.
+
+## Claim boundary
+
+Reproduction proves the implementation and synthetic results. The benchmark was authored in this repository and the four-family holdout is not independent external validation. Production performance would require approved operational sources, independently authored environment packages and mutations, qualified reviewers, and a stronger sandbox before arbitrary adapter code is accepted.

@@ -1,64 +1,106 @@
 # Evaluation contract
 
-## Primary metric
+## Frozen primary metric
 
-Balanced accuracy over environment packages labeled `clean` or `mutated`:
+Balanced accuracy over paired environments labeled `clean` or `mutated`:
 
 ```text
 balanced_accuracy = (clean_specificity + mutant_recall) / 2
 ```
 
-`ACCEPT` is the positive prediction for clean cases and `REJECT` for mutated cases. `UNKNOWN` is counted as incorrect for the case's class in the primary metric. This preserves the safety value of abstention without making abstention a scoring exploit.
+`ACCEPT` is correct only for clean cases and `REJECT` only for mutated cases. `UNKNOWN` is deliberately incorrect for the primary metric. This preserves safe abstention without letting a system inflate its score by refusing every decision.
 
-## Good final result, defined before evaluation
+## Good result, defined before advanced evaluation
 
-The advanced solution should:
+- Improve balanced accuracy over expert-trajectory replay on identical cases.
+- Preserve clean specificity; rejecting everything is not useful.
+- Replay every deterministic rejection identically three times.
+- Localize the exact source-backed claim and transition sequence.
+- Make incomplete search/evidence explicit as `UNKNOWN`.
+- Preserve the result on family-level holdouts.
+- Show that every advanced strategy improves a measured frontier or remove it.
 
-- improve balanced accuracy over every declared baseline on the same held-out cases;
-- preserve high clean specificity rather than rejecting everything;
-- produce a deterministically replayable witness for every deterministic rejection;
-- localize the violated source-backed claim and relevant transition;
-- reduce qualified-reviewer time without hiding uncertainty;
-- show the improvement survives held-out mutation families and clean near-misses.
+## Suites
 
-No general performance claim will be made from the two-case smoke suite.
+| Suite | Cases | Purpose |
+|---|---:|---|
+| `smoke.json` | 2 | Causal clean/refund-bypass path used to validate the harness. |
+| `envmutationbench-dev.json` | 20 | Ten paired families used while implementing and debugging. |
+| `envmutationbench-holdout.json` | 8 | Four held-out families: qualified review, memory, reward, observability. |
+| `envmutationbench.json` | 28 | Complete primary comparison across 14 balanced pairs. |
+| `search-stress.json` | 2 | Combinatorial decoys under a fixed 200-transition bound. |
+
+Every fixture ID is opaque. Ground truth, family, and criticality are stripped into `AuditCaseSpec` before a system runs. A regression test verifies this interface boundary.
+
+## Mutation families
+
+Authorization bypass, separation of duties, evidence omission, temporal expiry, idempotency, evidence thresholds, workflow ordering, tool preconditions, cross-tenant identity, contract evidence, qualified review, cross-episode memory, reward-policy mismatch, and observability omission.
+
+Every pair has:
+
+- one clean and one defective fixture;
+- identical source-backed claims and expert traces;
+- traces that pass in both fixtures;
+- a provenance record for the semantic mutation;
+- a minimal trigger that is safe in the clean fixture and contradictory in the mutant;
+- strict generation and integrity tests.
+
+The benchmark is synthetic and authored in the same repository. Family holdout reduces direct iteration leakage but is not independent external validation. Qualified human review remains a submission task.
+
+## Systems and fairness
+
+All systems receive the same unlabeled case, fixture interface, claims, expert traces, and resource limits.
+
+1. **Replay baseline:** runs only the supplied expert trajectories.
+2. **Random baseline:** samples deterministic random sequences with the same per-case transition bound; no finding becomes acceptance, so clean cases end as `UNKNOWN`.
+3. **BFS ablation:** exhaustive breadth-first graph exploration, per-transition claims, shrinking, and triple replay.
+4. **FidelityGate:** the same verified kernel with a best-first frontier prioritized by how many source-claim clauses a state satisfies.
+
+The primary suite is intentionally small enough for BFS to complete, isolating the value of whole-environment exploration over replay. The search-stress suite isolates frontier strategy: at 200 transitions, BFS and random miss the sparse mutant; FidelityGate finds it in 30. Neither exploration system accepts the clean stress case because neither completes the graph.
+
+## Results
+
+### Primary 28-case suite
+
+| System | Balanced accuracy | Clean specificity | Mutant recall | Unknown rate |
+|---|---:|---:|---:|---:|
+| Replay | 0.500 | 1.000 | 0.000 | 0.000 |
+| Random | 0.500 | 0.000 | 1.000 | 0.500 |
+| BFS ablation | 1.000 | 1.000 | 1.000 | 0.000 |
+| FidelityGate | 1.000 | 1.000 | 1.000 | 0.000 |
+
+All 14 final witnesses replay 3/3 times; median minimized witness length is 2 actions. Four-family holdout balanced accuracy is 1.000.
+
+### Stress suite
+
+| System | Clean verdict | Mutant verdict | Mutant transitions | Mutant recall |
+|---|---|---|---:|---:|
+| Random | UNKNOWN | UNKNOWN | 200 | 0.000 |
+| BFS ablation | UNKNOWN | UNKNOWN | 200 | 0.000 |
+| FidelityGate | UNKNOWN | REJECT | 30 | 1.000 |
 
 ## Secondary metrics
 
-- mutant recall, including critical-mutation recall;
-- clean specificity and false-positive rate;
-- mutation kill rate by family;
+- critical-mutant recall;
+- family recall;
+- unknown rate;
 - replay success rate;
-- median minimized witness length;
-- source/claim localization accuracy;
-- risk-weighted claim coverage;
-- states, transitions, and tools explored;
-- human review time per case;
-- runtime and model cost per case.
+- median witness length;
+- explored states and transitions;
+- claim checks;
+- source, suite, and fixture hashes;
+- eventual qualified-reviewer time, runtime, and model cost.
 
-## Fairness
+The deterministic implementation has zero model cost. Runtime is reported by the reproduction guide rather than embedded as a machine-dependent score.
 
-Every system receives the same suite manifest, adapter, expert traces, evidence, claim set, and ground-truth-hidden execution interface. Resource differences are recorded. Search methods may use their declared action budgets; a budget-matched random baseline isolates the value of directed exploration.
+## Challenging case and revealed failure
 
-## Smoke cases
+The first 28-case run scored 0.929, not 1.000. A clean temporal workflow was falsely rejected because the oracle treated `accessed=true` plus `expired=true` as proof of post-expiry access even when access occurred first. A recovery workflow returned `UNKNOWN` because verification remained possible after terminal password reset, creating new depth-four states.
 
-1. `refund_clean`: high-value refunds require manager approval; all declared behavior is consistent.
-2. `refund_admin_bypass`: an admin can issue a high-value refund without manager approval; the same expert traces still pass.
+The repaired benchmark records an explicit `access_after_expiry` event and makes reset terminal. The original failure is reproducible with:
 
-The expert traces include an approved high-value refund and an unapproved low-value refund. They intentionally do not exercise the admin bypass. The challenging case is therefore the mutant: it establishes why replay-only acceptance is insufficient.
+```bash
+uv run python scripts/reproduce_oracle_failure.py
+```
 
-## EnvMutationBench case design
-
-At least 10 cases will cover authorization, identity, reward, tool preconditions, time/order, stale state, evidence contradiction, hidden effects, partial observations, retries, stochastic behavior, and memory contamination. Each case includes:
-
-- paired clean and defective packages where possible;
-- source-backed or explicitly synthetic claims;
-- expert traces;
-- defect provenance and minimal trigger held outside system prompts;
-- reviewer-confirmed label;
-- expected detector class;
-- deterministic seed or stochastic replay schedule.
-
-## Artifact schema
-
-Each run records suite path and SHA-256, system name, limits, per-case verdict, prediction, witness, explored sequences, replay outcome, confusion counts, and aggregate metrics. Failures remain in the complete output.
+This was an evaluation defect, not a model miss. It is preserved because the practical lesson is central: falsify the benchmark oracle before trusting a detector score.

@@ -17,8 +17,12 @@ Codex CLI is the coding agent used to research, design, implement, test, and doc
 
 The selected problem and implementation were explicitly approved before repository creation. The redacted trajectory described in [TRAJECTORIES.md](TRAJECTORIES.md) is the evidence source for individual tool calls, feedback, retries, and verification results.
 
-## Product agents
+## Product agent
 
-The current smoke solution is deterministic and uses no LLM product agent. This is intentional: an LLM is not structurally required to enumerate a finite action space or evaluate a typed invariant. A future semantic-adversary agent may propose tests from natural-language sources, but it cannot issue a verdict; its proposals must pass schema validation, execute in the adapter, and produce a replayable contradiction.
+FidelityGate's falsification agent receives this stable public instruction:
 
-No multi-agent orchestration is claimed in the current implementation.
+> Try to falsify every source-backed environment claim within the declared bounds. Use only the unlabeled case, action interface, observations, coverage memory, claim checker, shrinker, and replay tool. Reject only for a contradiction that replays identically three times; accept only after the finite reachable graph is complete; otherwise return UNKNOWN.
+
+The agent is deterministic and non-LLM because finite state exploration and typed invariants have an exact oracle. It autonomously operates reset, execution, claim-check, coverage-memory, frontier-priority, shrink, replay, and verdict tools. Its decision policy is claim-directed best-first search with explicit limits.
+
+A future semantic-adversary LLM may propose tests from natural-language sources, but it cannot issue a verdict; proposals must pass schema validation, execute in the adapter, and produce a replayable contradiction. No multi-agent orchestration is claimed because the measured task does not require it.

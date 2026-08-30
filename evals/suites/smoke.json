@@ -1,61 +1,152 @@
 {
-  "schema_version": "1",
-  "id": "refund-approval-smoke-v1",
-  "description": "A clean refund workflow paired with an admin approval-bypass mutant.",
   "cases": [
     {
-      "id": "refund_clean",
-      "adapter": "refund",
-      "ground_truth": "clean",
-      "mutation": "none",
-      "max_depth": 3,
-      "max_states": 100,
       "claims": [
         {
+          "forbidden_when": [
+            {
+              "field": "issued",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "gt",
+              "value": 1000
+            },
+            {
+              "field": "manager_approved",
+              "op": "eq",
+              "value": false
+            }
+          ],
           "id": "refund.high_value_approval",
-          "statement": "Refunds above $1,000 must receive manager approval before issuance.",
-          "source": "synthetic://refund-policy/v1#high-value-approval",
-          "severity": "critical"
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#refund-high_value_approval",
+          "source_excerpt": "A refund above $1,000 must not be issued until a manager approves it.",
+          "statement": "High-value refunds require manager approval before issuance."
         }
       ],
+      "critical": true,
       "expert_traces": [
         [
-          {"name": "submit_refund", "arguments": {"amount": 1500}},
-          {"name": "approve_refund", "arguments": {"role": "manager"}},
-          {"name": "issue_refund", "arguments": {"role": "operator"}}
+          {
+            "arguments": {
+              "amount": 1500
+            },
+            "name": "submit_refund"
+          },
+          {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_refund"
+          },
+          {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "issue_refund"
+          }
         ],
         [
-          {"name": "submit_refund", "arguments": {"amount": 50}},
-          {"name": "issue_refund", "arguments": {"role": "operator"}}
+          {
+            "arguments": {
+              "amount": 50
+            },
+            "name": "submit_refund"
+          },
+          {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "issue_refund"
+          }
         ]
-      ]
+      ],
+      "family": "authorization_bypass",
+      "fixture_id": "wf_001a",
+      "ground_truth": "clean",
+      "id": "env_001a",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
     },
     {
-      "id": "refund_admin_bypass",
-      "adapter": "refund",
-      "ground_truth": "mutated",
-      "mutation": "admin_approval_bypass",
-      "max_depth": 3,
-      "max_states": 100,
       "claims": [
         {
+          "forbidden_when": [
+            {
+              "field": "issued",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "gt",
+              "value": 1000
+            },
+            {
+              "field": "manager_approved",
+              "op": "eq",
+              "value": false
+            }
+          ],
           "id": "refund.high_value_approval",
-          "statement": "Refunds above $1,000 must receive manager approval before issuance.",
-          "source": "synthetic://refund-policy/v1#high-value-approval",
-          "severity": "critical"
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#refund-high_value_approval",
+          "source_excerpt": "A refund above $1,000 must not be issued until a manager approves it.",
+          "statement": "High-value refunds require manager approval before issuance."
         }
       ],
+      "critical": true,
       "expert_traces": [
         [
-          {"name": "submit_refund", "arguments": {"amount": 1500}},
-          {"name": "approve_refund", "arguments": {"role": "manager"}},
-          {"name": "issue_refund", "arguments": {"role": "operator"}}
+          {
+            "arguments": {
+              "amount": 1500
+            },
+            "name": "submit_refund"
+          },
+          {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_refund"
+          },
+          {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "issue_refund"
+          }
         ],
         [
-          {"name": "submit_refund", "arguments": {"amount": 50}},
-          {"name": "issue_refund", "arguments": {"role": "operator"}}
+          {
+            "arguments": {
+              "amount": 50
+            },
+            "name": "submit_refund"
+          },
+          {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "issue_refund"
+          }
         ]
-      ]
+      ],
+      "family": "authorization_bypass",
+      "fixture_id": "wf_001b",
+      "ground_truth": "mutated",
+      "id": "env_001b",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
     }
-  ]
+  ],
+  "description": "The first clean/mutated pair used as a causal harness check.",
+  "fixture_registry": "../fixtures/envmutationbench.json",
+  "id": "refund-approval-smoke-v2",
+  "schema_version": "1"
 }

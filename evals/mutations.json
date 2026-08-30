@@ -1,0 +1,341 @@
+{
+  "mutations": [
+    {
+      "clean_fixture_id": "wf_001a",
+      "family": "authorization_bypass",
+      "minimal_trigger": [
+        {
+          "arguments": {
+            "amount": 1500
+          },
+          "name": "submit_refund"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "issue_refund"
+        }
+      ],
+      "mutated_fixture_id": "wf_001b",
+      "operator": "add privileged transition that omits approval precondition",
+      "pair": 1,
+      "policy_anchor": "refund-high-value-approval"
+    },
+    {
+      "clean_fixture_id": "wf_002a",
+      "family": "identity_separation",
+      "minimal_trigger": [
+        {
+          "arguments": {
+            "requester": "buyer"
+          },
+          "name": "submit_purchase"
+        },
+        {
+          "arguments": {
+            "role": "buyer"
+          },
+          "name": "approve_purchase"
+        },
+        {
+          "arguments": {},
+          "name": "place_order"
+        }
+      ],
+      "mutated_fixture_id": "wf_002b",
+      "operator": "permit requester role to satisfy approver capability",
+      "pair": 2,
+      "policy_anchor": "purchase-separation-of-duties"
+    },
+    {
+      "clean_fixture_id": "wf_003a",
+      "family": "evidence_omission",
+      "minimal_trigger": [
+        {
+          "arguments": {},
+          "name": "request_export"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "export_data"
+        }
+      ],
+      "mutated_fixture_id": "wf_003b",
+      "operator": "remove evidence precondition from privileged export",
+      "pair": 3,
+      "policy_anchor": "export-consent"
+    },
+    {
+      "clean_fixture_id": "wf_004a",
+      "family": "temporal_expiry",
+      "minimal_trigger": [
+        {
+          "arguments": {},
+          "name": "grant_access"
+        },
+        {
+          "arguments": {},
+          "name": "elapse_until_expired"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "access_resource"
+        }
+      ],
+      "mutated_fixture_id": "wf_004b",
+      "operator": "ignore temporal invalidation for privileged role",
+      "pair": 4,
+      "policy_anchor": "access-expiry"
+    },
+    {
+      "clean_fixture_id": "wf_005a",
+      "family": "idempotency_failure",
+      "minimal_trigger": [
+        {
+          "arguments": {},
+          "name": "submit_invoice"
+        },
+        {
+          "arguments": {},
+          "name": "pay_invoice"
+        },
+        {
+          "arguments": {},
+          "name": "retry_payment"
+        }
+      ],
+      "mutated_fixture_id": "wf_005b",
+      "operator": "replace idempotent retry with repeated side effect",
+      "pair": 5,
+      "policy_anchor": "invoice-idempotency"
+    },
+    {
+      "clean_fixture_id": "wf_006a",
+      "family": "evidence_threshold",
+      "minimal_trigger": [
+        {
+          "arguments": {
+            "amount": 900
+          },
+          "name": "submit_expense"
+        },
+        {
+          "arguments": {
+            "role": "director"
+          },
+          "name": "approve_expense"
+        }
+      ],
+      "mutated_fixture_id": "wf_006b",
+      "operator": "add high-value approval path without required evidence",
+      "pair": 6,
+      "policy_anchor": "expense-receipts"
+    },
+    {
+      "clean_fixture_id": "wf_007a",
+      "family": "workflow_ordering",
+      "minimal_trigger": [
+        {
+          "arguments": {
+            "severity": "sev1"
+          },
+          "name": "open_incident"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "close_incident"
+        }
+      ],
+      "mutated_fixture_id": "wf_007b",
+      "operator": "allow terminal transition before required intermediate artifact",
+      "pair": 7,
+      "policy_anchor": "incident-remediation"
+    },
+    {
+      "clean_fixture_id": "wf_008a",
+      "family": "tool_precondition",
+      "minimal_trigger": [
+        {
+          "arguments": {},
+          "name": "deploy_candidate"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "force_promote"
+        }
+      ],
+      "mutated_fixture_id": "wf_008b",
+      "operator": "remove tool precondition from force path",
+      "pair": 8,
+      "policy_anchor": "deployment-health"
+    },
+    {
+      "clean_fixture_id": "wf_009a",
+      "family": "cross_tenant_confusion",
+      "minimal_trigger": [
+        {
+          "arguments": {
+            "tenant": "alpha"
+          },
+          "name": "start_recovery"
+        },
+        {
+          "arguments": {
+            "tenant": "beta"
+          },
+          "name": "verify_identity"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "reset_password"
+        }
+      ],
+      "mutated_fixture_id": "wf_009b",
+      "operator": "accept proof issued for a different tenant",
+      "pair": 9,
+      "policy_anchor": "recovery-tenant"
+    },
+    {
+      "clean_fixture_id": "wf_010a",
+      "family": "contract_evidence",
+      "minimal_trigger": [
+        {
+          "arguments": {},
+          "name": "open_vendor_case"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "disclose_pii"
+        }
+      ],
+      "mutated_fixture_id": "wf_010b",
+      "operator": "privileged disclosure bypasses contract evidence",
+      "pair": 10,
+      "policy_anchor": "vendor-dpa"
+    },
+    {
+      "clean_fixture_id": "wf_011a",
+      "family": "qualified_review_gate",
+      "minimal_trigger": [
+        {
+          "arguments": {
+            "risk": "high"
+          },
+          "name": "draft_order"
+        },
+        {
+          "arguments": {
+            "role": "attending"
+          },
+          "name": "release_order"
+        }
+      ],
+      "mutated_fixture_id": "wf_011b",
+      "operator": "remove qualified reviewer gate from override path",
+      "pair": 11,
+      "policy_anchor": "medication-pharmacist"
+    },
+    {
+      "clean_fixture_id": "wf_012a",
+      "family": "cross_episode_memory",
+      "minimal_trigger": [
+        {
+          "arguments": {
+            "episode": "a"
+          },
+          "name": "begin_episode"
+        },
+        {
+          "arguments": {},
+          "name": "store_sensitive_fact"
+        },
+        {
+          "arguments": {
+            "episode": "b"
+          },
+          "name": "begin_episode"
+        },
+        {
+          "arguments": {},
+          "name": "recall_memory"
+        }
+      ],
+      "mutated_fixture_id": "wf_012b",
+      "operator": "retain hidden memory across episode reset",
+      "pair": 12,
+      "policy_anchor": "memory-isolation"
+    },
+    {
+      "clean_fixture_id": "wf_013a",
+      "family": "reward_policy_mismatch",
+      "minimal_trigger": [
+        {
+          "arguments": {},
+          "name": "submit_task"
+        },
+        {
+          "arguments": {},
+          "name": "award_reward"
+        }
+      ],
+      "mutated_fixture_id": "wf_013b",
+      "operator": "decouple reward transition from success precondition",
+      "pair": 13,
+      "policy_anchor": "reward-completion"
+    },
+    {
+      "clean_fixture_id": "wf_014a",
+      "family": "observability_omission",
+      "minimal_trigger": [
+        {
+          "arguments": {},
+          "name": "request_privileged_operation"
+        },
+        {
+          "arguments": {
+            "mode": "hidden"
+          },
+          "name": "execute_operation"
+        }
+      ],
+      "mutated_fixture_id": "wf_014b",
+      "operator": "drop audit side effect while preserving visible success",
+      "pair": 14,
+      "policy_anchor": "privileged-audit"
+    },
+    {
+      "clean_fixture_id": "wf_900a",
+      "family": "combinatorial_search",
+      "minimal_trigger": [
+        {
+          "arguments": {},
+          "name": "submit_sensitive_request"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "issue_sensitive_result"
+        }
+      ],
+      "mutated_fixture_id": "wf_900b",
+      "operator": "hide one unsafe transition behind combinatorial irrelevant state",
+      "pair": 900,
+      "policy_anchor": "stress-approval"
+    }
+  ],
+  "schema_version": "1"
+}

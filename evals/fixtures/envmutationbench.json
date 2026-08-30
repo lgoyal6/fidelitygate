@@ -1,0 +1,5005 @@
+{
+  "fixtures": {
+    "wf_001a": {
+      "actions": [
+        {
+          "arguments": {
+            "amount": 50
+          },
+          "name": "submit_refund"
+        },
+        {
+          "arguments": {
+            "amount": 1500
+          },
+          "name": "submit_refund"
+        },
+        {
+          "arguments": {
+            "role": "manager"
+          },
+          "name": "approve_refund"
+        },
+        {
+          "arguments": {
+            "role": "operator"
+          },
+          "name": "issue_refund"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "issue_refund"
+        }
+      ],
+      "initial_state": {
+        "amount": 0,
+        "issued": false,
+        "manager_approved": false,
+        "submitted": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "amount": 50
+            },
+            "name": "submit_refund"
+          },
+          "effects": [
+            {
+              "field": "amount",
+              "op": "set",
+              "value": 50
+            },
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "refund_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "amount": 1500
+            },
+            "name": "submit_refund"
+          },
+          "effects": [
+            {
+              "field": "amount",
+              "op": "set",
+              "value": 1500
+            },
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "refund_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_refund"
+          },
+          "effects": [
+            {
+              "field": "manager_approved",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "refund_approved",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "issued",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "issue_refund"
+          },
+          "effects": [
+            {
+              "field": "issued",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "refund_issued",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "lte",
+              "value": 1000
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "issue_refund"
+          },
+          "effects": [
+            {
+              "field": "issued",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "refund_issued",
+          "requires": [
+            {
+              "field": "manager_approved",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "issued",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "issue_refund"
+          },
+          "effects": [
+            {
+              "field": "issued",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "refund_issued",
+          "requires": [
+            {
+              "field": "manager_approved",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "issued",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        }
+      ]
+    },
+    "wf_001b": {
+      "actions": [
+        {
+          "arguments": {
+            "amount": 50
+          },
+          "name": "submit_refund"
+        },
+        {
+          "arguments": {
+            "amount": 1500
+          },
+          "name": "submit_refund"
+        },
+        {
+          "arguments": {
+            "role": "manager"
+          },
+          "name": "approve_refund"
+        },
+        {
+          "arguments": {
+            "role": "operator"
+          },
+          "name": "issue_refund"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "issue_refund"
+        }
+      ],
+      "initial_state": {
+        "amount": 0,
+        "issued": false,
+        "manager_approved": false,
+        "submitted": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "amount": 50
+            },
+            "name": "submit_refund"
+          },
+          "effects": [
+            {
+              "field": "amount",
+              "op": "set",
+              "value": 50
+            },
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "refund_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "amount": 1500
+            },
+            "name": "submit_refund"
+          },
+          "effects": [
+            {
+              "field": "amount",
+              "op": "set",
+              "value": 1500
+            },
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "refund_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_refund"
+          },
+          "effects": [
+            {
+              "field": "manager_approved",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "refund_approved",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "issued",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "issue_refund"
+          },
+          "effects": [
+            {
+              "field": "issued",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "refund_issued",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "lte",
+              "value": 1000
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "issue_refund"
+          },
+          "effects": [
+            {
+              "field": "issued",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "refund_issued",
+          "requires": [
+            {
+              "field": "manager_approved",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "issued",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "issue_refund"
+          },
+          "effects": [
+            {
+              "field": "issued",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "refund_issued",
+          "requires": [
+            {
+              "field": "manager_approved",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "issued",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "issue_refund"
+          },
+          "effects": [
+            {
+              "field": "issued",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "refund_issued",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "gt",
+              "value": 1000
+            },
+            {
+              "field": "manager_approved",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        }
+      ]
+    },
+    "wf_002a": {
+      "actions": [
+        {
+          "arguments": {
+            "requester": "buyer"
+          },
+          "name": "submit_purchase"
+        },
+        {
+          "arguments": {
+            "role": "manager"
+          },
+          "name": "approve_purchase"
+        },
+        {
+          "arguments": {
+            "role": "buyer"
+          },
+          "name": "approve_purchase"
+        },
+        {
+          "arguments": {},
+          "name": "place_order"
+        }
+      ],
+      "initial_state": {
+        "approved": false,
+        "placed": false,
+        "self_approved": false,
+        "submitted": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "requester": "buyer"
+            },
+            "name": "submit_purchase"
+          },
+          "effects": [
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "purchase_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_purchase"
+          },
+          "effects": [
+            {
+              "field": "approved",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "purchase_approved",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "place_order"
+          },
+          "effects": [
+            {
+              "field": "placed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "order_placed",
+          "requires": [
+            {
+              "field": "approved",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wf_002b": {
+      "actions": [
+        {
+          "arguments": {
+            "requester": "buyer"
+          },
+          "name": "submit_purchase"
+        },
+        {
+          "arguments": {
+            "role": "manager"
+          },
+          "name": "approve_purchase"
+        },
+        {
+          "arguments": {
+            "role": "buyer"
+          },
+          "name": "approve_purchase"
+        },
+        {
+          "arguments": {},
+          "name": "place_order"
+        }
+      ],
+      "initial_state": {
+        "approved": false,
+        "placed": false,
+        "self_approved": false,
+        "submitted": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "requester": "buyer"
+            },
+            "name": "submit_purchase"
+          },
+          "effects": [
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "purchase_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_purchase"
+          },
+          "effects": [
+            {
+              "field": "approved",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "purchase_approved",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "place_order"
+          },
+          "effects": [
+            {
+              "field": "placed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "order_placed",
+          "requires": [
+            {
+              "field": "approved",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "buyer"
+            },
+            "name": "approve_purchase"
+          },
+          "effects": [
+            {
+              "field": "approved",
+              "op": "set",
+              "value": true
+            },
+            {
+              "field": "self_approved",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "purchase_approved",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wf_003a": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "request_export"
+        },
+        {
+          "arguments": {},
+          "name": "record_consent"
+        },
+        {
+          "arguments": {
+            "role": "operator"
+          },
+          "name": "export_data"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "export_data"
+        }
+      ],
+      "initial_state": {
+        "consent": false,
+        "exported": false,
+        "requested": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {},
+            "name": "request_export"
+          },
+          "effects": [
+            {
+              "field": "requested",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "export_requested",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "record_consent"
+          },
+          "effects": [
+            {
+              "field": "consent",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "consent_recorded",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "export_data"
+          },
+          "effects": [
+            {
+              "field": "exported",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "data_exported",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "consent",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "export_data"
+          },
+          "effects": [
+            {
+              "field": "exported",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "data_exported",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "consent",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wf_003b": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "request_export"
+        },
+        {
+          "arguments": {},
+          "name": "record_consent"
+        },
+        {
+          "arguments": {
+            "role": "operator"
+          },
+          "name": "export_data"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "export_data"
+        }
+      ],
+      "initial_state": {
+        "consent": false,
+        "exported": false,
+        "requested": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {},
+            "name": "request_export"
+          },
+          "effects": [
+            {
+              "field": "requested",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "export_requested",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "record_consent"
+          },
+          "effects": [
+            {
+              "field": "consent",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "consent_recorded",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "export_data"
+          },
+          "effects": [
+            {
+              "field": "exported",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "data_exported",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "consent",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "export_data"
+          },
+          "effects": [
+            {
+              "field": "exported",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "data_exported",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "consent",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "export_data"
+          },
+          "effects": [
+            {
+              "field": "exported",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "data_exported",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "consent",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        }
+      ]
+    },
+    "wf_004a": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "grant_access"
+        },
+        {
+          "arguments": {},
+          "name": "elapse_until_expired"
+        },
+        {
+          "arguments": {
+            "role": "user"
+          },
+          "name": "access_resource"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "access_resource"
+        }
+      ],
+      "initial_state": {
+        "access_after_expiry": false,
+        "accessed": false,
+        "expired": false,
+        "granted": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {},
+            "name": "grant_access"
+          },
+          "effects": [
+            {
+              "field": "granted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "access_granted",
+          "requires": [
+            {
+              "field": "granted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "elapse_until_expired"
+          },
+          "effects": [
+            {
+              "field": "expired",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "grant_expired",
+          "requires": [
+            {
+              "field": "granted",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "user"
+            },
+            "name": "access_resource"
+          },
+          "effects": [
+            {
+              "field": "accessed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "resource_accessed",
+          "requires": [
+            {
+              "field": "granted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "expired",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "access_resource"
+          },
+          "effects": [
+            {
+              "field": "accessed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "resource_accessed",
+          "requires": [
+            {
+              "field": "granted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "expired",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        }
+      ]
+    },
+    "wf_004b": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "grant_access"
+        },
+        {
+          "arguments": {},
+          "name": "elapse_until_expired"
+        },
+        {
+          "arguments": {
+            "role": "user"
+          },
+          "name": "access_resource"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "access_resource"
+        }
+      ],
+      "initial_state": {
+        "access_after_expiry": false,
+        "accessed": false,
+        "expired": false,
+        "granted": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {},
+            "name": "grant_access"
+          },
+          "effects": [
+            {
+              "field": "granted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "access_granted",
+          "requires": [
+            {
+              "field": "granted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "elapse_until_expired"
+          },
+          "effects": [
+            {
+              "field": "expired",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "grant_expired",
+          "requires": [
+            {
+              "field": "granted",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "user"
+            },
+            "name": "access_resource"
+          },
+          "effects": [
+            {
+              "field": "accessed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "resource_accessed",
+          "requires": [
+            {
+              "field": "granted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "expired",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "access_resource"
+          },
+          "effects": [
+            {
+              "field": "accessed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "resource_accessed",
+          "requires": [
+            {
+              "field": "granted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "expired",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "access_resource"
+          },
+          "effects": [
+            {
+              "field": "accessed",
+              "op": "set",
+              "value": true
+            },
+            {
+              "field": "access_after_expiry",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "resource_accessed",
+          "requires": [
+            {
+              "field": "granted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "expired",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wf_005a": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "submit_invoice"
+        },
+        {
+          "arguments": {},
+          "name": "pay_invoice"
+        },
+        {
+          "arguments": {},
+          "name": "retry_payment"
+        }
+      ],
+      "initial_state": {
+        "payout_count": 0,
+        "submitted": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {},
+            "name": "submit_invoice"
+          },
+          "effects": [
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "invoice_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "pay_invoice"
+          },
+          "effects": [
+            {
+              "field": "payout_count",
+              "op": "increment",
+              "value": 1
+            }
+          ],
+          "event": "invoice_paid",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "payout_count",
+              "op": "eq",
+              "value": 0
+            }
+          ]
+        }
+      ]
+    },
+    "wf_005b": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "submit_invoice"
+        },
+        {
+          "arguments": {},
+          "name": "pay_invoice"
+        },
+        {
+          "arguments": {},
+          "name": "retry_payment"
+        }
+      ],
+      "initial_state": {
+        "payout_count": 0,
+        "submitted": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {},
+            "name": "submit_invoice"
+          },
+          "effects": [
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "invoice_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "pay_invoice"
+          },
+          "effects": [
+            {
+              "field": "payout_count",
+              "op": "increment",
+              "value": 1
+            }
+          ],
+          "event": "invoice_paid",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "payout_count",
+              "op": "eq",
+              "value": 0
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "retry_payment"
+          },
+          "effects": [
+            {
+              "field": "payout_count",
+              "op": "increment",
+              "value": 1
+            }
+          ],
+          "event": "invoice_paid",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "payout_count",
+              "op": "eq",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    "wf_006a": {
+      "actions": [
+        {
+          "arguments": {
+            "amount": 100
+          },
+          "name": "submit_expense"
+        },
+        {
+          "arguments": {
+            "amount": 900
+          },
+          "name": "submit_expense"
+        },
+        {
+          "arguments": {},
+          "name": "upload_receipt"
+        },
+        {
+          "arguments": {
+            "role": "manager"
+          },
+          "name": "approve_expense"
+        },
+        {
+          "arguments": {
+            "role": "director"
+          },
+          "name": "approve_expense"
+        }
+      ],
+      "initial_state": {
+        "amount": 0,
+        "approved": false,
+        "receipt": false,
+        "submitted": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "amount": 100
+            },
+            "name": "submit_expense"
+          },
+          "effects": [
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "set",
+              "value": 100
+            }
+          ],
+          "event": "expense_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "amount": 900
+            },
+            "name": "submit_expense"
+          },
+          "effects": [
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "set",
+              "value": 900
+            }
+          ],
+          "event": "expense_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "upload_receipt"
+          },
+          "effects": [
+            {
+              "field": "receipt",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "receipt_uploaded",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_expense"
+          },
+          "effects": [
+            {
+              "field": "approved",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "expense_approved",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "lte",
+              "value": 500
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_expense"
+          },
+          "effects": [
+            {
+              "field": "approved",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "expense_approved",
+          "requires": [
+            {
+              "field": "receipt",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "director"
+            },
+            "name": "approve_expense"
+          },
+          "effects": [
+            {
+              "field": "approved",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "expense_approved",
+          "requires": [
+            {
+              "field": "receipt",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wf_006b": {
+      "actions": [
+        {
+          "arguments": {
+            "amount": 100
+          },
+          "name": "submit_expense"
+        },
+        {
+          "arguments": {
+            "amount": 900
+          },
+          "name": "submit_expense"
+        },
+        {
+          "arguments": {},
+          "name": "upload_receipt"
+        },
+        {
+          "arguments": {
+            "role": "manager"
+          },
+          "name": "approve_expense"
+        },
+        {
+          "arguments": {
+            "role": "director"
+          },
+          "name": "approve_expense"
+        }
+      ],
+      "initial_state": {
+        "amount": 0,
+        "approved": false,
+        "receipt": false,
+        "submitted": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "amount": 100
+            },
+            "name": "submit_expense"
+          },
+          "effects": [
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "set",
+              "value": 100
+            }
+          ],
+          "event": "expense_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "amount": 900
+            },
+            "name": "submit_expense"
+          },
+          "effects": [
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "set",
+              "value": 900
+            }
+          ],
+          "event": "expense_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "upload_receipt"
+          },
+          "effects": [
+            {
+              "field": "receipt",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "receipt_uploaded",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_expense"
+          },
+          "effects": [
+            {
+              "field": "approved",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "expense_approved",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "lte",
+              "value": 500
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_expense"
+          },
+          "effects": [
+            {
+              "field": "approved",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "expense_approved",
+          "requires": [
+            {
+              "field": "receipt",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "director"
+            },
+            "name": "approve_expense"
+          },
+          "effects": [
+            {
+              "field": "approved",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "expense_approved",
+          "requires": [
+            {
+              "field": "receipt",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "director"
+            },
+            "name": "approve_expense"
+          },
+          "effects": [
+            {
+              "field": "approved",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "expense_approved",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "receipt",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        }
+      ]
+    },
+    "wf_007a": {
+      "actions": [
+        {
+          "arguments": {
+            "severity": "sev1"
+          },
+          "name": "open_incident"
+        },
+        {
+          "arguments": {},
+          "name": "attach_remediation"
+        },
+        {
+          "arguments": {
+            "role": "commander"
+          },
+          "name": "close_incident"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "close_incident"
+        }
+      ],
+      "initial_state": {
+        "closed": false,
+        "open": false,
+        "remediation": false,
+        "sev1": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "severity": "sev1"
+            },
+            "name": "open_incident"
+          },
+          "effects": [
+            {
+              "field": "open",
+              "op": "set",
+              "value": true
+            },
+            {
+              "field": "sev1",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "incident_opened",
+          "requires": [
+            {
+              "field": "open",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "attach_remediation"
+          },
+          "effects": [
+            {
+              "field": "remediation",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "remediation_attached",
+          "requires": [
+            {
+              "field": "open",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "commander"
+            },
+            "name": "close_incident"
+          },
+          "effects": [
+            {
+              "field": "closed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "incident_closed",
+          "requires": [
+            {
+              "field": "open",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "remediation",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "close_incident"
+          },
+          "effects": [
+            {
+              "field": "closed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "incident_closed",
+          "requires": [
+            {
+              "field": "open",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "remediation",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wf_007b": {
+      "actions": [
+        {
+          "arguments": {
+            "severity": "sev1"
+          },
+          "name": "open_incident"
+        },
+        {
+          "arguments": {},
+          "name": "attach_remediation"
+        },
+        {
+          "arguments": {
+            "role": "commander"
+          },
+          "name": "close_incident"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "close_incident"
+        }
+      ],
+      "initial_state": {
+        "closed": false,
+        "open": false,
+        "remediation": false,
+        "sev1": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "severity": "sev1"
+            },
+            "name": "open_incident"
+          },
+          "effects": [
+            {
+              "field": "open",
+              "op": "set",
+              "value": true
+            },
+            {
+              "field": "sev1",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "incident_opened",
+          "requires": [
+            {
+              "field": "open",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "attach_remediation"
+          },
+          "effects": [
+            {
+              "field": "remediation",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "remediation_attached",
+          "requires": [
+            {
+              "field": "open",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "commander"
+            },
+            "name": "close_incident"
+          },
+          "effects": [
+            {
+              "field": "closed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "incident_closed",
+          "requires": [
+            {
+              "field": "open",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "remediation",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "close_incident"
+          },
+          "effects": [
+            {
+              "field": "closed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "incident_closed",
+          "requires": [
+            {
+              "field": "open",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "remediation",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "close_incident"
+          },
+          "effects": [
+            {
+              "field": "closed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "incident_closed",
+          "requires": [
+            {
+              "field": "open",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "remediation",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        }
+      ]
+    },
+    "wf_008a": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "deploy_candidate"
+        },
+        {
+          "arguments": {
+            "status": "passing"
+          },
+          "name": "record_health_check"
+        },
+        {
+          "arguments": {},
+          "name": "promote_release"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "force_promote"
+        }
+      ],
+      "initial_state": {
+        "candidate": false,
+        "health_passed": false,
+        "promoted": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {},
+            "name": "deploy_candidate"
+          },
+          "effects": [
+            {
+              "field": "candidate",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "candidate_deployed",
+          "requires": [
+            {
+              "field": "candidate",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "status": "passing"
+            },
+            "name": "record_health_check"
+          },
+          "effects": [
+            {
+              "field": "health_passed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "health_recorded",
+          "requires": [
+            {
+              "field": "candidate",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "promote_release"
+          },
+          "effects": [
+            {
+              "field": "promoted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "release_promoted",
+          "requires": [
+            {
+              "field": "health_passed",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "force_promote"
+          },
+          "effects": [
+            {
+              "field": "promoted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "release_promoted",
+          "requires": [
+            {
+              "field": "health_passed",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wf_008b": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "deploy_candidate"
+        },
+        {
+          "arguments": {
+            "status": "passing"
+          },
+          "name": "record_health_check"
+        },
+        {
+          "arguments": {},
+          "name": "promote_release"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "force_promote"
+        }
+      ],
+      "initial_state": {
+        "candidate": false,
+        "health_passed": false,
+        "promoted": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {},
+            "name": "deploy_candidate"
+          },
+          "effects": [
+            {
+              "field": "candidate",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "candidate_deployed",
+          "requires": [
+            {
+              "field": "candidate",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "status": "passing"
+            },
+            "name": "record_health_check"
+          },
+          "effects": [
+            {
+              "field": "health_passed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "health_recorded",
+          "requires": [
+            {
+              "field": "candidate",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "promote_release"
+          },
+          "effects": [
+            {
+              "field": "promoted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "release_promoted",
+          "requires": [
+            {
+              "field": "health_passed",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "force_promote"
+          },
+          "effects": [
+            {
+              "field": "promoted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "release_promoted",
+          "requires": [
+            {
+              "field": "health_passed",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "force_promote"
+          },
+          "effects": [
+            {
+              "field": "promoted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "release_promoted",
+          "requires": [
+            {
+              "field": "candidate",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "health_passed",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        }
+      ]
+    },
+    "wf_009a": {
+      "actions": [
+        {
+          "arguments": {
+            "tenant": "alpha"
+          },
+          "name": "start_recovery"
+        },
+        {
+          "arguments": {
+            "tenant": "alpha"
+          },
+          "name": "verify_identity"
+        },
+        {
+          "arguments": {
+            "tenant": "beta"
+          },
+          "name": "verify_identity"
+        },
+        {
+          "arguments": {
+            "role": "support"
+          },
+          "name": "reset_password"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "reset_password"
+        }
+      ],
+      "initial_state": {
+        "reset": false,
+        "started": false,
+        "tenant_match": true,
+        "verified_tenant": "none"
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "tenant": "alpha"
+            },
+            "name": "start_recovery"
+          },
+          "effects": [
+            {
+              "field": "started",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "recovery_started",
+          "requires": [
+            {
+              "field": "started",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "tenant": "alpha"
+            },
+            "name": "verify_identity"
+          },
+          "effects": [
+            {
+              "field": "verified_tenant",
+              "op": "set",
+              "value": "alpha"
+            }
+          ],
+          "event": "identity_verified",
+          "requires": [
+            {
+              "field": "started",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "reset",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "tenant": "beta"
+            },
+            "name": "verify_identity"
+          },
+          "effects": [
+            {
+              "field": "verified_tenant",
+              "op": "set",
+              "value": "beta"
+            }
+          ],
+          "event": "identity_verified",
+          "requires": [
+            {
+              "field": "started",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "reset",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "support"
+            },
+            "name": "reset_password"
+          },
+          "effects": [
+            {
+              "field": "reset",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "password_reset",
+          "requires": [
+            {
+              "field": "verified_tenant",
+              "op": "eq",
+              "value": "alpha"
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "reset_password"
+          },
+          "effects": [
+            {
+              "field": "reset",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "password_reset",
+          "requires": [
+            {
+              "field": "verified_tenant",
+              "op": "eq",
+              "value": "alpha"
+            }
+          ]
+        }
+      ]
+    },
+    "wf_009b": {
+      "actions": [
+        {
+          "arguments": {
+            "tenant": "alpha"
+          },
+          "name": "start_recovery"
+        },
+        {
+          "arguments": {
+            "tenant": "alpha"
+          },
+          "name": "verify_identity"
+        },
+        {
+          "arguments": {
+            "tenant": "beta"
+          },
+          "name": "verify_identity"
+        },
+        {
+          "arguments": {
+            "role": "support"
+          },
+          "name": "reset_password"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "reset_password"
+        }
+      ],
+      "initial_state": {
+        "reset": false,
+        "started": false,
+        "tenant_match": true,
+        "verified_tenant": "none"
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "tenant": "alpha"
+            },
+            "name": "start_recovery"
+          },
+          "effects": [
+            {
+              "field": "started",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "recovery_started",
+          "requires": [
+            {
+              "field": "started",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "tenant": "alpha"
+            },
+            "name": "verify_identity"
+          },
+          "effects": [
+            {
+              "field": "verified_tenant",
+              "op": "set",
+              "value": "alpha"
+            }
+          ],
+          "event": "identity_verified",
+          "requires": [
+            {
+              "field": "started",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "reset",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "tenant": "beta"
+            },
+            "name": "verify_identity"
+          },
+          "effects": [
+            {
+              "field": "verified_tenant",
+              "op": "set",
+              "value": "beta"
+            }
+          ],
+          "event": "identity_verified",
+          "requires": [
+            {
+              "field": "started",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "reset",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "support"
+            },
+            "name": "reset_password"
+          },
+          "effects": [
+            {
+              "field": "reset",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "password_reset",
+          "requires": [
+            {
+              "field": "verified_tenant",
+              "op": "eq",
+              "value": "alpha"
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "reset_password"
+          },
+          "effects": [
+            {
+              "field": "reset",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "password_reset",
+          "requires": [
+            {
+              "field": "verified_tenant",
+              "op": "eq",
+              "value": "alpha"
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "reset_password"
+          },
+          "effects": [
+            {
+              "field": "tenant_match",
+              "op": "set",
+              "value": false
+            },
+            {
+              "field": "reset",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "password_reset",
+          "requires": [
+            {
+              "field": "verified_tenant",
+              "op": "eq",
+              "value": "beta"
+            }
+          ]
+        }
+      ]
+    },
+    "wf_010a": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "open_vendor_case"
+        },
+        {
+          "arguments": {},
+          "name": "record_dpa"
+        },
+        {
+          "arguments": {
+            "role": "operator"
+          },
+          "name": "disclose_pii"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "disclose_pii"
+        }
+      ],
+      "initial_state": {
+        "case_open": false,
+        "disclosed": false,
+        "dpa": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {},
+            "name": "open_vendor_case"
+          },
+          "effects": [
+            {
+              "field": "case_open",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "vendor_case_opened",
+          "requires": [
+            {
+              "field": "case_open",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "record_dpa"
+          },
+          "effects": [
+            {
+              "field": "dpa",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "dpa_recorded",
+          "requires": [
+            {
+              "field": "case_open",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "disclose_pii"
+          },
+          "effects": [
+            {
+              "field": "disclosed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "pii_disclosed",
+          "requires": [
+            {
+              "field": "case_open",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "dpa",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "disclose_pii"
+          },
+          "effects": [
+            {
+              "field": "disclosed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "pii_disclosed",
+          "requires": [
+            {
+              "field": "case_open",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "dpa",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wf_010b": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "open_vendor_case"
+        },
+        {
+          "arguments": {},
+          "name": "record_dpa"
+        },
+        {
+          "arguments": {
+            "role": "operator"
+          },
+          "name": "disclose_pii"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "disclose_pii"
+        }
+      ],
+      "initial_state": {
+        "case_open": false,
+        "disclosed": false,
+        "dpa": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {},
+            "name": "open_vendor_case"
+          },
+          "effects": [
+            {
+              "field": "case_open",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "vendor_case_opened",
+          "requires": [
+            {
+              "field": "case_open",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "record_dpa"
+          },
+          "effects": [
+            {
+              "field": "dpa",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "dpa_recorded",
+          "requires": [
+            {
+              "field": "case_open",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "disclose_pii"
+          },
+          "effects": [
+            {
+              "field": "disclosed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "pii_disclosed",
+          "requires": [
+            {
+              "field": "case_open",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "dpa",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "disclose_pii"
+          },
+          "effects": [
+            {
+              "field": "disclosed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "pii_disclosed",
+          "requires": [
+            {
+              "field": "case_open",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "dpa",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "disclose_pii"
+          },
+          "effects": [
+            {
+              "field": "disclosed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "pii_disclosed",
+          "requires": [
+            {
+              "field": "case_open",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "dpa",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        }
+      ]
+    },
+    "wf_011a": {
+      "actions": [
+        {
+          "arguments": {
+            "risk": "high"
+          },
+          "name": "draft_order"
+        },
+        {
+          "arguments": {},
+          "name": "pharmacist_verify"
+        },
+        {
+          "arguments": {
+            "role": "clinician"
+          },
+          "name": "release_order"
+        },
+        {
+          "arguments": {
+            "role": "attending"
+          },
+          "name": "release_order"
+        }
+      ],
+      "initial_state": {
+        "drafted": false,
+        "high_risk": false,
+        "pharmacist_verified": false,
+        "released": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "risk": "high"
+            },
+            "name": "draft_order"
+          },
+          "effects": [
+            {
+              "field": "drafted",
+              "op": "set",
+              "value": true
+            },
+            {
+              "field": "high_risk",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "order_drafted",
+          "requires": [
+            {
+              "field": "drafted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "pharmacist_verify"
+          },
+          "effects": [
+            {
+              "field": "pharmacist_verified",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "order_verified",
+          "requires": [
+            {
+              "field": "drafted",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "clinician"
+            },
+            "name": "release_order"
+          },
+          "effects": [
+            {
+              "field": "released",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "order_released",
+          "requires": [
+            {
+              "field": "pharmacist_verified",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "attending"
+            },
+            "name": "release_order"
+          },
+          "effects": [
+            {
+              "field": "released",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "order_released",
+          "requires": [
+            {
+              "field": "pharmacist_verified",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wf_011b": {
+      "actions": [
+        {
+          "arguments": {
+            "risk": "high"
+          },
+          "name": "draft_order"
+        },
+        {
+          "arguments": {},
+          "name": "pharmacist_verify"
+        },
+        {
+          "arguments": {
+            "role": "clinician"
+          },
+          "name": "release_order"
+        },
+        {
+          "arguments": {
+            "role": "attending"
+          },
+          "name": "release_order"
+        }
+      ],
+      "initial_state": {
+        "drafted": false,
+        "high_risk": false,
+        "pharmacist_verified": false,
+        "released": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "risk": "high"
+            },
+            "name": "draft_order"
+          },
+          "effects": [
+            {
+              "field": "drafted",
+              "op": "set",
+              "value": true
+            },
+            {
+              "field": "high_risk",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "order_drafted",
+          "requires": [
+            {
+              "field": "drafted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "pharmacist_verify"
+          },
+          "effects": [
+            {
+              "field": "pharmacist_verified",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "order_verified",
+          "requires": [
+            {
+              "field": "drafted",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "clinician"
+            },
+            "name": "release_order"
+          },
+          "effects": [
+            {
+              "field": "released",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "order_released",
+          "requires": [
+            {
+              "field": "pharmacist_verified",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "attending"
+            },
+            "name": "release_order"
+          },
+          "effects": [
+            {
+              "field": "released",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "order_released",
+          "requires": [
+            {
+              "field": "pharmacist_verified",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "attending"
+            },
+            "name": "release_order"
+          },
+          "effects": [
+            {
+              "field": "released",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "order_released",
+          "requires": [
+            {
+              "field": "drafted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "pharmacist_verified",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        }
+      ]
+    },
+    "wf_012a": {
+      "actions": [
+        {
+          "arguments": {
+            "episode": "a"
+          },
+          "name": "begin_episode"
+        },
+        {
+          "arguments": {},
+          "name": "store_sensitive_fact"
+        },
+        {
+          "arguments": {
+            "episode": "b"
+          },
+          "name": "begin_episode"
+        },
+        {
+          "arguments": {},
+          "name": "recall_memory"
+        }
+      ],
+      "initial_state": {
+        "episode": "none",
+        "leaked": false,
+        "secret_present": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "episode": "a"
+            },
+            "name": "begin_episode"
+          },
+          "effects": [
+            {
+              "field": "episode",
+              "op": "set",
+              "value": "a"
+            }
+          ],
+          "event": "episode_started",
+          "requires": [
+            {
+              "field": "episode",
+              "op": "eq",
+              "value": "none"
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "store_sensitive_fact"
+          },
+          "effects": [
+            {
+              "field": "secret_present",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "memory_stored",
+          "requires": [
+            {
+              "field": "episode",
+              "op": "eq",
+              "value": "a"
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "recall_memory"
+          },
+          "effects": [],
+          "event": "memory_recalled",
+          "requires": [
+            {
+              "field": "episode",
+              "op": "eq",
+              "value": "a"
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "recall_memory"
+          },
+          "effects": [],
+          "event": "memory_empty",
+          "requires": [
+            {
+              "field": "episode",
+              "op": "eq",
+              "value": "b"
+            },
+            {
+              "field": "secret_present",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "episode": "b"
+            },
+            "name": "begin_episode"
+          },
+          "effects": [
+            {
+              "field": "episode",
+              "op": "set",
+              "value": "b"
+            },
+            {
+              "field": "secret_present",
+              "op": "set",
+              "value": false
+            }
+          ],
+          "event": "episode_started",
+          "requires": []
+        }
+      ]
+    },
+    "wf_012b": {
+      "actions": [
+        {
+          "arguments": {
+            "episode": "a"
+          },
+          "name": "begin_episode"
+        },
+        {
+          "arguments": {},
+          "name": "store_sensitive_fact"
+        },
+        {
+          "arguments": {
+            "episode": "b"
+          },
+          "name": "begin_episode"
+        },
+        {
+          "arguments": {},
+          "name": "recall_memory"
+        }
+      ],
+      "initial_state": {
+        "episode": "none",
+        "leaked": false,
+        "secret_present": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "episode": "a"
+            },
+            "name": "begin_episode"
+          },
+          "effects": [
+            {
+              "field": "episode",
+              "op": "set",
+              "value": "a"
+            }
+          ],
+          "event": "episode_started",
+          "requires": [
+            {
+              "field": "episode",
+              "op": "eq",
+              "value": "none"
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "store_sensitive_fact"
+          },
+          "effects": [
+            {
+              "field": "secret_present",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "memory_stored",
+          "requires": [
+            {
+              "field": "episode",
+              "op": "eq",
+              "value": "a"
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "recall_memory"
+          },
+          "effects": [],
+          "event": "memory_recalled",
+          "requires": [
+            {
+              "field": "episode",
+              "op": "eq",
+              "value": "a"
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "recall_memory"
+          },
+          "effects": [],
+          "event": "memory_empty",
+          "requires": [
+            {
+              "field": "episode",
+              "op": "eq",
+              "value": "b"
+            },
+            {
+              "field": "secret_present",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "episode": "b"
+            },
+            "name": "begin_episode"
+          },
+          "effects": [
+            {
+              "field": "episode",
+              "op": "set",
+              "value": "b"
+            }
+          ],
+          "event": "episode_started",
+          "requires": []
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "recall_memory"
+          },
+          "effects": [
+            {
+              "field": "leaked",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "memory_recalled",
+          "requires": [
+            {
+              "field": "episode",
+              "op": "eq",
+              "value": "b"
+            },
+            {
+              "field": "secret_present",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wf_013a": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "submit_task"
+        },
+        {
+          "arguments": {},
+          "name": "verify_task"
+        },
+        {
+          "arguments": {},
+          "name": "complete_task"
+        },
+        {
+          "arguments": {},
+          "name": "award_reward"
+        }
+      ],
+      "initial_state": {
+        "completed": false,
+        "reward": 0,
+        "submitted": false,
+        "verified": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {},
+            "name": "submit_task"
+          },
+          "effects": [
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "task_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "verify_task"
+          },
+          "effects": [
+            {
+              "field": "verified",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "task_verified",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "complete_task"
+          },
+          "effects": [
+            {
+              "field": "completed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "task_completed",
+          "requires": [
+            {
+              "field": "verified",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "award_reward"
+          },
+          "effects": [
+            {
+              "field": "reward",
+              "op": "set",
+              "value": 1
+            }
+          ],
+          "event": "reward_awarded",
+          "requires": [
+            {
+              "field": "completed",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wf_013b": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "submit_task"
+        },
+        {
+          "arguments": {},
+          "name": "verify_task"
+        },
+        {
+          "arguments": {},
+          "name": "complete_task"
+        },
+        {
+          "arguments": {},
+          "name": "award_reward"
+        }
+      ],
+      "initial_state": {
+        "completed": false,
+        "reward": 0,
+        "submitted": false,
+        "verified": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {},
+            "name": "submit_task"
+          },
+          "effects": [
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "task_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "verify_task"
+          },
+          "effects": [
+            {
+              "field": "verified",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "task_verified",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "complete_task"
+          },
+          "effects": [
+            {
+              "field": "completed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "task_completed",
+          "requires": [
+            {
+              "field": "verified",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "award_reward"
+          },
+          "effects": [
+            {
+              "field": "reward",
+              "op": "set",
+              "value": 1
+            }
+          ],
+          "event": "reward_awarded",
+          "requires": [
+            {
+              "field": "completed",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "award_reward"
+          },
+          "effects": [
+            {
+              "field": "reward",
+              "op": "set",
+              "value": 1
+            }
+          ],
+          "event": "reward_awarded",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "completed",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        }
+      ]
+    },
+    "wf_014a": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "request_privileged_operation"
+        },
+        {
+          "arguments": {},
+          "name": "execute_operation"
+        },
+        {
+          "arguments": {
+            "mode": "hidden"
+          },
+          "name": "execute_operation"
+        }
+      ],
+      "initial_state": {
+        "audit_logged": false,
+        "performed": false,
+        "requested": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {},
+            "name": "request_privileged_operation"
+          },
+          "effects": [
+            {
+              "field": "requested",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "operation_requested",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "execute_operation"
+          },
+          "effects": [
+            {
+              "field": "performed",
+              "op": "set",
+              "value": true
+            },
+            {
+              "field": "audit_logged",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "operation_performed",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "mode": "hidden"
+            },
+            "name": "execute_operation"
+          },
+          "effects": [
+            {
+              "field": "performed",
+              "op": "set",
+              "value": true
+            },
+            {
+              "field": "audit_logged",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "operation_performed",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wf_014b": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "request_privileged_operation"
+        },
+        {
+          "arguments": {},
+          "name": "execute_operation"
+        },
+        {
+          "arguments": {
+            "mode": "hidden"
+          },
+          "name": "execute_operation"
+        }
+      ],
+      "initial_state": {
+        "audit_logged": false,
+        "performed": false,
+        "requested": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {},
+            "name": "request_privileged_operation"
+          },
+          "effects": [
+            {
+              "field": "requested",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "operation_requested",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "execute_operation"
+          },
+          "effects": [
+            {
+              "field": "performed",
+              "op": "set",
+              "value": true
+            },
+            {
+              "field": "audit_logged",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "operation_performed",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "mode": "hidden"
+            },
+            "name": "execute_operation"
+          },
+          "effects": [
+            {
+              "field": "performed",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "operation_performed_without_audit",
+          "requires": [
+            {
+              "field": "requested",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wf_900a": {
+      "actions": [
+        {
+          "arguments": {
+            "index": 0
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 1
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 2
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 3
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 4
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 5
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 6
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 7
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 8
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 9
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 10
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 11
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {},
+          "name": "submit_sensitive_request"
+        },
+        {
+          "arguments": {},
+          "name": "manager_approve"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "issue_sensitive_result"
+        }
+      ],
+      "initial_state": {
+        "approved": false,
+        "decoy_0": false,
+        "decoy_1": false,
+        "decoy_10": false,
+        "decoy_11": false,
+        "decoy_2": false,
+        "decoy_3": false,
+        "decoy_4": false,
+        "decoy_5": false,
+        "decoy_6": false,
+        "decoy_7": false,
+        "decoy_8": false,
+        "decoy_9": false,
+        "issued": false,
+        "submitted": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "index": 0
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_0",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_0",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 1
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_1",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_1",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 2
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_2",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_2",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 3
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_3",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_3",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 4
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_4",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_4",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 5
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_5",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_5",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 6
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_6",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_6",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 7
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_7",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_7",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 8
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_8",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_8",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 9
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_9",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_9",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 10
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_10",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_10",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 11
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_11",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_11",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "submit_sensitive_request"
+          },
+          "effects": [
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "request_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "manager_approve"
+          },
+          "effects": [
+            {
+              "field": "approved",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "request_approved",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "issue_sensitive_result"
+          },
+          "effects": [
+            {
+              "field": "issued",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "result_issued",
+          "requires": [
+            {
+              "field": "approved",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        }
+      ]
+    },
+    "wf_900b": {
+      "actions": [
+        {
+          "arguments": {
+            "index": 0
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 1
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 2
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 3
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 4
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 5
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 6
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 7
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 8
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 9
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 10
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {
+            "index": 11
+          },
+          "name": "set_decoy"
+        },
+        {
+          "arguments": {},
+          "name": "submit_sensitive_request"
+        },
+        {
+          "arguments": {},
+          "name": "manager_approve"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "issue_sensitive_result"
+        }
+      ],
+      "initial_state": {
+        "approved": false,
+        "decoy_0": false,
+        "decoy_1": false,
+        "decoy_10": false,
+        "decoy_11": false,
+        "decoy_2": false,
+        "decoy_3": false,
+        "decoy_4": false,
+        "decoy_5": false,
+        "decoy_6": false,
+        "decoy_7": false,
+        "decoy_8": false,
+        "decoy_9": false,
+        "issued": false,
+        "submitted": false
+      },
+      "rules": [
+        {
+          "action": {
+            "arguments": {
+              "index": 0
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_0",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_0",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 1
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_1",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_1",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 2
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_2",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_2",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 3
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_3",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_3",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 4
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_4",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_4",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 5
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_5",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_5",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 6
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_6",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_6",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 7
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_7",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_7",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 8
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_8",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_8",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 9
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_9",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_9",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 10
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_10",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_10",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "index": 11
+            },
+            "name": "set_decoy"
+          },
+          "effects": [
+            {
+              "field": "decoy_11",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "irrelevant_state_changed",
+          "requires": [
+            {
+              "field": "decoy_11",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "submit_sensitive_request"
+          },
+          "effects": [
+            {
+              "field": "submitted",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "request_submitted",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {},
+            "name": "manager_approve"
+          },
+          "effects": [
+            {
+              "field": "approved",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "request_approved",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "issue_sensitive_result"
+          },
+          "effects": [
+            {
+              "field": "issued",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "result_issued",
+          "requires": [
+            {
+              "field": "approved",
+              "op": "eq",
+              "value": true
+            }
+          ]
+        },
+        {
+          "action": {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "issue_sensitive_result"
+          },
+          "effects": [
+            {
+              "field": "issued",
+              "op": "set",
+              "value": true
+            }
+          ],
+          "event": "result_issued",
+          "requires": [
+            {
+              "field": "submitted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "approved",
+              "op": "eq",
+              "value": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "schema_version": "1"
+}

@@ -1,0 +1,82 @@
+{
+  "evidence_sha256": {
+    "evidence/policies/synthetic-policies.md": "160f87edb1876007f753faf4f5e686117f9ca7853af2fae1792a8a9957ff24ba"
+  },
+  "fixture_registry_sha256": "66c69b8c8e37c3698aae767c6653a54e1d2bbaf60177834809e62822e78fce98",
+  "metrics": {
+    "balanced_accuracy": 0.5,
+    "clean_specificity": 0.0,
+    "clean_total": 1,
+    "correct_clean": 0,
+    "correct_mutated": 1,
+    "critical_mutant_recall": 1.0,
+    "family_recall": {
+      "combinatorial_search": 1.0
+    },
+    "median_witness_length": 2.0,
+    "mutant_recall": 1.0,
+    "mutated_total": 1,
+    "replay_success_rate": 1.0,
+    "unknown_count": 1,
+    "unknown_rate": 0.5
+  },
+  "results": [
+    {
+      "case_id": "env_900a",
+      "claim_checks": 201,
+      "critical": true,
+      "explored_states": 104,
+      "explored_transitions": 200,
+      "family": "combinatorial_search",
+      "ground_truth": "clean",
+      "reason": "Search incomplete: transition exploration reached max_transitions=200.",
+      "search_complete": false,
+      "verdict": "UNKNOWN",
+      "witness": null
+    },
+    {
+      "case_id": "env_900b",
+      "claim_checks": 31,
+      "critical": true,
+      "explored_states": 27,
+      "explored_transitions": 30,
+      "family": "combinatorial_search",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim stress.approval_before_issue.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {},
+            "name": "submit_sensitive_request"
+          },
+          {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "issue_sensitive_result"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "stress.approval_before_issue",
+          "expected": "Forbidden state is unreachable: A sensitive result cannot be issued before manager approval.",
+          "observed": "Reached state satisfying forbidden pattern: submitted=True, issued=True, approved=False",
+          "source": "evidence/policies/synthetic-policies.md#stress-approval_before_issue",
+          "source_excerpt": "A submitted sensitive request must receive manager approval before issuance.",
+          "statement": "A sensitive result cannot be issued before manager approval."
+        }
+      }
+    }
+  ],
+  "schema_version": "2",
+  "seed": 2026,
+  "suite_id": "search-stress-v1",
+  "suite_sha256": "6fc67011cd57f19f49343b756c4d2d4cb2805a65602cd96e98340021e17f6409",
+  "system": "fidelitygate"
+}

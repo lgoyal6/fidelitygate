@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FidelityGate evidence memo — search-stress-v1</title>
+<style>
+:root{--ink:#172033;--muted:#5d687a;--paper:#fff;--wash:#f4f6f9;--line:#d9dee8;--red:#a52828;--green:#176b45;--amber:#8a5a00;--blue:#3157c8}
+*{box-sizing:border-box} body{margin:0;background:var(--wash);color:var(--ink);font:15px/1.5 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:1120px;margin:32px auto;background:var(--paper);padding:48px;box-shadow:0 8px 30px #17203312}
+h1{font-size:32px;line-height:1.15;margin:0 0 8px} h2{margin-top:38px;border-bottom:1px solid var(--line);padding-bottom:8px} h3{margin-bottom:6px}
+.eyebrow{color:var(--blue);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12px} .muted{color:var(--muted)}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0} .metric{border:1px solid var(--line);padding:16px;border-radius:8px}
+.metric strong{display:block;font-size:25px} table{border-collapse:collapse;width:100%;font-size:13px} th,td{border-bottom:1px solid var(--line);text-align:left;padding:9px 8px;vertical-align:top} th{background:var(--wash)}
+.ACCEPT{color:var(--green);font-weight:700} .REJECT{color:var(--red);font-weight:700} .UNKNOWN{color:var(--amber);font-weight:700}
+.finding{border-left:4px solid var(--red);padding:4px 18px;margin:22px 0} code{background:var(--wash);padding:2px 5px;border-radius:4px;overflow-wrap:anywhere} ol{padding-left:24px}
+.boundary{border:1px solid var(--line);background:var(--wash);padding:16px;border-radius:8px} .hash{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}
+@media(max-width:760px){main{margin:0;padding:24px}.summary{grid-template-columns:1fr 1fr}} @media print{body{background:white}main{box-shadow:none;margin:0;max-width:none}}
+</style>
+</head>
+<body><main>
+<div class="eyebrow">Evidence-bounded environment acceptance</div>
+<h1>FidelityGate evidence memo</h1>
+<p class="muted">Suite <code>search-stress-v1</code> · deterministic seed 2026</p>
+<h2>Review required</h2>
+<p>The final agent found 1 replayable contradiction(s) and returned UNKNOWN for 1 case(s). A qualified reviewer remains the approval authority.</p>
+<section class="summary">
+<div class="metric"><span>Balanced accuracy</span><strong>0.500</strong></div>
+<div class="metric"><span>Clean specificity</span><strong>0.000</strong></div>
+<div class="metric"><span>Mutant recall</span><strong>1.000</strong></div>
+<div class="metric"><span>Replay success</span><strong>1.000</strong></div>
+</section>
+<h2>System comparison</h2>
+<table><thead><tr><th>System</th><th>Balanced accuracy</th><th>Clean specificity</th><th>Mutant recall</th><th>Unknown rate</th><th>Replay success</th></tr></thead><tbody><tr><td>replay-baseline</td><td>0.500</td><td>1.000</td><td>0.000</td><td>0.000</td><td>1.000</td></tr><tr><td>random-baseline</td><td>0.000</td><td>0.000</td><td>0.000</td><td>1.000</td><td>1.000</td></tr><tr><td>bfs-ablation</td><td>0.000</td><td>0.000</td><td>0.000</td><td>1.000</td><td>1.000</td></tr><tr><td>fidelitygate</td><td>0.500</td><td>0.000</td><td>1.000</td><td>0.500</td><td>1.000</td></tr></tbody></table>
+<h2>Complete case results</h2>
+<table><thead><tr><th>Case</th><th>Family</th><th>Truth</th><th>replay-baseline</th><th>random-baseline</th><th>bfs-ablation</th><th>fidelitygate</th></tr></thead><tbody><tr><td>env_900a</td><td>combinatorial_search</td><td>clean</td><td class="ACCEPT">ACCEPT</td><td class="UNKNOWN">UNKNOWN</td><td class="UNKNOWN">UNKNOWN</td><td class="UNKNOWN">UNKNOWN</td></tr><tr><td>env_900b</td><td>combinatorial_search</td><td>mutated</td><td class="ACCEPT">ACCEPT</td><td class="UNKNOWN">UNKNOWN</td><td class="UNKNOWN">UNKNOWN</td><td class="REJECT">REJECT</td></tr></tbody></table>
+<h2>Replayable contradictions</h2>
+<article class="finding"><h3>env_900b · stress.approval_before_issue</h3><p><strong>Source:</strong> <code>evidence/policies/synthetic-policies.md#stress-approval_before_issue</code><br><strong>Approved excerpt:</strong> “A submitted sensitive request must receive manager approval before issuance.”</p><ol><li><code>submit_sensitive_request</code></li><li><code>issue_sensitive_result(role=&#x27;admin&#x27;)</code></li></ol><p><strong>Observed:</strong> Reached state satisfying forbidden pattern: submitted=True, issued=True, approved=False</p><p>Replay: 3/3 identical · witness length 2</p></article>
+<h2>Uncertainty</h2>
+<ul><li><code>env_900a</code>: Search incomplete: transition exploration reached max_transitions=200.</li></ul>
+<h2>Provenance</h2>
+<p class="hash">Suite SHA-256: 6fc67011cd57f19f49343b756c4d2d4cb2805a65602cd96e98340021e17f6409<br>Fixture registry SHA-256: 66c69b8c8e37c3698aae767c6653a54e1d2bbaf60177834809e62822e78fce98</p>
+<p>Evidence files:</p><ul><li><code>evidence/policies/synthetic-policies.md</code>: <span class="hash">160f87edb1876007f753faf4f5e686117f9ca7853af2fae1792a8a9957ff24ba</span></li></ul>
+<h2>Decision boundary</h2>
+<div class="boundary">REJECT means a source-backed contradiction replayed identically three times. ACCEPT means the finite reachable graph was complete within the declared model and bounds. UNKNOWN means search, evidence, execution, or replay was incomplete. Synthetic benchmark performance does not establish production-environment performance.</div>
+</main></body></html>

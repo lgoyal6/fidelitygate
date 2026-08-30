@@ -1,0 +1,265 @@
+{
+  "agent": "fidelitygate-falsification-agent",
+  "case_id": "env_001b",
+  "events": [
+    {
+      "details": {
+        "case_id": "env_001b",
+        "initial_state": "(('amount', 0), ('issued', False), ('manager_approved', False), ('submitted', False))",
+        "strategy": "guided"
+      },
+      "phase": "orient",
+      "sequence": 1,
+      "tool": "reset_environment"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "submit_refund(amount=50)",
+        "depth": 1,
+        "event": "refund_submitted",
+        "state": "(('amount', 50), ('issued', False), ('manager_approved', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 2,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 2
+      },
+      "phase": "explore",
+      "sequence": 3,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 4,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "submit_refund(amount=1500)",
+        "depth": 1,
+        "event": "refund_submitted",
+        "state": "(('amount', 1500), ('issued', False), ('manager_approved', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 5,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 3
+      },
+      "phase": "explore",
+      "sequence": 6,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 2,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 7,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": false,
+        "action": "approve_refund(role='manager')",
+        "depth": 1,
+        "event": "action_denied",
+        "state": "(('amount', 0), ('issued', False), ('manager_approved', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 8,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "accepted": false,
+        "action": "issue_refund(role='operator')",
+        "depth": 1,
+        "event": "action_denied",
+        "state": "(('amount', 0), ('issued', False), ('manager_approved', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 9,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "accepted": false,
+        "action": "issue_refund(role='admin')",
+        "depth": 1,
+        "event": "action_denied",
+        "state": "(('amount', 0), ('issued', False), ('manager_approved', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 10,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "accepted": false,
+        "action": "submit_refund(amount=50)",
+        "depth": 2,
+        "event": "action_denied",
+        "state": "(('amount', 1500), ('issued', False), ('manager_approved', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 11,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "accepted": false,
+        "action": "submit_refund(amount=1500)",
+        "depth": 2,
+        "event": "action_denied",
+        "state": "(('amount', 1500), ('issued', False), ('manager_approved', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 12,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "approve_refund(role='manager')",
+        "depth": 2,
+        "event": "refund_approved",
+        "state": "(('amount', 1500), ('issued', False), ('manager_approved', True), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 13,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 2,
+        "unique_states": 4
+      },
+      "phase": "explore",
+      "sequence": 14,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 15,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": false,
+        "action": "issue_refund(role='operator')",
+        "depth": 2,
+        "event": "action_denied",
+        "state": "(('amount', 1500), ('issued', False), ('manager_approved', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 16,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "issue_refund(role='admin')",
+        "depth": 2,
+        "event": "refund_issued",
+        "state": "(('amount', 1500), ('issued', True), ('manager_approved', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 17,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "claim_id": "refund.high_value_approval",
+        "result": "contradiction"
+      },
+      "phase": "explore",
+      "sequence": 18,
+      "tool": "check_claims"
+    },
+    {
+      "details": {
+        "minimized_length": 2,
+        "original_length": 2
+      },
+      "phase": "verify",
+      "sequence": 19,
+      "tool": "shrink_counterexample"
+    },
+    {
+      "details": {
+        "attempts": 3,
+        "successes": 3
+      },
+      "phase": "verify",
+      "sequence": 20,
+      "tool": "replay_counterexample"
+    },
+    {
+      "details": {
+        "verdict": "REJECT"
+      },
+      "phase": "decide",
+      "sequence": 21,
+      "tool": "emit_verdict"
+    }
+  ],
+  "instruction": "Try to falsify every source-backed environment claim within the declared bounds. Use only the unlabeled case, action interface, observations, coverage memory, claim checker, shrinker, and replay tool. Reject only for a contradiction that replays identically three times; accept only after the finite reachable graph is complete; otherwise return UNKNOWN.",
+  "outcome": {
+    "case_id": "env_001b",
+    "claim_checks": 11,
+    "explored_states": 4,
+    "explored_transitions": 10,
+    "reason": "Replayable contradiction found for claim refund.high_value_approval.",
+    "search_complete": false,
+    "verdict": "REJECT",
+    "witness": {
+      "actions": [
+        {
+          "arguments": {
+            "amount": 1500
+          },
+          "name": "submit_refund"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "issue_refund"
+        }
+      ],
+      "minimized_length": 2,
+      "original_length": 2,
+      "replay_attempts": 3,
+      "replay_successes": 3,
+      "replayable": true,
+      "violation": {
+        "claim_id": "refund.high_value_approval",
+        "expected": "Forbidden state is unreachable: High-value refunds require manager approval before issuance.",
+        "observed": "Reached state satisfying forbidden pattern: issued=True, amount=1500, manager_approved=False",
+        "source": "evidence/policies/synthetic-policies.md#refund-high_value_approval",
+        "source_excerpt": "A refund above $1,000 must not be issued until a manager approves it.",
+        "statement": "High-value refunds require manager approval before issuance."
+      }
+    }
+  },
+  "schema_version": "1"
+}

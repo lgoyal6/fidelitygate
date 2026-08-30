@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$repo_root"
+
+uv sync --frozen --all-groups
+uv run ruff check .
+uv run ruff format --check .
+uv run mypy src scripts
+uv run pytest --cov=fidelitygate --cov-report=term-missing --cov-fail-under=85
+uv run python scripts/build_benchmark.py --check
+
+verification_dir="$(mktemp -d)"
+trap 'rm -rf "$verification_dir"' EXIT
+
+uv run fidelitygate compare \
+  --suite evals/suites/envmutationbench.json \
+  --output "$verification_dir/envmutationbench" >/dev/null
+uv run fidelitygate compare \
+  --suite evals/suites/search-stress.json \
+  --output "$verification_dir/search-stress" >/dev/null
+uv run fidelitygate compare \
+  --suite evals/suites/envmutationbench-holdout.json \
+  --output "$verification_dir/holdout" >/dev/null
+
+diff -ru artifacts/envmutationbench "$verification_dir/envmutationbench"
+diff -ru artifacts/search-stress "$verification_dir/search-stress"
+diff -ru artifacts/holdout "$verification_dir/holdout"
+
+echo "All checks and committed evidence reproductions passed."

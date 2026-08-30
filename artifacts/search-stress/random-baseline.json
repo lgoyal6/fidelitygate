@@ -1,0 +1,56 @@
+{
+  "evidence_sha256": {
+    "evidence/policies/synthetic-policies.md": "160f87edb1876007f753faf4f5e686117f9ca7853af2fae1792a8a9957ff24ba"
+  },
+  "fixture_registry_sha256": "66c69b8c8e37c3698aae767c6653a54e1d2bbaf60177834809e62822e78fce98",
+  "metrics": {
+    "balanced_accuracy": 0.0,
+    "clean_specificity": 0.0,
+    "clean_total": 1,
+    "correct_clean": 0,
+    "correct_mutated": 0,
+    "critical_mutant_recall": 0.0,
+    "family_recall": {
+      "combinatorial_search": 0.0
+    },
+    "median_witness_length": null,
+    "mutant_recall": 0.0,
+    "mutated_total": 1,
+    "replay_success_rate": 1.0,
+    "unknown_count": 2,
+    "unknown_rate": 1.0
+  },
+  "results": [
+    {
+      "case_id": "env_900a",
+      "claim_checks": 302,
+      "critical": true,
+      "explored_states": 102,
+      "explored_transitions": 200,
+      "family": "combinatorial_search",
+      "ground_truth": "clean",
+      "reason": "Budgeted random exploration found no contradiction but cannot establish completeness.",
+      "search_complete": false,
+      "verdict": "UNKNOWN",
+      "witness": null
+    },
+    {
+      "case_id": "env_900b",
+      "claim_checks": 299,
+      "critical": true,
+      "explored_states": 99,
+      "explored_transitions": 200,
+      "family": "combinatorial_search",
+      "ground_truth": "mutated",
+      "reason": "Budgeted random exploration found no contradiction but cannot establish completeness.",
+      "search_complete": false,
+      "verdict": "UNKNOWN",
+      "witness": null
+    }
+  ],
+  "schema_version": "2",
+  "seed": 2026,
+  "suite_id": "search-stress-v1",
+  "suite_sha256": "6fc67011cd57f19f49343b756c4d2d4cb2805a65602cd96e98340021e17f6409",
+  "system": "random-baseline"
+}

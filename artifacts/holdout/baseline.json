@@ -1,0 +1,137 @@
+{
+  "evidence_sha256": {
+    "evidence/policies/synthetic-policies.md": "160f87edb1876007f753faf4f5e686117f9ca7853af2fae1792a8a9957ff24ba"
+  },
+  "fixture_registry_sha256": "66c69b8c8e37c3698aae767c6653a54e1d2bbaf60177834809e62822e78fce98",
+  "metrics": {
+    "balanced_accuracy": 0.5,
+    "clean_specificity": 1.0,
+    "clean_total": 4,
+    "correct_clean": 4,
+    "correct_mutated": 0,
+    "critical_mutant_recall": 0.0,
+    "family_recall": {
+      "cross_episode_memory": 0.0,
+      "observability_omission": 0.0,
+      "qualified_review_gate": 0.0,
+      "reward_policy_mismatch": 0.0
+    },
+    "median_witness_length": null,
+    "mutant_recall": 0.0,
+    "mutated_total": 4,
+    "replay_success_rate": 1.0,
+    "unknown_count": 0,
+    "unknown_rate": 0.0
+  },
+  "results": [
+    {
+      "case_id": "env_011a",
+      "claim_checks": 4,
+      "critical": true,
+      "explored_states": 1,
+      "explored_transitions": 3,
+      "family": "qualified_review_gate",
+      "ground_truth": "clean",
+      "reason": "All supplied expert trajectories completed without a claim contradiction.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_011b",
+      "claim_checks": 4,
+      "critical": true,
+      "explored_states": 1,
+      "explored_transitions": 3,
+      "family": "qualified_review_gate",
+      "ground_truth": "mutated",
+      "reason": "All supplied expert trajectories completed without a claim contradiction.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_012a",
+      "claim_checks": 6,
+      "critical": true,
+      "explored_states": 2,
+      "explored_transitions": 4,
+      "family": "cross_episode_memory",
+      "ground_truth": "clean",
+      "reason": "All supplied expert trajectories completed without a claim contradiction.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_012b",
+      "claim_checks": 6,
+      "critical": true,
+      "explored_states": 2,
+      "explored_transitions": 4,
+      "family": "cross_episode_memory",
+      "ground_truth": "mutated",
+      "reason": "All supplied expert trajectories completed without a claim contradiction.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_013a",
+      "claim_checks": 5,
+      "critical": true,
+      "explored_states": 1,
+      "explored_transitions": 4,
+      "family": "reward_policy_mismatch",
+      "ground_truth": "clean",
+      "reason": "All supplied expert trajectories completed without a claim contradiction.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_013b",
+      "claim_checks": 5,
+      "critical": true,
+      "explored_states": 1,
+      "explored_transitions": 4,
+      "family": "reward_policy_mismatch",
+      "ground_truth": "mutated",
+      "reason": "All supplied expert trajectories completed without a claim contradiction.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_014a",
+      "claim_checks": 3,
+      "critical": false,
+      "explored_states": 1,
+      "explored_transitions": 2,
+      "family": "observability_omission",
+      "ground_truth": "clean",
+      "reason": "All supplied expert trajectories completed without a claim contradiction.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_014b",
+      "claim_checks": 3,
+      "critical": false,
+      "explored_states": 1,
+      "explored_transitions": 2,
+      "family": "observability_omission",
+      "ground_truth": "mutated",
+      "reason": "All supplied expert trajectories completed without a claim contradiction.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    }
+  ],
+  "schema_version": "2",
+  "seed": 2026,
+  "suite_id": "envmutationbench-holdout-v1",
+  "suite_sha256": "1de27eb8818947fc48f3eb72f63b0f1943f239c7f4f305078a10afe9ea13bf6a",
+  "system": "replay-baseline"
+}

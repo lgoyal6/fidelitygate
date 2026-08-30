@@ -170,9 +170,9 @@ The model cannot issue the verdict. Every proposed witness must execute and ever
 Baselines:
 
 1. expert-trajectory replay;
-2. direct-prompt general-purpose agent with the same evidence and tools;
-3. bounded random exploration with the same action budget;
-4. deterministic rules without advanced exploration.
+2. bounded deterministic random exploration with the same transition budget;
+3. breadth-first falsification without claim-directed priority;
+4. the final claim-directed falsification agent.
 
 Ablate evidence grounding, per-transition checks, shrinking, coverage guidance, archive search, symbolic boundaries, semantic adversary, and replay verification individually.
 
@@ -197,15 +197,10 @@ Ablate evidence grounding, per-transition checks, shrinking, coverage guidance, 
 
 **Gate:** a domain reviewer can understand and sign the artifact without reading source code, while an engineer can reproduce every material claim.
 
-## Current implementation milestone
+## Implemented status
 
-The repository begins with the smallest causal demonstration:
+Stages 0–8 and 12–16 are implemented for the data-only fixture contract: trajectory export, evidence/metric contracts, one-command harness, 14-pair EnvMutationBench, evidence compilation, adapter DSL, resource-bounded worker, deterministic and claim-directed search, shrinking/triple replay, mutation provenance, three-way verdicts, baselines/ablations, CI, reproduction, and evidence-first HTML output.
 
-- a clean refund environment;
-- an admin approval-bypass mutant;
-- identical expert traces that pass in both;
-- a replay baseline that therefore misses the defect;
-- bounded exploration that finds and shrinks the violating sequence;
-- a deterministic comparison report.
+Stage 9 is implemented only for claim-directed coverage priority. Archive return and active automata learning were not added because no retained benchmark establishes incremental value. Stage 10 symbolic/stochastic analysis is not claimed; every committed fixture is deterministic and finite. Stage 11's LLM semantic adversary was rejected for the verdict path because the current claims are already typed. Arbitrary-code adapters remain blocked until a true hostile-code sandbox exists.
 
-This milestone validates the harness and product contract. It does not validate generalization; that begins with EnvMutationBench.
+The build closes with 28 primary cases, 8 family-holdout cases, a combinatorial stress ablation, a reproducible negative oracle result, over 90% test coverage, committed product-agent trajectories, and byte-reproducible evidence artifacts.

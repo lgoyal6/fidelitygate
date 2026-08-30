@@ -1,0 +1,95 @@
+{
+  "changes_reproduced": [
+    "Temporal claim encoded final-state co-occurrence instead of access-after-expiry.",
+    "Recovery verification remained enabled after the terminal reset transition."
+  ],
+  "clean_failures": [
+    {
+      "case_id": "env_004a",
+      "claim_checks": 15,
+      "critical": true,
+      "explored_states": 4,
+      "explored_transitions": 14,
+      "family": "temporal_expiry",
+      "ground_truth": "clean",
+      "reason": "Replayable contradiction found for claim access.expiry_enforced.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {},
+            "name": "grant_access"
+          },
+          {
+            "arguments": {
+              "role": "user"
+            },
+            "name": "access_resource"
+          },
+          {
+            "arguments": {},
+            "name": "elapse_until_expired"
+          }
+        ],
+        "minimized_length": 3,
+        "original_length": 3,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "access.expiry_enforced",
+          "expected": "Forbidden state is unreachable: Expired grants cannot authorize resource access.",
+          "observed": "Reached state satisfying forbidden pattern: accessed=True, expired=True",
+          "source": "evidence/policies/synthetic-policies.md#access-expiry_enforced",
+          "source_excerpt": "Once a grant expires, every role must be denied until a new grant is issued.",
+          "statement": "Expired grants cannot authorize resource access."
+        }
+      }
+    },
+    {
+      "case_id": "env_009a",
+      "claim_checks": 21,
+      "critical": true,
+      "explored_states": 5,
+      "explored_transitions": 25,
+      "family": "cross_tenant_confusion",
+      "ground_truth": "clean",
+      "reason": "Search incomplete: new reachable states exceeded max_depth=3.",
+      "search_complete": false,
+      "verdict": "UNKNOWN",
+      "witness": null
+    }
+  ],
+  "experiment": "iteration-1-flawed-benchmark-oracles",
+  "metrics": {
+    "balanced_accuracy": 0.9285714285714286,
+    "clean_specificity": 0.8571428571428571,
+    "clean_total": 14,
+    "correct_clean": 12,
+    "correct_mutated": 14,
+    "critical_mutant_recall": 1.0,
+    "family_recall": {
+      "authorization_bypass": 1.0,
+      "contract_evidence": 1.0,
+      "cross_episode_memory": 1.0,
+      "cross_tenant_confusion": 1.0,
+      "evidence_omission": 1.0,
+      "evidence_threshold": 1.0,
+      "idempotency_failure": 1.0,
+      "identity_separation": 1.0,
+      "observability_omission": 1.0,
+      "qualified_review_gate": 1.0,
+      "reward_policy_mismatch": 1.0,
+      "temporal_expiry": 1.0,
+      "tool_precondition": 1.0,
+      "workflow_ordering": 1.0
+    },
+    "median_witness_length": 2.0,
+    "mutant_recall": 1.0,
+    "mutated_total": 14,
+    "replay_success_rate": 1.0,
+    "unknown_count": 1,
+    "unknown_rate": 0.03571428571428571
+  }
+}

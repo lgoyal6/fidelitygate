@@ -1,0 +1,917 @@
+{
+  "agent": "fidelitygate-falsification-agent",
+  "case_id": "env_900b",
+  "events": [
+    {
+      "details": {
+        "case_id": "env_900b",
+        "initial_state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', False))",
+        "strategy": "guided"
+      },
+      "phase": "orient",
+      "sequence": 1,
+      "tool": "reset_environment"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=0)",
+        "depth": 1,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', True), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 2,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 2
+      },
+      "phase": "explore",
+      "sequence": 3,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 4,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=1)",
+        "depth": 1,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', True), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 5,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 3
+      },
+      "phase": "explore",
+      "sequence": 6,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 7,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=2)",
+        "depth": 1,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', True), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 8,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 4
+      },
+      "phase": "explore",
+      "sequence": 9,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 10,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=3)",
+        "depth": 1,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', True), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 11,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 5
+      },
+      "phase": "explore",
+      "sequence": 12,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 13,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=4)",
+        "depth": 1,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', True), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 14,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 6
+      },
+      "phase": "explore",
+      "sequence": 15,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 16,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=5)",
+        "depth": 1,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', True), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 17,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 7
+      },
+      "phase": "explore",
+      "sequence": 18,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 19,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=6)",
+        "depth": 1,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', True), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 20,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 8
+      },
+      "phase": "explore",
+      "sequence": 21,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 22,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=7)",
+        "depth": 1,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', True), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 23,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 9
+      },
+      "phase": "explore",
+      "sequence": 24,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 25,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=8)",
+        "depth": 1,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', True), ('decoy_9', False), ('issued', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 26,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 10
+      },
+      "phase": "explore",
+      "sequence": 27,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 28,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=9)",
+        "depth": 1,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', True), ('issued', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 29,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 11
+      },
+      "phase": "explore",
+      "sequence": 30,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 31,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=10)",
+        "depth": 1,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', True), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 32,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 12
+      },
+      "phase": "explore",
+      "sequence": 33,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 34,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=11)",
+        "depth": 1,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', True), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 35,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 13
+      },
+      "phase": "explore",
+      "sequence": 36,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 37,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "submit_sensitive_request",
+        "depth": 1,
+        "event": "request_submitted",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 38,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 1,
+        "unique_states": 14
+      },
+      "phase": "explore",
+      "sequence": 39,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 2,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 40,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": false,
+        "action": "manager_approve",
+        "depth": 1,
+        "event": "action_denied",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 41,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "accepted": false,
+        "action": "issue_sensitive_result(role='admin')",
+        "depth": 1,
+        "event": "action_denied",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', False))"
+      },
+      "phase": "explore",
+      "sequence": 42,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=0)",
+        "depth": 2,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', True), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 43,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 2,
+        "unique_states": 15
+      },
+      "phase": "explore",
+      "sequence": 44,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 2,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 45,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=1)",
+        "depth": 2,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', True), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 46,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 2,
+        "unique_states": 16
+      },
+      "phase": "explore",
+      "sequence": 47,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 2,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 48,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=2)",
+        "depth": 2,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', True), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 49,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 2,
+        "unique_states": 17
+      },
+      "phase": "explore",
+      "sequence": 50,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 2,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 51,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=3)",
+        "depth": 2,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', True), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 52,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 2,
+        "unique_states": 18
+      },
+      "phase": "explore",
+      "sequence": 53,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 2,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 54,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=4)",
+        "depth": 2,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', True), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 55,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 2,
+        "unique_states": 19
+      },
+      "phase": "explore",
+      "sequence": 56,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 2,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 57,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=5)",
+        "depth": 2,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', True), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 58,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 2,
+        "unique_states": 20
+      },
+      "phase": "explore",
+      "sequence": 59,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 2,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 60,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=6)",
+        "depth": 2,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', True), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 61,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 2,
+        "unique_states": 21
+      },
+      "phase": "explore",
+      "sequence": 62,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 2,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 63,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=7)",
+        "depth": 2,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', True), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 64,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 2,
+        "unique_states": 22
+      },
+      "phase": "explore",
+      "sequence": 65,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 2,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 66,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=8)",
+        "depth": 2,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', True), ('decoy_9', False), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 67,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 2,
+        "unique_states": 23
+      },
+      "phase": "explore",
+      "sequence": 68,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 2,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 69,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=9)",
+        "depth": 2,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', True), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 70,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 2,
+        "unique_states": 24
+      },
+      "phase": "explore",
+      "sequence": 71,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 2,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 72,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=10)",
+        "depth": 2,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', True), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 73,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 2,
+        "unique_states": 25
+      },
+      "phase": "explore",
+      "sequence": 74,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 2,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 75,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "set_decoy(index=11)",
+        "depth": 2,
+        "event": "irrelevant_state_changed",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', True), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 76,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 2,
+        "unique_states": 26
+      },
+      "phase": "explore",
+      "sequence": 77,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 2,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 78,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": false,
+        "action": "submit_sensitive_request",
+        "depth": 2,
+        "event": "action_denied",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 79,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "manager_approve",
+        "depth": 2,
+        "event": "request_approved",
+        "state": "(('approved', True), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', False), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 80,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "frontier_depth": 2,
+        "unique_states": 27
+      },
+      "phase": "explore",
+      "sequence": 81,
+      "tool": "update_coverage_memory"
+    },
+    {
+      "details": {
+        "claim_progress": 1,
+        "strategy": "guided"
+      },
+      "phase": "explore",
+      "sequence": 82,
+      "tool": "prioritize_frontier"
+    },
+    {
+      "details": {
+        "accepted": true,
+        "action": "issue_sensitive_result(role='admin')",
+        "depth": 2,
+        "event": "result_issued",
+        "state": "(('approved', False), ('decoy_0', False), ('decoy_1', False), ('decoy_10', False), ('decoy_11', False), ('decoy_2', False), ('decoy_3', False), ('decoy_4', False), ('decoy_5', False), ('decoy_6', False), ('decoy_7', False), ('decoy_8', False), ('decoy_9', False), ('issued', True), ('submitted', True))"
+      },
+      "phase": "explore",
+      "sequence": 83,
+      "tool": "execute_action"
+    },
+    {
+      "details": {
+        "claim_id": "stress.approval_before_issue",
+        "result": "contradiction"
+      },
+      "phase": "explore",
+      "sequence": 84,
+      "tool": "check_claims"
+    },
+    {
+      "details": {
+        "minimized_length": 2,
+        "original_length": 2
+      },
+      "phase": "verify",
+      "sequence": 85,
+      "tool": "shrink_counterexample"
+    },
+    {
+      "details": {
+        "attempts": 3,
+        "successes": 3
+      },
+      "phase": "verify",
+      "sequence": 86,
+      "tool": "replay_counterexample"
+    },
+    {
+      "details": {
+        "verdict": "REJECT"
+      },
+      "phase": "decide",
+      "sequence": 87,
+      "tool": "emit_verdict"
+    }
+  ],
+  "instruction": "Try to falsify every source-backed environment claim within the declared bounds. Use only the unlabeled case, action interface, observations, coverage memory, claim checker, shrinker, and replay tool. Reject only for a contradiction that replays identically three times; accept only after the finite reachable graph is complete; otherwise return UNKNOWN.",
+  "outcome": {
+    "case_id": "env_900b",
+    "claim_checks": 31,
+    "explored_states": 27,
+    "explored_transitions": 30,
+    "reason": "Replayable contradiction found for claim stress.approval_before_issue.",
+    "search_complete": false,
+    "verdict": "REJECT",
+    "witness": {
+      "actions": [
+        {
+          "arguments": {},
+          "name": "submit_sensitive_request"
+        },
+        {
+          "arguments": {
+            "role": "admin"
+          },
+          "name": "issue_sensitive_result"
+        }
+      ],
+      "minimized_length": 2,
+      "original_length": 2,
+      "replay_attempts": 3,
+      "replay_successes": 3,
+      "replayable": true,
+      "violation": {
+        "claim_id": "stress.approval_before_issue",
+        "expected": "Forbidden state is unreachable: A sensitive result cannot be issued before manager approval.",
+        "observed": "Reached state satisfying forbidden pattern: submitted=True, issued=True, approved=False",
+        "source": "evidence/policies/synthetic-policies.md#stress-approval_before_issue",
+        "source_excerpt": "A submitted sensitive request must receive manager approval before issuance.",
+        "statement": "A sensitive result cannot be issued before manager approval."
+      }
+    }
+  },
+  "schema_version": "1"
+}

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$repo_root"
+
+uv sync --frozen --all-groups
+uv run fidelitygate compare \
+  --suite evals/suites/smoke.json \
+  --output artifacts/smoke
+uv run fidelitygate trace \
+  --suite evals/suites/search-stress.json \
+  --case-id env_900b \
+  --output trajectories/product-agent/env_900b-guided.json
+
+echo
+echo "Full evidence memo: artifacts/envmutationbench/report.html"
+echo "Stress comparison: artifacts/search-stress/comparison.md"
+echo "Product trajectory: trajectories/product-agent/env_900b-guided.json"

@@ -1,18 +1,31 @@
-"""Environment adapter protocol and the synthetic refund workflow."""
+"""Safe declarative environment adapter and fixture-registry validation."""
 
 from __future__ import annotations
 
-from dataclasses import dataclass, replace
+import json
+from collections.abc import Mapping
+from dataclasses import dataclass
+from pathlib import Path
 from typing import Protocol, TypeVar
 
-from fidelitygate.models import Action, CaseSpec, ClaimViolation, Observation
+from fidelitygate.models import (
+    Action,
+    AuditCaseSpec,
+    ClaimViolation,
+    ComparisonOp,
+    Condition,
+    Effect,
+    EffectOp,
+    FixtureRegistry,
+    FixtureSpec,
+    Observation,
+    Primitive,
+)
 
 StateT = TypeVar("StateT")
 
 
 class EnvironmentAdapter(Protocol[StateT]):
-    """Narrow contract needed by deterministic exploration."""
-
     def initial_state(self) -> StateT: ...
 
     def actions(self, state: StateT) -> tuple[Action, ...]: ...
@@ -23,128 +36,176 @@ class EnvironmentAdapter(Protocol[StateT]):
 
     def check_claims(self, state: StateT) -> ClaimViolation | None: ...
 
+    def claim_progress(self, state: StateT) -> int: ...
+
 
 @dataclass(frozen=True, slots=True)
-class RefundState:
-    """Complete synthetic state exposed to the harness."""
+class WorkflowState:
+    """Immutable normalized state with a stable canonical key."""
 
-    amount: int | None = None
-    manager_approved: bool = False
-    issued: bool = False
+    values: tuple[tuple[str, Primitive], ...]
+
+    @classmethod
+    def from_mapping(cls, values: Mapping[str, Primitive]) -> WorkflowState:
+        return cls(tuple(sorted(values.items())))
+
+    def as_dict(self) -> dict[str, Primitive]:
+        return dict(self.values)
 
 
-class RefundEnvironment:
-    """Deterministic refund workflow with an optional approval-bypass defect."""
+class DeclarativeEnvironment:
+    """Execute a finite workflow DSL without eval, imports, I/O, or arbitrary code."""
 
-    HIGH_VALUE_THRESHOLD = 1_000
-
-    def __init__(self, case: CaseSpec) -> None:
-        if case.adapter != "refund":
-            raise ValueError(f"unsupported adapter: {case.adapter}")
+    def __init__(self, case: AuditCaseSpec, fixture: FixtureSpec) -> None:
         self.case = case
-        self._admin_bypass = case.mutation == "admin_approval_bypass"
-        self._action_alphabet = (
-            Action(name="submit_refund", arguments={"amount": 50}),
-            Action(name="submit_refund", arguments={"amount": 1_500}),
-            Action(name="approve_refund", arguments={"role": "operator"}),
-            Action(name="approve_refund", arguments={"role": "manager"}),
-            Action(name="issue_refund", arguments={"role": "operator"}),
-            Action(name="issue_refund", arguments={"role": "admin"}),
-        )
+        self.fixture = fixture
+        self._validate_fixture()
 
-    def initial_state(self) -> RefundState:
-        return RefundState()
+    def initial_state(self) -> WorkflowState:
+        return WorkflowState.from_mapping(self.fixture.initial_state)
 
-    def actions(self, state: RefundState) -> tuple[Action, ...]:
+    def actions(self, state: WorkflowState) -> tuple[Action, ...]:
         del state
-        return self._action_alphabet
+        return tuple(self.fixture.actions)
 
-    def state_key(self, state: RefundState) -> tuple[object, ...]:
-        return (state.amount, state.manager_approved, state.issued)
+    def state_key(self, state: WorkflowState) -> tuple[object, ...]:
+        return tuple(state.values)
 
-    def step(self, state: RefundState, action: Action) -> tuple[RefundState, Observation]:
-        if action.name == "submit_refund":
-            return self._submit(state, action)
-        if action.name == "approve_refund":
-            return self._approve(state, action)
-        if action.name == "issue_refund":
-            return self._issue(state, action)
-        return state, Observation(accepted=False, event="unknown_action")
-
-    def check_claims(self, state: RefundState) -> ClaimViolation | None:
-        high_value_without_approval = (
-            state.issued
-            and state.amount is not None
-            and state.amount > self.HIGH_VALUE_THRESHOLD
-            and not state.manager_approved
+    def step(self, state: WorkflowState, action: Action) -> tuple[WorkflowState, Observation]:
+        values = state.as_dict()
+        matching_rules = [rule for rule in self.fixture.rules if rule.action == action]
+        for rule in matching_rules:
+            if not all(evaluate_condition(condition, values) for condition in rule.requires):
+                continue
+            next_values = dict(values)
+            for effect in rule.effects:
+                apply_effect(effect, next_values)
+            return WorkflowState.from_mapping(next_values), Observation(
+                accepted=True,
+                event=rule.event,
+                details={"action": action.display()},
+            )
+        return state, Observation(
+            accepted=False,
+            event="action_denied",
+            details={"action": action.display()},
         )
-        if not high_value_without_approval:
-            return None
 
-        claim = next(
-            claim for claim in self.case.claims if claim.id == "refund.high_value_approval"
+    def check_claims(self, state: WorkflowState) -> ClaimViolation | None:
+        values = state.as_dict()
+        for claim in self.case.claims:
+            if all(evaluate_condition(condition, values) for condition in claim.forbidden_when):
+                observed = ", ".join(
+                    f"{condition.field}={values[condition.field]!r}"
+                    for condition in claim.forbidden_when
+                )
+                return ClaimViolation(
+                    claim_id=claim.id,
+                    statement=claim.statement,
+                    source=claim.source,
+                    source_excerpt=claim.source_excerpt,
+                    expected=f"Forbidden state is unreachable: {claim.statement}",
+                    observed=f"Reached state satisfying forbidden pattern: {observed}",
+                )
+        return None
+
+    def claim_progress(self, state: WorkflowState) -> int:
+        """Count satisfied forbidden-state clauses for claim-directed prioritization."""
+        values = state.as_dict()
+        return max(
+            sum(evaluate_condition(condition, values) for condition in claim.forbidden_when)
+            for claim in self.case.claims
         )
-        return ClaimViolation(
-            claim_id=claim.id,
-            statement=claim.statement,
-            source=claim.source,
-            expected="A refund above $1,000 is issued only after manager approval.",
-            observed=(f"A ${state.amount:,} refund was issued while manager_approved=false."),
-        )
+
+    def _validate_fixture(self) -> None:
+        fields = set(self.fixture.initial_state)
+        if not fields:
+            raise ValueError("fixture initial_state cannot be empty")
+        action_encodings = {action.model_dump_json() for action in self.fixture.actions}
+        if len(action_encodings) != len(self.fixture.actions):
+            raise ValueError("fixture action alphabet contains duplicates")
+        for rule in self.fixture.rules:
+            if rule.action.model_dump_json() not in action_encodings:
+                raise ValueError(f"rule references undeclared action: {rule.action.display()}")
+            self._validate_fields(rule.requires, fields)
+            for effect in rule.effects:
+                if effect.field not in fields:
+                    raise ValueError(f"effect references unknown field: {effect.field}")
+        for claim in self.case.claims:
+            self._validate_fields(claim.forbidden_when, fields)
 
     @staticmethod
-    def _submit(state: RefundState, action: Action) -> tuple[RefundState, Observation]:
-        amount = action.arguments.get("amount")
-        if state.amount is not None or not isinstance(amount, int) or amount <= 0:
-            return state, Observation(accepted=False, event="refund_submission_denied")
-        return replace(state, amount=amount), Observation(
-            accepted=True,
-            event="refund_submitted",
-            details={"amount": amount},
-        )
-
-    @staticmethod
-    def _approve(state: RefundState, action: Action) -> tuple[RefundState, Observation]:
-        role = action.arguments.get("role")
-        if state.amount is None or state.issued or role != "manager":
-            return state, Observation(
-                accepted=False,
-                event="refund_approval_denied",
-                details={"role": role},
-            )
-        return replace(state, manager_approved=True), Observation(
-            accepted=True,
-            event="refund_approved",
-            details={"role": role},
-        )
-
-    def _issue(self, state: RefundState, action: Action) -> tuple[RefundState, Observation]:
-        role = action.arguments.get("role")
-        if state.amount is None or state.issued or role not in {"operator", "admin"}:
-            return state, Observation(
-                accepted=False,
-                event="refund_issue_denied",
-                details={"role": role},
-            )
-
-        requires_approval = state.amount > self.HIGH_VALUE_THRESHOLD
-        bypass_applies = self._admin_bypass and role == "admin"
-        if requires_approval and not state.manager_approved and not bypass_applies:
-            return state, Observation(
-                accepted=False,
-                event="refund_issue_denied",
-                details={"role": role, "reason": "manager_approval_required"},
-            )
-
-        return replace(state, issued=True), Observation(
-            accepted=True,
-            event="refund_issued",
-            details={"amount": state.amount, "role": role},
-        )
+    def _validate_fields(conditions: list[Condition], fields: set[str]) -> None:
+        for condition in conditions:
+            if condition.field not in fields:
+                raise ValueError(f"condition references unknown field: {condition.field}")
 
 
-def build_environment(case: CaseSpec) -> RefundEnvironment:
-    """Construct a repository-owned adapter from a validated case."""
-    if case.adapter == "refund":
-        return RefundEnvironment(case)
-    raise ValueError(f"unsupported adapter: {case.adapter}")
+def evaluate_condition(condition: Condition, state: Mapping[str, Primitive]) -> bool:
+    left = state[condition.field]
+    right = condition.value
+    if condition.op == ComparisonOp.EQ:
+        return left == right
+    if condition.op == ComparisonOp.NE:
+        return left != right
+    if isinstance(left, bool) or isinstance(right, bool):
+        raise TypeError(f"ordered comparison is invalid for booleans: {condition.field}")
+    if not isinstance(left, int | float) or not isinstance(right, int | float):
+        raise TypeError(f"ordered comparison requires numbers: {condition.field}")
+    if condition.op == ComparisonOp.GT:
+        return left > right
+    if condition.op == ComparisonOp.GTE:
+        return left >= right
+    if condition.op == ComparisonOp.LT:
+        return left < right
+    if condition.op == ComparisonOp.LTE:
+        return left <= right
+    raise AssertionError(f"unhandled comparison operator: {condition.op}")
+
+
+def apply_effect(effect: Effect, state: dict[str, Primitive]) -> None:
+    if effect.op == EffectOp.SET:
+        state[effect.field] = effect.value
+        return
+    current = state[effect.field]
+    if (
+        isinstance(current, bool)
+        or isinstance(effect.value, bool)
+        or not isinstance(current, int | float)
+        or not isinstance(effect.value, int | float)
+    ):
+        raise TypeError(f"increment requires numeric state: {effect.field}")
+    state[effect.field] = current + effect.value
+
+
+def load_fixture_registry(path: Path) -> tuple[FixtureRegistry, str]:
+    """Strictly validate a fixture registry and return its SHA-256."""
+    import hashlib
+
+    raw = path.read_bytes()
+    registry = FixtureRegistry.model_validate_json(raw)
+    return registry, hashlib.sha256(raw).hexdigest()
+
+
+def resolve_registry_path(suite_path: Path, configured: str) -> Path:
+    """Resolve only paths inside the evaluation data root."""
+    evaluation_root = suite_path.resolve().parent.parent
+    candidate = (suite_path.parent / configured).resolve()
+    if not candidate.is_relative_to(evaluation_root):
+        raise ValueError("fixture registry must stay inside the evaluation data root")
+    if not candidate.is_file():
+        raise FileNotFoundError(candidate)
+    return candidate
+
+
+def build_environment(case: AuditCaseSpec, registry: FixtureRegistry) -> DeclarativeEnvironment:
+    try:
+        fixture = registry.fixtures[case.fixture_id]
+    except KeyError as error:
+        raise ValueError(f"unknown fixture ID: {case.fixture_id}") from error
+    return DeclarativeEnvironment(case, fixture)
+
+
+def fixture_registry_as_canonical_json(registry: FixtureRegistry) -> str:
+    """Stable serialization helper used by sandbox workers and tests."""
+    return json.dumps(registry.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))

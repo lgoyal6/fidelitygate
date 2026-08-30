@@ -1,0 +1,84 @@
+{
+  "evidence_sha256": {
+    "evidence/policies/synthetic-policies.md": "160f87edb1876007f753faf4f5e686117f9ca7853af2fae1792a8a9957ff24ba"
+  },
+  "fixture_registry_sha256": "66c69b8c8e37c3698aae767c6653a54e1d2bbaf60177834809e62822e78fce98",
+  "metrics": {
+    "balanced_accuracy": 1.0,
+    "clean_specificity": 1.0,
+    "clean_total": 1,
+    "correct_clean": 1,
+    "correct_mutated": 1,
+    "critical_mutant_recall": 1.0,
+    "family_recall": {
+      "authorization_bypass": 1.0
+    },
+    "median_witness_length": 2.0,
+    "mutant_recall": 1.0,
+    "mutated_total": 1,
+    "replay_success_rate": 1.0,
+    "unknown_count": 0,
+    "unknown_rate": 0.0
+  },
+  "results": [
+    {
+      "case_id": "env_001a",
+      "claim_checks": 31,
+      "critical": true,
+      "explored_states": 8,
+      "explored_transitions": 40,
+      "family": "authorization_bypass",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_001b",
+      "claim_checks": 16,
+      "critical": true,
+      "explored_states": 6,
+      "explored_transitions": 15,
+      "family": "authorization_bypass",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim refund.high_value_approval.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {
+              "amount": 1500
+            },
+            "name": "submit_refund"
+          },
+          {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "issue_refund"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "refund.high_value_approval",
+          "expected": "Forbidden state is unreachable: High-value refunds require manager approval before issuance.",
+          "observed": "Reached state satisfying forbidden pattern: issued=True, amount=1500, manager_approved=False",
+          "source": "evidence/policies/synthetic-policies.md#refund-high_value_approval",
+          "source_excerpt": "A refund above $1,000 must not be issued until a manager approves it.",
+          "statement": "High-value refunds require manager approval before issuance."
+        }
+      }
+    }
+  ],
+  "schema_version": "2",
+  "seed": 2026,
+  "suite_id": "refund-approval-smoke-v2",
+  "suite_sha256": "84188b0df6b2792d5bec71101bbd951255c2b8a65c826f28142aa98b49a484f9",
+  "system": "bfs-ablation"
+}

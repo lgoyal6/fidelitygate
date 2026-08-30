@@ -28,6 +28,24 @@ def replay_for_violation(
     return None
 
 
+def replay_trace(
+    environment: EnvironmentAdapter[StateT], actions: Sequence[Action]
+) -> tuple[bool, ClaimViolation | None]:
+    """Return whether every action was accepted plus any observed contradiction."""
+    state = environment.initial_state()
+    violation = environment.check_claims(state)
+    if violation is not None:
+        return True, violation
+    for action in actions:
+        state, observation = environment.step(state, action)
+        if not observation.accepted:
+            return False, None
+        violation = environment.check_claims(state)
+        if violation is not None:
+            return True, violation
+    return True, None
+
+
 def shrink_actions(
     actions: Sequence[Action], fails: Callable[[Sequence[Action]], bool]
 ) -> list[Action]:

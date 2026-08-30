@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from fidelitygate.environment import load_fixture_registry, resolve_registry_path
 from fidelitygate.evaluation import evaluate_suite, load_suite
 from fidelitygate.kernel import audit_case
 from fidelitygate.models import Verdict
@@ -45,8 +46,22 @@ def test_fidelitygate_returns_unknown_when_depth_bound_is_incomplete(suite_path:
 
     suite, _ = load_suite(suite_path)
     truncated = suite.cases[1].model_copy(update={"max_depth": 1})
-    result = audit_case(truncated)
+    registry_path = resolve_registry_path(suite_path, suite.fixture_registry)
+    registry, _ = load_fixture_registry(registry_path)
+    result = audit_case(truncated.audit_input(), registry)
 
     assert result.verdict == Verdict.UNKNOWN
     assert result.search_complete is False
     assert "max_depth=1" in result.reason
+
+
+def test_claim_guidance_finds_sparse_mutant_that_bfs_misses() -> None:
+    stress_path = Path(__file__).parents[1] / "evals" / "suites" / "search-stress.json"
+    bfs = evaluate_suite(stress_path, "bfs-ablation", sandboxed=False)
+    guided = evaluate_suite(stress_path, "fidelitygate", sandboxed=False)
+
+    assert bfs.results[1].verdict == Verdict.UNKNOWN
+    assert bfs.results[1].explored_transitions == 200
+    assert guided.results[1].verdict == Verdict.REJECT
+    assert guided.results[1].explored_transitions < 50
+    assert guided.metrics.mutant_recall == 1.0

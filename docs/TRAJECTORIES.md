@@ -41,3 +41,12 @@ Representative trajectories will cover:
 5. final clean-clone reproduction and human checkpoint.
 
 Every trace must remain understandable from instruction through tool response and verified artifact. The exporter is data minimization, not a guarantee that every possible secret format has been removed.
+
+## Product-agent trajectories
+
+The falsification agent has its own stable, machine-readable trajectory schema. These committed examples contain the public agent instruction, ordered tool events, observations, coverage updates, verification, and final outcome:
+
+- `trajectories/product-agent/env_001b.json` — normal approval-bypass case;
+- `trajectories/product-agent/env_900b-guided.json` — combinatorial stress case where frontier priority changes the result.
+
+Generate either with `fidelitygate trace`. Product trajectories never contain benchmark labels because the agent receives `AuditCaseSpec`, not `CaseSpec`.

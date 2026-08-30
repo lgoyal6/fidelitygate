@@ -1,0 +1,807 @@
+{
+  "evidence_sha256": {
+    "evidence/policies/synthetic-policies.md": "160f87edb1876007f753faf4f5e686117f9ca7853af2fae1792a8a9957ff24ba"
+  },
+  "fixture_registry_sha256": "66c69b8c8e37c3698aae767c6653a54e1d2bbaf60177834809e62822e78fce98",
+  "metrics": {
+    "balanced_accuracy": 1.0,
+    "clean_specificity": 1.0,
+    "clean_total": 14,
+    "correct_clean": 14,
+    "correct_mutated": 14,
+    "critical_mutant_recall": 1.0,
+    "family_recall": {
+      "authorization_bypass": 1.0,
+      "contract_evidence": 1.0,
+      "cross_episode_memory": 1.0,
+      "cross_tenant_confusion": 1.0,
+      "evidence_omission": 1.0,
+      "evidence_threshold": 1.0,
+      "idempotency_failure": 1.0,
+      "identity_separation": 1.0,
+      "observability_omission": 1.0,
+      "qualified_review_gate": 1.0,
+      "reward_policy_mismatch": 1.0,
+      "temporal_expiry": 1.0,
+      "tool_precondition": 1.0,
+      "workflow_ordering": 1.0
+    },
+    "median_witness_length": 2.0,
+    "mutant_recall": 1.0,
+    "mutated_total": 14,
+    "replay_success_rate": 1.0,
+    "unknown_count": 0,
+    "unknown_rate": 0.0
+  },
+  "results": [
+    {
+      "case_id": "env_001a",
+      "claim_checks": 31,
+      "critical": true,
+      "explored_states": 8,
+      "explored_transitions": 40,
+      "family": "authorization_bypass",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_001b",
+      "claim_checks": 11,
+      "critical": true,
+      "explored_states": 4,
+      "explored_transitions": 10,
+      "family": "authorization_bypass",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim refund.high_value_approval.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {
+              "amount": 1500
+            },
+            "name": "submit_refund"
+          },
+          {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "issue_refund"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "refund.high_value_approval",
+          "expected": "Forbidden state is unreachable: High-value refunds require manager approval before issuance.",
+          "observed": "Reached state satisfying forbidden pattern: issued=True, amount=1500, manager_approved=False",
+          "source": "evidence/policies/synthetic-policies.md#refund-high_value_approval",
+          "source_excerpt": "A refund above $1,000 must not be issued until a manager approves it.",
+          "statement": "High-value refunds require manager approval before issuance."
+        }
+      }
+    },
+    {
+      "case_id": "env_002a",
+      "claim_checks": 13,
+      "critical": true,
+      "explored_states": 4,
+      "explored_transitions": 16,
+      "family": "identity_separation",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_002b",
+      "claim_checks": 13,
+      "critical": true,
+      "explored_states": 4,
+      "explored_transitions": 12,
+      "family": "identity_separation",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim purchase.separation_of_duties.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {
+              "requester": "buyer"
+            },
+            "name": "submit_purchase"
+          },
+          {
+            "arguments": {
+              "role": "buyer"
+            },
+            "name": "approve_purchase"
+          },
+          {
+            "arguments": {},
+            "name": "place_order"
+          }
+        ],
+        "minimized_length": 3,
+        "original_length": 3,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "purchase.separation_of_duties",
+          "expected": "Forbidden state is unreachable: A requester cannot approve their own purchase.",
+          "observed": "Reached state satisfying forbidden pattern: placed=True, self_approved=True",
+          "source": "evidence/policies/synthetic-policies.md#purchase-separation_of_duties",
+          "source_excerpt": "The requester and approver for a purchase must be different people.",
+          "statement": "A requester cannot approve their own purchase."
+        }
+      }
+    },
+    {
+      "case_id": "env_003a",
+      "claim_checks": 13,
+      "critical": true,
+      "explored_states": 4,
+      "explored_transitions": 16,
+      "family": "evidence_omission",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_003b",
+      "claim_checks": 9,
+      "critical": true,
+      "explored_states": 3,
+      "explored_transitions": 8,
+      "family": "evidence_omission",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim export.consent_required.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {},
+            "name": "request_export"
+          },
+          {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "export_data"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "export.consent_required",
+          "expected": "Forbidden state is unreachable: Personal data exports require recorded consent.",
+          "observed": "Reached state satisfying forbidden pattern: exported=True, consent=False",
+          "source": "evidence/policies/synthetic-policies.md#export-consent_required",
+          "source_excerpt": "Do not export personal data unless the subject's consent is recorded.",
+          "statement": "Personal data exports require recorded consent."
+        }
+      }
+    },
+    {
+      "case_id": "env_004a",
+      "claim_checks": 17,
+      "critical": true,
+      "explored_states": 5,
+      "explored_transitions": 20,
+      "family": "temporal_expiry",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_004b",
+      "claim_checks": 13,
+      "critical": true,
+      "explored_states": 4,
+      "explored_transitions": 12,
+      "family": "temporal_expiry",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim access.expiry_enforced.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {},
+            "name": "grant_access"
+          },
+          {
+            "arguments": {},
+            "name": "elapse_until_expired"
+          },
+          {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "access_resource"
+          }
+        ],
+        "minimized_length": 3,
+        "original_length": 3,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "access.expiry_enforced",
+          "expected": "Forbidden state is unreachable: Expired grants cannot authorize resource access.",
+          "observed": "Reached state satisfying forbidden pattern: access_after_expiry=True",
+          "source": "evidence/policies/synthetic-policies.md#access-expiry_enforced",
+          "source_excerpt": "Once a grant expires, every role must be denied until a new grant is issued.",
+          "statement": "Expired grants cannot authorize resource access."
+        }
+      }
+    },
+    {
+      "case_id": "env_005a",
+      "claim_checks": 10,
+      "critical": true,
+      "explored_states": 3,
+      "explored_transitions": 9,
+      "family": "idempotency_failure",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_005b",
+      "claim_checks": 10,
+      "critical": true,
+      "explored_states": 3,
+      "explored_transitions": 9,
+      "family": "idempotency_failure",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim invoice.single_payout.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {},
+            "name": "submit_invoice"
+          },
+          {
+            "arguments": {},
+            "name": "pay_invoice"
+          },
+          {
+            "arguments": {},
+            "name": "retry_payment"
+          }
+        ],
+        "minimized_length": 3,
+        "original_length": 3,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "invoice.single_payout",
+          "expected": "Forbidden state is unreachable: An invoice may produce at most one payout.",
+          "observed": "Reached state satisfying forbidden pattern: payout_count=2",
+          "source": "evidence/policies/synthetic-policies.md#invoice-single_payout",
+          "source_excerpt": "Retries must be idempotent: never pay the same invoice more than once.",
+          "statement": "An invoice may produce at most one payout."
+        }
+      }
+    },
+    {
+      "case_id": "env_006a",
+      "claim_checks": 31,
+      "critical": false,
+      "explored_states": 8,
+      "explored_transitions": 40,
+      "family": "evidence_threshold",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_006b",
+      "claim_checks": 11,
+      "critical": false,
+      "explored_states": 4,
+      "explored_transitions": 10,
+      "family": "evidence_threshold",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim expense.receipt_threshold.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {
+              "amount": 900
+            },
+            "name": "submit_expense"
+          },
+          {
+            "arguments": {
+              "role": "director"
+            },
+            "name": "approve_expense"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "expense.receipt_threshold",
+          "expected": "Forbidden state is unreachable: Expenses above $500 require a receipt before approval.",
+          "observed": "Reached state satisfying forbidden pattern: approved=True, amount=900, receipt=False",
+          "source": "evidence/policies/synthetic-policies.md#expense-receipt_threshold",
+          "source_excerpt": "A receipt is mandatory before approving any expense over $500.",
+          "statement": "Expenses above $500 require a receipt before approval."
+        }
+      }
+    },
+    {
+      "case_id": "env_007a",
+      "claim_checks": 13,
+      "critical": true,
+      "explored_states": 4,
+      "explored_transitions": 16,
+      "family": "workflow_ordering",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_007b",
+      "claim_checks": 9,
+      "critical": true,
+      "explored_states": 3,
+      "explored_transitions": 8,
+      "family": "workflow_ordering",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim incident.remediation_before_close.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {
+              "severity": "sev1"
+            },
+            "name": "open_incident"
+          },
+          {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "close_incident"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "incident.remediation_before_close",
+          "expected": "Forbidden state is unreachable: SEV-1 incidents cannot close before remediation is attached.",
+          "observed": "Reached state satisfying forbidden pattern: closed=True, sev1=True, remediation=False",
+          "source": "evidence/policies/synthetic-policies.md#incident-remediation_before_close",
+          "source_excerpt": "A SEV-1 incident remains open until the remediation record is attached.",
+          "statement": "SEV-1 incidents cannot close before remediation is attached."
+        }
+      }
+    },
+    {
+      "case_id": "env_008a",
+      "claim_checks": 13,
+      "critical": false,
+      "explored_states": 4,
+      "explored_transitions": 16,
+      "family": "tool_precondition",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_008b",
+      "claim_checks": 9,
+      "critical": false,
+      "explored_states": 3,
+      "explored_transitions": 8,
+      "family": "tool_precondition",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim deployment.health_before_promotion.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {},
+            "name": "deploy_candidate"
+          },
+          {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "force_promote"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "deployment.health_before_promotion",
+          "expected": "Forbidden state is unreachable: A release cannot be promoted before a passing health check.",
+          "observed": "Reached state satisfying forbidden pattern: promoted=True, health_passed=False",
+          "source": "evidence/policies/synthetic-policies.md#deployment-health_before_promotion",
+          "source_excerpt": "Promotion is allowed only after the candidate has a passing health check.",
+          "statement": "A release cannot be promoted before a passing health check."
+        }
+      }
+    },
+    {
+      "case_id": "env_009a",
+      "claim_checks": 21,
+      "critical": true,
+      "explored_states": 5,
+      "explored_transitions": 25,
+      "family": "cross_tenant_confusion",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_009b",
+      "claim_checks": 21,
+      "critical": true,
+      "explored_states": 5,
+      "explored_transitions": 25,
+      "family": "cross_tenant_confusion",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim recovery.same_tenant.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {
+              "tenant": "alpha"
+            },
+            "name": "start_recovery"
+          },
+          {
+            "arguments": {
+              "tenant": "beta"
+            },
+            "name": "verify_identity"
+          },
+          {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "reset_password"
+          }
+        ],
+        "minimized_length": 3,
+        "original_length": 3,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "recovery.same_tenant",
+          "expected": "Forbidden state is unreachable: Identity verification must match the account tenant before reset.",
+          "observed": "Reached state satisfying forbidden pattern: reset=True, tenant_match=False",
+          "source": "evidence/policies/synthetic-policies.md#recovery-same_tenant",
+          "source_excerpt": "A password reset is valid only when identity was verified in the target tenant.",
+          "statement": "Identity verification must match the account tenant before reset."
+        }
+      }
+    },
+    {
+      "case_id": "env_010a",
+      "claim_checks": 13,
+      "critical": true,
+      "explored_states": 4,
+      "explored_transitions": 16,
+      "family": "contract_evidence",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_010b",
+      "claim_checks": 9,
+      "critical": true,
+      "explored_states": 3,
+      "explored_transitions": 8,
+      "family": "contract_evidence",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim vendor.dpa_before_disclosure.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {},
+            "name": "open_vendor_case"
+          },
+          {
+            "arguments": {
+              "role": "admin"
+            },
+            "name": "disclose_pii"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "vendor.dpa_before_disclosure",
+          "expected": "Forbidden state is unreachable: PII cannot be disclosed to a vendor without a recorded DPA.",
+          "observed": "Reached state satisfying forbidden pattern: disclosed=True, dpa=False",
+          "source": "evidence/policies/synthetic-policies.md#vendor-dpa_before_disclosure",
+          "source_excerpt": "Record an approved data processing agreement before any PII disclosure.",
+          "statement": "PII cannot be disclosed to a vendor without a recorded DPA."
+        }
+      }
+    },
+    {
+      "case_id": "env_011a",
+      "claim_checks": 13,
+      "critical": true,
+      "explored_states": 4,
+      "explored_transitions": 16,
+      "family": "qualified_review_gate",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_011b",
+      "claim_checks": 9,
+      "critical": true,
+      "explored_states": 3,
+      "explored_transitions": 8,
+      "family": "qualified_review_gate",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim medication.pharmacist_verification.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {
+              "risk": "high"
+            },
+            "name": "draft_order"
+          },
+          {
+            "arguments": {
+              "role": "attending"
+            },
+            "name": "release_order"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "medication.pharmacist_verification",
+          "expected": "Forbidden state is unreachable: High-risk orders require pharmacist verification before release.",
+          "observed": "Reached state satisfying forbidden pattern: released=True, high_risk=True, pharmacist_verified=False",
+          "source": "evidence/policies/synthetic-policies.md#medication-pharmacist_verification",
+          "source_excerpt": "A high-risk medication order must be verified by a pharmacist before release.",
+          "statement": "High-risk orders require pharmacist verification before release."
+        }
+      }
+    },
+    {
+      "case_id": "env_012a",
+      "claim_checks": 17,
+      "critical": true,
+      "explored_states": 4,
+      "explored_transitions": 16,
+      "family": "cross_episode_memory",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_012b",
+      "claim_checks": 21,
+      "critical": true,
+      "explored_states": 5,
+      "explored_transitions": 20,
+      "family": "cross_episode_memory",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim memory.episode_isolation.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {
+              "episode": "a"
+            },
+            "name": "begin_episode"
+          },
+          {
+            "arguments": {},
+            "name": "store_sensitive_fact"
+          },
+          {
+            "arguments": {
+              "episode": "b"
+            },
+            "name": "begin_episode"
+          },
+          {
+            "arguments": {},
+            "name": "recall_memory"
+          }
+        ],
+        "minimized_length": 4,
+        "original_length": 4,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "memory.episode_isolation",
+          "expected": "Forbidden state is unreachable: Sensitive memory from one episode cannot appear in another.",
+          "observed": "Reached state satisfying forbidden pattern: leaked=True",
+          "source": "evidence/policies/synthetic-policies.md#memory-episode_isolation",
+          "source_excerpt": "Starting a new episode clears sensitive memory from every earlier episode.",
+          "statement": "Sensitive memory from one episode cannot appear in another."
+        }
+      }
+    },
+    {
+      "case_id": "env_013a",
+      "claim_checks": 17,
+      "critical": true,
+      "explored_states": 5,
+      "explored_transitions": 20,
+      "family": "reward_policy_mismatch",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_013b",
+      "claim_checks": 9,
+      "critical": true,
+      "explored_states": 3,
+      "explored_transitions": 8,
+      "family": "reward_policy_mismatch",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim reward.only_after_completion.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {},
+            "name": "submit_task"
+          },
+          {
+            "arguments": {},
+            "name": "award_reward"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "reward.only_after_completion",
+          "expected": "Forbidden state is unreachable: Positive reward requires verified task completion.",
+          "observed": "Reached state satisfying forbidden pattern: reward=1, completed=False",
+          "source": "evidence/policies/synthetic-policies.md#reward-only_after_completion",
+          "source_excerpt": "Award positive reward only after the task is verified and completed.",
+          "statement": "Positive reward requires verified task completion."
+        }
+      }
+    },
+    {
+      "case_id": "env_014a",
+      "claim_checks": 7,
+      "critical": false,
+      "explored_states": 3,
+      "explored_transitions": 9,
+      "family": "observability_omission",
+      "ground_truth": "clean",
+      "reason": "No contradiction exists in the completely explored finite reachable graph.",
+      "search_complete": true,
+      "verdict": "ACCEPT",
+      "witness": null
+    },
+    {
+      "case_id": "env_014b",
+      "claim_checks": 7,
+      "critical": false,
+      "explored_states": 3,
+      "explored_transitions": 6,
+      "family": "observability_omission",
+      "ground_truth": "mutated",
+      "reason": "Replayable contradiction found for claim operation.audit_required.",
+      "search_complete": false,
+      "verdict": "REJECT",
+      "witness": {
+        "actions": [
+          {
+            "arguments": {},
+            "name": "request_privileged_operation"
+          },
+          {
+            "arguments": {
+              "mode": "hidden"
+            },
+            "name": "execute_operation"
+          }
+        ],
+        "minimized_length": 2,
+        "original_length": 2,
+        "replay_attempts": 3,
+        "replay_successes": 3,
+        "replayable": true,
+        "violation": {
+          "claim_id": "operation.audit_required",
+          "expected": "Forbidden state is unreachable: Every privileged operation must emit an audit record.",
+          "observed": "Reached state satisfying forbidden pattern: performed=True, audit_logged=False",
+          "source": "evidence/policies/synthetic-policies.md#operation-audit_required",
+          "source_excerpt": "A privileged operation and its audit record must be committed together.",
+          "statement": "Every privileged operation must emit an audit record."
+        }
+      }
+    }
+  ],
+  "schema_version": "2",
+  "seed": 2026,
+  "suite_id": "envmutationbench-v1",
+  "suite_sha256": "26c65c267425b1dea219127f2d396817fb13b44ebd2fa29165457fbcc175d84b",
+  "system": "fidelitygate"
+}

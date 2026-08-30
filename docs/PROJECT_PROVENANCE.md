@@ -12,7 +12,8 @@ The synthetic policy and environments were authored solely for the benchmark and
 
 ## Evidence status
 
-- The two-case smoke results are generated and committed.
-- General detector performance is not yet established.
-- Advanced exploration, arbitrary-adapter sandboxing, natural-language evidence compilation, and the full EnvMutationBench remain planned until implemented and verified.
+- The two-case smoke, 28-case EnvMutationBench, 8-case family holdout, and 2-case stress results are generated and committed.
+- Claim-directed priority is supported by a budgeted stress ablation; primary BFS and FidelityGate both score 1.000.
+- Source/anchor/excerpt compilation, opaque fixtures, label-isolated system input, data-only adapter execution, worker limits, triple replay, and three-way verdicts are implemented and tested.
+- General production performance, independent mutation review, stochastic environments, arbitrary-code adapters, natural-language claim extraction, and qualified-reviewer time savings are not established.
 - Raw coding-agent sessions remain outside Git; only manually reviewed redacted exports are eligible for the submission.

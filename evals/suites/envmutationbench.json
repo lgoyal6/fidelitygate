@@ -1,0 +1,1466 @@
+{
+  "cases": [
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "issued",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "gt",
+              "value": 1000
+            },
+            {
+              "field": "manager_approved",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "refund.high_value_approval",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#refund-high_value_approval",
+          "source_excerpt": "A refund above $1,000 must not be issued until a manager approves it.",
+          "statement": "High-value refunds require manager approval before issuance."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {
+              "amount": 1500
+            },
+            "name": "submit_refund"
+          },
+          {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_refund"
+          },
+          {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "issue_refund"
+          }
+        ],
+        [
+          {
+            "arguments": {
+              "amount": 50
+            },
+            "name": "submit_refund"
+          },
+          {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "issue_refund"
+          }
+        ]
+      ],
+      "family": "authorization_bypass",
+      "fixture_id": "wf_001a",
+      "ground_truth": "clean",
+      "id": "env_001a",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "issued",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "gt",
+              "value": 1000
+            },
+            {
+              "field": "manager_approved",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "refund.high_value_approval",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#refund-high_value_approval",
+          "source_excerpt": "A refund above $1,000 must not be issued until a manager approves it.",
+          "statement": "High-value refunds require manager approval before issuance."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {
+              "amount": 1500
+            },
+            "name": "submit_refund"
+          },
+          {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_refund"
+          },
+          {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "issue_refund"
+          }
+        ],
+        [
+          {
+            "arguments": {
+              "amount": 50
+            },
+            "name": "submit_refund"
+          },
+          {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "issue_refund"
+          }
+        ]
+      ],
+      "family": "authorization_bypass",
+      "fixture_id": "wf_001b",
+      "ground_truth": "mutated",
+      "id": "env_001b",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "placed",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "self_approved",
+              "op": "eq",
+              "value": true
+            }
+          ],
+          "id": "purchase.separation_of_duties",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#purchase-separation_of_duties",
+          "source_excerpt": "The requester and approver for a purchase must be different people.",
+          "statement": "A requester cannot approve their own purchase."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {
+              "requester": "buyer"
+            },
+            "name": "submit_purchase"
+          },
+          {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_purchase"
+          },
+          {
+            "arguments": {},
+            "name": "place_order"
+          }
+        ]
+      ],
+      "family": "identity_separation",
+      "fixture_id": "wf_002a",
+      "ground_truth": "clean",
+      "id": "env_002a",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "placed",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "self_approved",
+              "op": "eq",
+              "value": true
+            }
+          ],
+          "id": "purchase.separation_of_duties",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#purchase-separation_of_duties",
+          "source_excerpt": "The requester and approver for a purchase must be different people.",
+          "statement": "A requester cannot approve their own purchase."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {
+              "requester": "buyer"
+            },
+            "name": "submit_purchase"
+          },
+          {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_purchase"
+          },
+          {
+            "arguments": {},
+            "name": "place_order"
+          }
+        ]
+      ],
+      "family": "identity_separation",
+      "fixture_id": "wf_002b",
+      "ground_truth": "mutated",
+      "id": "env_002b",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "exported",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "consent",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "export.consent_required",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#export-consent_required",
+          "source_excerpt": "Do not export personal data unless the subject's consent is recorded.",
+          "statement": "Personal data exports require recorded consent."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "request_export"
+          },
+          {
+            "arguments": {},
+            "name": "record_consent"
+          },
+          {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "export_data"
+          }
+        ]
+      ],
+      "family": "evidence_omission",
+      "fixture_id": "wf_003a",
+      "ground_truth": "clean",
+      "id": "env_003a",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "exported",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "consent",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "export.consent_required",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#export-consent_required",
+          "source_excerpt": "Do not export personal data unless the subject's consent is recorded.",
+          "statement": "Personal data exports require recorded consent."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "request_export"
+          },
+          {
+            "arguments": {},
+            "name": "record_consent"
+          },
+          {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "export_data"
+          }
+        ]
+      ],
+      "family": "evidence_omission",
+      "fixture_id": "wf_003b",
+      "ground_truth": "mutated",
+      "id": "env_003b",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "access_after_expiry",
+              "op": "eq",
+              "value": true
+            }
+          ],
+          "id": "access.expiry_enforced",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#access-expiry_enforced",
+          "source_excerpt": "Once a grant expires, every role must be denied until a new grant is issued.",
+          "statement": "Expired grants cannot authorize resource access."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "grant_access"
+          },
+          {
+            "arguments": {
+              "role": "user"
+            },
+            "name": "access_resource"
+          }
+        ]
+      ],
+      "family": "temporal_expiry",
+      "fixture_id": "wf_004a",
+      "ground_truth": "clean",
+      "id": "env_004a",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "access_after_expiry",
+              "op": "eq",
+              "value": true
+            }
+          ],
+          "id": "access.expiry_enforced",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#access-expiry_enforced",
+          "source_excerpt": "Once a grant expires, every role must be denied until a new grant is issued.",
+          "statement": "Expired grants cannot authorize resource access."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "grant_access"
+          },
+          {
+            "arguments": {
+              "role": "user"
+            },
+            "name": "access_resource"
+          }
+        ]
+      ],
+      "family": "temporal_expiry",
+      "fixture_id": "wf_004b",
+      "ground_truth": "mutated",
+      "id": "env_004b",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "payout_count",
+              "op": "gt",
+              "value": 1
+            }
+          ],
+          "id": "invoice.single_payout",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#invoice-single_payout",
+          "source_excerpt": "Retries must be idempotent: never pay the same invoice more than once.",
+          "statement": "An invoice may produce at most one payout."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "submit_invoice"
+          },
+          {
+            "arguments": {},
+            "name": "pay_invoice"
+          }
+        ]
+      ],
+      "family": "idempotency_failure",
+      "fixture_id": "wf_005a",
+      "ground_truth": "clean",
+      "id": "env_005a",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "payout_count",
+              "op": "gt",
+              "value": 1
+            }
+          ],
+          "id": "invoice.single_payout",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#invoice-single_payout",
+          "source_excerpt": "Retries must be idempotent: never pay the same invoice more than once.",
+          "statement": "An invoice may produce at most one payout."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "submit_invoice"
+          },
+          {
+            "arguments": {},
+            "name": "pay_invoice"
+          }
+        ]
+      ],
+      "family": "idempotency_failure",
+      "fixture_id": "wf_005b",
+      "ground_truth": "mutated",
+      "id": "env_005b",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "approved",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "gt",
+              "value": 500
+            },
+            {
+              "field": "receipt",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "expense.receipt_threshold",
+          "severity": "high",
+          "source": "evidence/policies/synthetic-policies.md#expense-receipt_threshold",
+          "source_excerpt": "A receipt is mandatory before approving any expense over $500.",
+          "statement": "Expenses above $500 require a receipt before approval."
+        }
+      ],
+      "critical": false,
+      "expert_traces": [
+        [
+          {
+            "arguments": {
+              "amount": 900
+            },
+            "name": "submit_expense"
+          },
+          {
+            "arguments": {},
+            "name": "upload_receipt"
+          },
+          {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_expense"
+          }
+        ],
+        [
+          {
+            "arguments": {
+              "amount": 100
+            },
+            "name": "submit_expense"
+          },
+          {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_expense"
+          }
+        ]
+      ],
+      "family": "evidence_threshold",
+      "fixture_id": "wf_006a",
+      "ground_truth": "clean",
+      "id": "env_006a",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "approved",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "amount",
+              "op": "gt",
+              "value": 500
+            },
+            {
+              "field": "receipt",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "expense.receipt_threshold",
+          "severity": "high",
+          "source": "evidence/policies/synthetic-policies.md#expense-receipt_threshold",
+          "source_excerpt": "A receipt is mandatory before approving any expense over $500.",
+          "statement": "Expenses above $500 require a receipt before approval."
+        }
+      ],
+      "critical": false,
+      "expert_traces": [
+        [
+          {
+            "arguments": {
+              "amount": 900
+            },
+            "name": "submit_expense"
+          },
+          {
+            "arguments": {},
+            "name": "upload_receipt"
+          },
+          {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_expense"
+          }
+        ],
+        [
+          {
+            "arguments": {
+              "amount": 100
+            },
+            "name": "submit_expense"
+          },
+          {
+            "arguments": {
+              "role": "manager"
+            },
+            "name": "approve_expense"
+          }
+        ]
+      ],
+      "family": "evidence_threshold",
+      "fixture_id": "wf_006b",
+      "ground_truth": "mutated",
+      "id": "env_006b",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "closed",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "sev1",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "remediation",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "incident.remediation_before_close",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#incident-remediation_before_close",
+          "source_excerpt": "A SEV-1 incident remains open until the remediation record is attached.",
+          "statement": "SEV-1 incidents cannot close before remediation is attached."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {
+              "severity": "sev1"
+            },
+            "name": "open_incident"
+          },
+          {
+            "arguments": {},
+            "name": "attach_remediation"
+          },
+          {
+            "arguments": {
+              "role": "commander"
+            },
+            "name": "close_incident"
+          }
+        ]
+      ],
+      "family": "workflow_ordering",
+      "fixture_id": "wf_007a",
+      "ground_truth": "clean",
+      "id": "env_007a",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "closed",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "sev1",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "remediation",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "incident.remediation_before_close",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#incident-remediation_before_close",
+          "source_excerpt": "A SEV-1 incident remains open until the remediation record is attached.",
+          "statement": "SEV-1 incidents cannot close before remediation is attached."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {
+              "severity": "sev1"
+            },
+            "name": "open_incident"
+          },
+          {
+            "arguments": {},
+            "name": "attach_remediation"
+          },
+          {
+            "arguments": {
+              "role": "commander"
+            },
+            "name": "close_incident"
+          }
+        ]
+      ],
+      "family": "workflow_ordering",
+      "fixture_id": "wf_007b",
+      "ground_truth": "mutated",
+      "id": "env_007b",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "promoted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "health_passed",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "deployment.health_before_promotion",
+          "severity": "high",
+          "source": "evidence/policies/synthetic-policies.md#deployment-health_before_promotion",
+          "source_excerpt": "Promotion is allowed only after the candidate has a passing health check.",
+          "statement": "A release cannot be promoted before a passing health check."
+        }
+      ],
+      "critical": false,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "deploy_candidate"
+          },
+          {
+            "arguments": {
+              "status": "passing"
+            },
+            "name": "record_health_check"
+          },
+          {
+            "arguments": {},
+            "name": "promote_release"
+          }
+        ]
+      ],
+      "family": "tool_precondition",
+      "fixture_id": "wf_008a",
+      "ground_truth": "clean",
+      "id": "env_008a",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "promoted",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "health_passed",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "deployment.health_before_promotion",
+          "severity": "high",
+          "source": "evidence/policies/synthetic-policies.md#deployment-health_before_promotion",
+          "source_excerpt": "Promotion is allowed only after the candidate has a passing health check.",
+          "statement": "A release cannot be promoted before a passing health check."
+        }
+      ],
+      "critical": false,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "deploy_candidate"
+          },
+          {
+            "arguments": {
+              "status": "passing"
+            },
+            "name": "record_health_check"
+          },
+          {
+            "arguments": {},
+            "name": "promote_release"
+          }
+        ]
+      ],
+      "family": "tool_precondition",
+      "fixture_id": "wf_008b",
+      "ground_truth": "mutated",
+      "id": "env_008b",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "reset",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "tenant_match",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "recovery.same_tenant",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#recovery-same_tenant",
+          "source_excerpt": "A password reset is valid only when identity was verified in the target tenant.",
+          "statement": "Identity verification must match the account tenant before reset."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {
+              "tenant": "alpha"
+            },
+            "name": "start_recovery"
+          },
+          {
+            "arguments": {
+              "tenant": "alpha"
+            },
+            "name": "verify_identity"
+          },
+          {
+            "arguments": {
+              "role": "support"
+            },
+            "name": "reset_password"
+          }
+        ]
+      ],
+      "family": "cross_tenant_confusion",
+      "fixture_id": "wf_009a",
+      "ground_truth": "clean",
+      "id": "env_009a",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "reset",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "tenant_match",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "recovery.same_tenant",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#recovery-same_tenant",
+          "source_excerpt": "A password reset is valid only when identity was verified in the target tenant.",
+          "statement": "Identity verification must match the account tenant before reset."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {
+              "tenant": "alpha"
+            },
+            "name": "start_recovery"
+          },
+          {
+            "arguments": {
+              "tenant": "alpha"
+            },
+            "name": "verify_identity"
+          },
+          {
+            "arguments": {
+              "role": "support"
+            },
+            "name": "reset_password"
+          }
+        ]
+      ],
+      "family": "cross_tenant_confusion",
+      "fixture_id": "wf_009b",
+      "ground_truth": "mutated",
+      "id": "env_009b",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "disclosed",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "dpa",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "vendor.dpa_before_disclosure",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#vendor-dpa_before_disclosure",
+          "source_excerpt": "Record an approved data processing agreement before any PII disclosure.",
+          "statement": "PII cannot be disclosed to a vendor without a recorded DPA."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "open_vendor_case"
+          },
+          {
+            "arguments": {},
+            "name": "record_dpa"
+          },
+          {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "disclose_pii"
+          }
+        ]
+      ],
+      "family": "contract_evidence",
+      "fixture_id": "wf_010a",
+      "ground_truth": "clean",
+      "id": "env_010a",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "disclosed",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "dpa",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "vendor.dpa_before_disclosure",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#vendor-dpa_before_disclosure",
+          "source_excerpt": "Record an approved data processing agreement before any PII disclosure.",
+          "statement": "PII cannot be disclosed to a vendor without a recorded DPA."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "open_vendor_case"
+          },
+          {
+            "arguments": {},
+            "name": "record_dpa"
+          },
+          {
+            "arguments": {
+              "role": "operator"
+            },
+            "name": "disclose_pii"
+          }
+        ]
+      ],
+      "family": "contract_evidence",
+      "fixture_id": "wf_010b",
+      "ground_truth": "mutated",
+      "id": "env_010b",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "released",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "high_risk",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "pharmacist_verified",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "medication.pharmacist_verification",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#medication-pharmacist_verification",
+          "source_excerpt": "A high-risk medication order must be verified by a pharmacist before release.",
+          "statement": "High-risk orders require pharmacist verification before release."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {
+              "risk": "high"
+            },
+            "name": "draft_order"
+          },
+          {
+            "arguments": {},
+            "name": "pharmacist_verify"
+          },
+          {
+            "arguments": {
+              "role": "clinician"
+            },
+            "name": "release_order"
+          }
+        ]
+      ],
+      "family": "qualified_review_gate",
+      "fixture_id": "wf_011a",
+      "ground_truth": "clean",
+      "id": "env_011a",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "released",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "high_risk",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "pharmacist_verified",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "medication.pharmacist_verification",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#medication-pharmacist_verification",
+          "source_excerpt": "A high-risk medication order must be verified by a pharmacist before release.",
+          "statement": "High-risk orders require pharmacist verification before release."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {
+              "risk": "high"
+            },
+            "name": "draft_order"
+          },
+          {
+            "arguments": {},
+            "name": "pharmacist_verify"
+          },
+          {
+            "arguments": {
+              "role": "clinician"
+            },
+            "name": "release_order"
+          }
+        ]
+      ],
+      "family": "qualified_review_gate",
+      "fixture_id": "wf_011b",
+      "ground_truth": "mutated",
+      "id": "env_011b",
+      "max_depth": 3,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "leaked",
+              "op": "eq",
+              "value": true
+            }
+          ],
+          "id": "memory.episode_isolation",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#memory-episode_isolation",
+          "source_excerpt": "Starting a new episode clears sensitive memory from every earlier episode.",
+          "statement": "Sensitive memory from one episode cannot appear in another."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {
+              "episode": "a"
+            },
+            "name": "begin_episode"
+          },
+          {
+            "arguments": {},
+            "name": "store_sensitive_fact"
+          }
+        ],
+        [
+          {
+            "arguments": {
+              "episode": "b"
+            },
+            "name": "begin_episode"
+          },
+          {
+            "arguments": {},
+            "name": "recall_memory"
+          }
+        ]
+      ],
+      "family": "cross_episode_memory",
+      "fixture_id": "wf_012a",
+      "ground_truth": "clean",
+      "id": "env_012a",
+      "max_depth": 4,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "leaked",
+              "op": "eq",
+              "value": true
+            }
+          ],
+          "id": "memory.episode_isolation",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#memory-episode_isolation",
+          "source_excerpt": "Starting a new episode clears sensitive memory from every earlier episode.",
+          "statement": "Sensitive memory from one episode cannot appear in another."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {
+              "episode": "a"
+            },
+            "name": "begin_episode"
+          },
+          {
+            "arguments": {},
+            "name": "store_sensitive_fact"
+          }
+        ],
+        [
+          {
+            "arguments": {
+              "episode": "b"
+            },
+            "name": "begin_episode"
+          },
+          {
+            "arguments": {},
+            "name": "recall_memory"
+          }
+        ]
+      ],
+      "family": "cross_episode_memory",
+      "fixture_id": "wf_012b",
+      "ground_truth": "mutated",
+      "id": "env_012b",
+      "max_depth": 4,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "reward",
+              "op": "gt",
+              "value": 0
+            },
+            {
+              "field": "completed",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "reward.only_after_completion",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#reward-only_after_completion",
+          "source_excerpt": "Award positive reward only after the task is verified and completed.",
+          "statement": "Positive reward requires verified task completion."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "submit_task"
+          },
+          {
+            "arguments": {},
+            "name": "verify_task"
+          },
+          {
+            "arguments": {},
+            "name": "complete_task"
+          },
+          {
+            "arguments": {},
+            "name": "award_reward"
+          }
+        ]
+      ],
+      "family": "reward_policy_mismatch",
+      "fixture_id": "wf_013a",
+      "ground_truth": "clean",
+      "id": "env_013a",
+      "max_depth": 4,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "reward",
+              "op": "gt",
+              "value": 0
+            },
+            {
+              "field": "completed",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "reward.only_after_completion",
+          "severity": "critical",
+          "source": "evidence/policies/synthetic-policies.md#reward-only_after_completion",
+          "source_excerpt": "Award positive reward only after the task is verified and completed.",
+          "statement": "Positive reward requires verified task completion."
+        }
+      ],
+      "critical": true,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "submit_task"
+          },
+          {
+            "arguments": {},
+            "name": "verify_task"
+          },
+          {
+            "arguments": {},
+            "name": "complete_task"
+          },
+          {
+            "arguments": {},
+            "name": "award_reward"
+          }
+        ]
+      ],
+      "family": "reward_policy_mismatch",
+      "fixture_id": "wf_013b",
+      "ground_truth": "mutated",
+      "id": "env_013b",
+      "max_depth": 4,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "performed",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "audit_logged",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "operation.audit_required",
+          "severity": "high",
+          "source": "evidence/policies/synthetic-policies.md#operation-audit_required",
+          "source_excerpt": "A privileged operation and its audit record must be committed together.",
+          "statement": "Every privileged operation must emit an audit record."
+        }
+      ],
+      "critical": false,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "request_privileged_operation"
+          },
+          {
+            "arguments": {},
+            "name": "execute_operation"
+          }
+        ]
+      ],
+      "family": "observability_omission",
+      "fixture_id": "wf_014a",
+      "ground_truth": "clean",
+      "id": "env_014a",
+      "max_depth": 2,
+      "max_states": 1000,
+      "max_transitions": 20000
+    },
+    {
+      "claims": [
+        {
+          "forbidden_when": [
+            {
+              "field": "performed",
+              "op": "eq",
+              "value": true
+            },
+            {
+              "field": "audit_logged",
+              "op": "eq",
+              "value": false
+            }
+          ],
+          "id": "operation.audit_required",
+          "severity": "high",
+          "source": "evidence/policies/synthetic-policies.md#operation-audit_required",
+          "source_excerpt": "A privileged operation and its audit record must be committed together.",
+          "statement": "Every privileged operation must emit an audit record."
+        }
+      ],
+      "critical": false,
+      "expert_traces": [
+        [
+          {
+            "arguments": {},
+            "name": "request_privileged_operation"
+          },
+          {
+            "arguments": {},
+            "name": "execute_operation"
+          }
+        ]
+      ],
+      "family": "observability_omission",
+      "fixture_id": "wf_014b",
+      "ground_truth": "mutated",
+      "id": "env_014b",
+      "max_depth": 2,
+      "max_states": 1000,
+      "max_transitions": 20000
+    }
+  ],
+  "description": "Fourteen paired clean/mutated synthetic workflows with evaluator-only labels.",
+  "fixture_registry": "../fixtures/envmutationbench.json",
+  "id": "envmutationbench-v1",
+  "schema_version": "1"
+}
